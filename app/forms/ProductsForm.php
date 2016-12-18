@@ -19,9 +19,10 @@ abstract class ProductsAbstractForm extends HTML_QuickForm2 {
 
 class BooksInsertForm extends BooksAbstractForm {
 
-    public function __construct($id) {
+    public function __construct($id)
+    {
         parent::__construct($id);
 
     }
-
+}
 
