@@ -22,11 +22,10 @@ $urls = [
         }
     },
     "/^login$/" => function ($method) {
-        if ($method == "POST"){
-
-        }else{
-            SessionsController::index();
-        }
+        SessionsController::index();
+    },
+    "/^logout$/" => function ($method) {
+        SessionsController::destroy();
     },
     "/^$/" => function () {
         ViewHelper::redirect(BASE_URL . "products");

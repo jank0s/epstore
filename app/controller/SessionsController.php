@@ -1,5 +1,6 @@
 <?php
 
+require_once("model/UserDB.php");
 require_once("ViewHelper.php");
 require_once("forms/SessionsForm.php");
 
@@ -10,9 +11,17 @@ class SessionsController {
         $form = new LoginForm("login_form");
 
         if ($form->validate()) {
-            #auth
-
-            #ViewHelper::redirect(BASE_URL);
+            $login_values = $form->getValue();
+            $user = UserDB::getUserByEmail($login_values);
+            if ($user['user_active'] == 1 && password_verify($login_values['password'], $user['password_digest'])){
+                $_SESSION['user']['user_id'] = $user['user_id'];
+                $_SESSION['user']['role_id'] = $user['role_id'];
+                echo ViewHelper::redirect(BASE_URL);
+            }else{
+                echo ViewHelper::render("view/login.php", [
+                    "form" => $form
+                ]);
+            }
         } else {
             echo ViewHelper::render("view/login.php", [
                 "form" => $form
@@ -20,25 +29,11 @@ class SessionsController {
         }
     }
 
-    public static function add() {
-
-    }
-
-    public static function edit() {
-
-    }
-
-    public static function delete() {
-
-    }
-
-
-    public static function create() {
-
-    }
-
     public static function destroy() {
-
+        if(isset($_SESSION["user"])){
+            unset($_SESSION["user"]);
+        }
+        echo ViewHelper::redirect(BASE_URL);
     }
 
 }
