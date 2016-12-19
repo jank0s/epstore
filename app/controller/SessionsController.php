@@ -10,6 +10,14 @@ class SessionsController {
     public static function index() {
         $form = new LoginForm("login_form");
 
+        echo ViewHelper::render("view/login.php", [
+            "form" => $form
+        ]);
+    }
+
+    public static function create(){
+        $form = new LoginForm("login_form");
+
         if ($form->validate()) {
             $login_values = $form->getValue();
             $user = UserDB::getUserByEmail($login_values);

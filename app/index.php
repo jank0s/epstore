@@ -22,7 +22,11 @@ $urls = [
         }
     },
     "/^login$/" => function ($method) {
-        SessionsController::index();
+        if($method == 'POST'){
+            SessionsController::create();
+        }else{
+            SessionsController::index();
+        }
     },
     "/^logout$/" => function ($method) {
         SessionsController::destroy();
