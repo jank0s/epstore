@@ -28,11 +28,10 @@ class UserDB extends AbstractDB {
 
     public static function getUserByEmail(array $email) {
         $users = parent::query("SELECT * FROM User WHERE email = :email", $email);
-
         if (count($users) == 1) {
             return $users[0];
         } else {
-            throw new InvalidArgumentException("No such user");
+            return null;
         }
     }
 
