@@ -7,7 +7,9 @@ class ViewHelper {
         extract($variables);
 
         ob_start();
+        include("view/header.php");
         include($file);
+        include("view/footer.php");
         return ob_get_clean();
     }
 
