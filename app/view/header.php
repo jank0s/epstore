@@ -43,9 +43,11 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li>
-                    <a href="#">Uporabniki</a>
-                </li>
+                <?php if (isset($_SESSION['user']) && $_SESSION['user']['role_id'] == 1 ): ?>
+                    <li>
+                        <a href="#">Uporabniki</a>
+                    </li>
+                <?php endif ?>
                 <li>
                     <a href="#">Naročila</a>
                 </li>
