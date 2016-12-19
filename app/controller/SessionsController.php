@@ -45,10 +45,14 @@ class SessionsController {
     }
 
     public static function destroy() {
-        if(isset($_SESSION["user"])){
-            unset($_SESSION["user"]);
-        }
+        session_destroy();
+        #if(isset($_SESSION["user"])){
+        #    unset($_SESSION["user"]);
+        #}
         echo ViewHelper::redirect(BASE_URL);
+        #session_destroy();
+        #$url = "http://" . $_SERVER["HTTP_HOST"];
+        #header("Location: " . $url);
     }
 
 }
