@@ -23,6 +23,7 @@ class SessionsController {
                 $_SESSION['user']['surname'] = $user['surname'];
                 echo ViewHelper::redirect(BASE_URL);
             }else{
+                $form->email->setError('Prijava ni uspela!');
                 echo ViewHelper::render("view/login.php", [
                     "form" => $form
                 ]);
