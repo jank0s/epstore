@@ -38,20 +38,45 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">EPStore</a>
+            <a class="navbar-brand" href="<?= BASE_URL ?>">EPStore</a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="#">About</a>
+                    <a href="#">Uporabniki</a>
                 </li>
                 <li>
-                    <a href="#">Services</a>
+                    <a href="#">Naročila</a>
                 </li>
                 <li>
-                    <a href="#">Contact</a>
+                    <a href="#">Izdelki</a>
                 </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <?php if (isset($_SESSION['user'])): ?>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <b><?= $_SESSION['user']['name'] . ' ' . $_SESSION['user']['surname'] ?></b>
+                            <span class="caret"></span>
+                        </a>
+                        <ul id="login-dp" class="dropdown-menu">
+                            <li>
+                                <a href="">Profil</a>
+                            </li>
+                            <li>
+                                <a href="<?= BASE_URL . "logout" ?>">Odjava</a>
+                            </li>
+                        </ul>
+                    </li>
+                <?php else: ?>
+                    <li>
+                        <a href="">Registracija</a>
+                    </li>
+                    <li>
+                        <a href="<?= BASE_URL . "login" ?>">Prijava</a>
+                    </li>
+                <?php endif ?>
             </ul>
         </div>
         <!-- /.navbar-collapse -->

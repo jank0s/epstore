@@ -16,6 +16,8 @@ class SessionsController {
             if ($user['user_active'] == 1 && password_verify($login_values['password'], $user['password_digest'])){
                 $_SESSION['user']['user_id'] = $user['user_id'];
                 $_SESSION['user']['role_id'] = $user['role_id'];
+                $_SESSION['user']['name'] = $user['name'];
+                $_SESSION['user']['surname'] = $user['surname'];
                 echo ViewHelper::redirect(BASE_URL);
             }else{
                 echo ViewHelper::render("view/login.php", [
