@@ -1,0 +1,2 @@
+a2enmod rewrite
+pear install -Z HTML_QuickForm2
