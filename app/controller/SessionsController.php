@@ -24,7 +24,7 @@ class SessionsController {
             if (isset($user) &&
                 $user['user_active'] == 1 &&
                 password_verify($login_values['password'], $user['password_digest'])){
-                
+
                 $_SESSION['user']['user_id'] = $user['user_id'];
                 $_SESSION['user']['role_id'] = $user['role_id'];
                 $_SESSION['user']['name'] = $user['name'];
