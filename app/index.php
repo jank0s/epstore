@@ -4,8 +4,9 @@
 session_start();
 
 require_once("controller/ProductsController.php");
+require_once("controller/SessionsController.php");
 
-define("BASE_URL", $_SERVER["SCRIPT_NAME"] . "/");
+define("BASE_URL", rtrim($_SERVER["SCRIPT_NAME"], "index.php"));
 define("IMAGES_URL", rtrim($_SERVER["SCRIPT_NAME"], "index.php") . "static/images/");
 define("CSS_URL", rtrim($_SERVER["SCRIPT_NAME"], "index.php") . "static/css/");
 define("JS_URL", rtrim($_SERVER["SCRIPT_NAME"], "index.php") . "static/js/");
@@ -15,22 +16,36 @@ $path = isset($_SERVER["PATH_INFO"]) ? trim($_SERVER["PATH_INFO"], "/") : "";
 
 // ROUTER: defines mapping between URLS and controllers
 $urls = [
-    "products" => function () {
-        ProductsController::index();
+    "/^products\/?(\d+)?$/"  => function ($method, $id = null) {
+        if ($id == null) {
+            ProductsController::index();
+        }
     },
-    "" => function () {
+    "/^login$/" => function ($method) {
+        if ($method == "POST"){
+
+        }else{
+            SessionsController::index();
+        }
+    },
+    "/^$/" => function () {
         ViewHelper::redirect(BASE_URL . "products");
     },
 ];
 
-try {
-    if (isset($urls[$path])) {
-        $urls[$path]();
-    } else {
-        echo "No controller for '$path'";
+foreach ($urls as $pattern => $controller) {
+    if (preg_match($pattern, $path, $params)) {
+        try {
+            $params[0] = $_SERVER["REQUEST_METHOD"];
+            $controller(...$params);
+        } catch (InvalidArgumentException $e) {
+            ViewHelper::error404();
+        } catch (Exception $e) {
+            ViewHelper::displayError($e, true);
+        }
+
+        exit();
     }
-} catch (InvalidArgumentException $e) {
-    ViewHelper::error404();
-} catch (Exception $e) {
-    echo "An error occurred: <pre>$e</pre>";
-} 
+}
+
+ViewHelper::displayError(new InvalidArgumentException("No controller matched."), true);
