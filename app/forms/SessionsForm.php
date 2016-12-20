@@ -33,10 +33,10 @@ abstract class SessionsAbstractForm extends HTML_QuickForm2 {
         $this->password->setAttribute('placeholder', 'Geslo');
         $this->addElement($this->password);
 
-        $this->button = new HTML_QuickForm2_Element_Button();
+        $this->button = new HTML_QuickForm2_Element_InputSubmit('prijava');
+        $this->button->setValue('Prijavi se');
         $this->button->setAttribute('class', 'btn btn-lg btn-primary btn-block');
-        $this->button->setAttribute('type', 'submit');
-        $this->button->setValue('Prijava');
+        $this->button->setAttribute('value', 'Prijava');
         $this->addElement($this->button);
 
         $this->addRecursiveFilter('trim');
