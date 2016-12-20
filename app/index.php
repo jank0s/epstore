@@ -7,9 +7,9 @@ if(isset($_SERVER["HTTPS"])){
     session_start();
 }
 
-
 require_once("controller/ProductsController.php");
 require_once("controller/SessionsController.php");
+require_once("controller/UsersController.php");
 
 define("BASE_URL", rtrim($_SERVER["SCRIPT_NAME"], "index.php"));
 define("IMAGES_URL", rtrim($_SERVER["SCRIPT_NAME"], "index.php") . "static/images/");
