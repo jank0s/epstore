@@ -10,6 +10,12 @@ class SessionsController {
     public static function index() {
         $form = new LoginForm("login_form");
 
+        $x509email = self::getX509email();
+        if($x509email != null){
+            $form->email->setValue($x509email);
+            #$form->email->setAttribute('disabled') ;
+        }
+
         echo ViewHelper::render("view/login.php", [
             "form" => $form
         ]);
@@ -18,10 +24,12 @@ class SessionsController {
     public static function create(){
         $form = new LoginForm("login_form");
 
+        $x509email = self::getX509email();
         if ($form->validate()) {
             $login_values = $form->getValue();
             $user = UserDB::getUserByEmail($login_values);
             if (isset($user) &&
+                ( $x509email != null && $user['email'] == $x509email || $user['role_id'] == 3 ) &&
                 $user['user_active'] == 1 &&
                 password_verify($login_values['password'], $user['password_digest'])){
 
@@ -55,4 +63,15 @@ class SessionsController {
         #header("Location: " . $url);
     }
 
+    public static function getX509email(){
+        $client_cert = filter_input(INPUT_SERVER, "SSL_CLIENT_CERT");
+        if ($client_cert != null) {
+            $cert_data = openssl_x509_parse($client_cert);
+            $email = (is_array($cert_data['subject']['emailAddress']) ?
+                $cert_data['subject']['﻿emailAddress'][0] : $cert_data['subject']['emailAddress']);
+            return $email;
+        }else{
+            return null;
+        }
+    }
 }
