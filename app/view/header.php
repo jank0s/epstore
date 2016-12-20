@@ -43,7 +43,7 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <?php if (isset($_SESSION['user']) && $_SESSION['user']['role_id'] == 1 ): ?>
+                <?php if (SessionsController::authorizeAdmin()): ?>
                     <li>
                         <a href="#">Uporabniki</a>
                     </li>

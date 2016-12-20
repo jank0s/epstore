@@ -37,6 +37,7 @@ class SessionsController {
                 $_SESSION['user']['role_id'] = $user['role_id'];
                 $_SESSION['user']['name'] = $user['name'];
                 $_SESSION['user']['surname'] = $user['surname'];
+                $_SESSION['user']['email'] = $user['email'];
 
                 echo ViewHelper::redirect(BASE_URL);
             }else{
@@ -74,4 +75,26 @@ class SessionsController {
             return null;
         }
     }
+
+    public static function authorizeCustomer(){
+        return  isset($_SESSION['user']) &&
+                $_SESSION['user']['role_id'] == 3;
+    }
+
+    public static function authorizeMerchant(){
+        $x509email = self::getX509email();
+        return  $x509email != null &&
+                isset($_SESSION['user']) &&
+                $_SESSION['user']['email'] == $x509email &&
+                $_SESSION['user']['role_id'] == 2;
+    }
+
+    public static function authorizeAdmin(){
+        $x509email = self::getX509email();
+        return  $x509email != null &&
+        isset($_SESSION['user']) &&
+        $_SESSION['user']['email'] == $x509email &&
+        $_SESSION['user']['role_id'] == 1;
+    }
+
 }
