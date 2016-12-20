@@ -43,7 +43,7 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <?php if (SessionsController::authorizeAdmin()): ?>
+                <?php if (SessionsController::adminAuthorized()): ?>
                     <li>
                         <a href="#">Uporabniki</a>
                     </li>
@@ -56,7 +56,7 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <?php if (isset($_SESSION['user'])): ?>
+                <?php if (SessionsController::loggedIn()): ?>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <b><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <?= $_SESSION['user']['name'] . ' ' . $_SESSION['user']['surname'] ?></b>

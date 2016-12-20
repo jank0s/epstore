@@ -85,12 +85,16 @@ class SessionsController {
         }
     }
 
-    public static function authorizeCustomer(){
+    public static function loggedIn(){
+        return isset($_SESSION['user']);
+    }
+
+    public static function customerAuthorized(){
         return  isset($_SESSION['user']) &&
                 $_SESSION['user']['role_id'] == 3;
     }
 
-    public static function authorizeMerchant(){
+    public static function merchantAuthorized(){
         $x509email = self::getX509email();
         return  $x509email != null &&
                 isset($_SESSION['user']) &&
@@ -98,7 +102,7 @@ class SessionsController {
                 $_SESSION['user']['role_id'] == 2;
     }
 
-    public static function authorizeAdmin(){
+    public static function adminAuthorized(){
         $x509email = self::getX509email();
         return  $x509email != null &&
         isset($_SESSION['user']) &&
