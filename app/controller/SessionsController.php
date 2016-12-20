@@ -13,7 +13,7 @@ class SessionsController {
         $x509email = self::getX509email();
         if($x509email != null){
             $form->email->setValue($x509email);
-            #$form->email->setAttribute('disabled') ;
+            $form->email->setAttribute('disabled');
         }
 
         echo ViewHelper::render("view/login.php", [
@@ -25,6 +25,9 @@ class SessionsController {
         $form = new LoginForm("login_form");
 
         $x509email = self::getX509email();
+        if($x509email != null){
+            $form->email->setValue($x509email);
+        }
         if ($form->validate()) {
             $login_values = $form->getValue();
             $user = UserDB::getUserByEmail($login_values);
@@ -42,11 +45,17 @@ class SessionsController {
                 echo ViewHelper::redirect(BASE_URL);
             }else{
                 $form->email->setError('Prijava ni uspela!');
+                if($x509email != null){
+                    $form->email->setAttribute('disabled');
+                }
                 echo ViewHelper::render("view/login.php", [
                     "form" => $form
                 ]);
             }
         } else {
+            if($x509email != null){
+                $form->email->setAttribute('disabled');
+            }
             echo ViewHelper::render("view/login.php", [
                 "form" => $form
             ]);
