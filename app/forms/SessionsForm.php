@@ -22,14 +22,12 @@ abstract class SessionsAbstractForm extends HTML_QuickForm2 {
         $this->setAttribute('class', 'form-signin');
 
         $this->email = new HTML_QuickForm2_Element_InputText('email');
-        $this->email->setLabel('Email');
         $this->email->addRule('required', 'Manjka email');
         $this->email->setAttribute('class', 'form-control');
         $this->email->setAttribute('placeholder', 'Email');
         $this->addElement($this->email);
 
         $this->password = new HTML_QuickForm2_Element_InputPassword('password');
-        $this->password->setLabel('Geslo');
         $this->password->addRule('required', 'Manjka geslo');
         $this->password->setAttribute('class', 'form-control');
         $this->password->setAttribute('placeholder', 'Geslo');
