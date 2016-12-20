@@ -48,12 +48,14 @@
                         <a href="#">Uporabniki</a>
                     </li>
                 <?php endif ?>
-                <li>
-                    <a href="#">Naročila</a>
-                </li>
-                <li>
-                    <a href="#">Izdelki</a>
-                </li>
+                <?php if (SessionsController::merchantAuthorized()): ?>
+                    <li>
+                        <a href="#">Naročila</a>
+                    </li>
+                    <li>
+                        <a href="#">Izdelki</a>
+                    </li>
+                <?php endif ?>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <?php if (SessionsController::loggedIn()): ?>
