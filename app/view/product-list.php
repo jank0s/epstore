@@ -54,7 +54,7 @@
                                 <h4>
                                     <a href="#"><?= $product['product_name'] ?></a>
                                 </h4>
-                                <h4 class="pull-right"><?= $product['product_price'] ?> EUR</h4>
+                                <h4 class="pull-right"><?= $product['product_price'] ?> €</h4>
                                 </br>
                                 <p><?= $product['product_description'] ?></p>
                             </div>

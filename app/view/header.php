@@ -38,7 +38,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="<?= BASE_URL ?>">EPStore</a>
+            <a class="navbar-brand" href="<?= BASE_URL ?>">EPStore <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -59,15 +59,15 @@
                 <?php if (isset($_SESSION['user'])): ?>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <b><?= $_SESSION['user']['name'] . ' ' . $_SESSION['user']['surname'] ?></b>
+                            <b><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <?= $_SESSION['user']['name'] . ' ' . $_SESSION['user']['surname'] ?></b>
                             <span class="caret"></span>
                         </a>
                         <ul id="login-dp" class="dropdown-menu">
                             <li>
-                                <a href="">Profil</a>
+                                <a href=""><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Profil</a>
                             </li>
                             <li>
-                                <a href="<?= BASE_URL . "logout" ?>">Odjava</a>
+                                <a href="<?= BASE_URL . "logout" ?>"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Odjava</a>
                             </li>
                         </ul>
                     </li>
