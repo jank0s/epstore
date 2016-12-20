@@ -1,2 +1,7 @@
 a2enmod rewrite
 pear install -Z HTML_QuickForm2
+mkdir /etc/apache2/ssl
+a2enmod ssl
+sudo a2ensite default-ssl.conf
+cp cert/server/* /etc/apache2/ssl/
+
