@@ -25,13 +25,13 @@
                         </ol>
                         <div class="carousel-inner">
                             <div class="item active">
-                                <img class="slide-image" src="http://placehold.it/800x300" alt="">
+                                <img class="slide-image" src="<?= IMAGES_URL . "800x300.png" ?>" alt="">
                             </div>
                             <div class="item">
-                                <img class="slide-image" src="http://placehold.it/800x300" alt="">
+                                <img class="slide-image" src="<?= IMAGES_URL . "800x300.png" ?>" alt="">
                             </div>
                             <div class="item">
-                                <img class="slide-image" src="http://placehold.it/800x300" alt="">
+                                <img class="slide-image" src="<?= IMAGES_URL . "800x300.png" ?>" alt="">
                             </div>
                         </div>
                         <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
@@ -49,7 +49,7 @@
                 <?php foreach ($products as $product): ?>
                     <div class="col-sm-4 col-lg-4 col-md-4">
                         <div class="thumbnail">
-                            <img src="http://placehold.it/320x150" alt="">
+                            <img src="<?= IMAGES_URL . "320x150.png" ?>" alt="">
                             <div class="caption">
                                 <h4>
                                     <a href="#"><?= $product['product_name'] ?></a>
