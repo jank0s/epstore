@@ -8,6 +8,7 @@ require_once 'HTML/QuickForm2/Element/Textarea.php';
 require_once 'HTML/QuickForm2/Element/InputCheckbox.php';
 require_once 'HTML/QuickForm2/Element/InputPassword.php';
 require_once 'HTML/QuickForm2/Element/Button.php';
+require_once 'HTML/QuickForm2/Element/Captcha/ReCaptcha.php';
 
 
 abstract class UsersAbstractForm extends HTML_QuickForm2 {
@@ -22,6 +23,7 @@ abstract class UsersAbstractForm extends HTML_QuickForm2 {
     public $user_post;
     public $user_city;
     public $user_country;
+    public $captcha;
 
     public $button;
 
@@ -84,6 +86,20 @@ abstract class UsersAbstractForm extends HTML_QuickForm2 {
         $this->user_country->setAttribute('class', 'form-control');
         $this->addElement($this->user_country);
 
+
+        $this->captcha = new HTML_QuickForm2_Element_Captcha_ReCaptcha(
+            'captcha[recaptcha]',
+            array('id' => 'captcha_recaptcha'),
+            array(
+                'label' => 'ReCaptcha',
+                // Captcha options
+                // Please get your own keys. This here is for demo purposes only.
+                'public-key'  => '6LdoaA8UAAAAAN6ttm_N-4GQ9chkl-BqAlOVm0Y5',
+                'private-key' => '6LdoaA8UAAAAAGxGH1xAfgEMlNJegCmeGMcccRAv'
+            )
+        );
+
+        $this->addElement($this->captcha);
 
         $this->button = new HTML_QuickForm2_Element_InputSubmit('register');
         $this->button->setValue('Registracija');
