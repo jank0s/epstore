@@ -36,6 +36,9 @@ $urls = [
     "/^logout$/" => function ($method) {
         SessionsController::destroy();
     },
+    "/^users$/" => function ($method) {
+        UsersController::index();
+    },
     "/^$/" => function () {
         ViewHelper::redirect(BASE_URL . "products");
     },

@@ -94,6 +94,12 @@ class SessionsController {
                 $_SESSION['user']['role_id'] == 3;
     }
 
+    public static function authorizeCustomer(){
+        if(!self::customerAuthorized()){
+            ViewHelper::redirect(BASE_URL);
+        }
+    }
+
     public static function merchantAuthorized(){
         $x509email = self::getX509email();
         return  $x509email != null &&
@@ -102,12 +108,24 @@ class SessionsController {
                 $_SESSION['user']['role_id'] == 2;
     }
 
+    public static function authorizeMerchant(){
+        if(!self::merchantAuthorized()){
+            ViewHelper::redirect(BASE_URL);
+        }
+    }
+
     public static function adminAuthorized(){
         $x509email = self::getX509email();
         return  $x509email != null &&
         isset($_SESSION['user']) &&
         $_SESSION['user']['email'] == $x509email &&
         $_SESSION['user']['role_id'] == 1;
+    }
+
+    public static function authorizeAdmin(){
+        if(!self::adminAuthorized()){
+            ViewHelper::redirect(BASE_URL);
+        }
     }
 
 }

@@ -37,7 +37,7 @@ class UserDB extends AbstractDB {
 
     public static function getAll() {
         return parent::query("SELECT *"
-                        . " FROM User"
+                        . " FROM User NATURAL JOIN Role"
                         . " ORDER BY user_id ASC");
     }
 

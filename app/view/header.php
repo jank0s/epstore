@@ -12,6 +12,9 @@
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" type="text/css" href="<?= CSS_URL . "bootstrap.min.css" ?>">
 
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" type="text/css" href="<?= CSS_URL . "font-awesome.min.css" ?>">
+
     <!-- Custom CSS -->
     <link rel="stylesheet" type="text/css" href="<?= CSS_URL . "style.css" ?>">
 
@@ -45,7 +48,7 @@
             <ul class="nav navbar-nav">
                 <?php if (SessionsController::adminAuthorized()): ?>
                     <li>
-                        <a href="#">Uporabniki</a>
+                        <a href="<?= BASE_URL . "users" ?>">Uporabniki</a>
                     </li>
                 <?php endif ?>
                 <?php if (SessionsController::merchantAuthorized()): ?>
@@ -61,7 +64,7 @@
                 <?php if (SessionsController::loggedIn()): ?>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <b><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <?= $_SESSION['user']['name'] . ' ' . $_SESSION['user']['surname'] ?></b>
+                            <b><i class="fa fa-user-circle-o" aria-hidden="true"></i> <?= $_SESSION['user']['name'] . ' ' . $_SESSION['user']['surname'] ?></b>
                             <span class="caret"></span>
                         </a>
                         <ul id="login-dp" class="dropdown-menu">
