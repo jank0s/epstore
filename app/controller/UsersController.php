@@ -19,9 +19,13 @@ class UsersController {
     public static function register() {
         $form = new RegisterForm("register_form");
 
-        echo ViewHelper::render("view/user-register.php", [
-            "form" => $form
-        ]);
+        if ($form->validate()) {
+
+        }else {
+            echo ViewHelper::render("view/user-register.php", [
+                "form" => $form
+            ]);
+        }
     }
 
 }

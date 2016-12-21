@@ -42,10 +42,48 @@ abstract class UsersAbstractForm extends HTML_QuickForm2 {
         $this->name->setAttribute('class', 'form-control');
         $this->addElement($this->name);
 
+        $this->surname = new HTML_QuickForm2_Element_InputText('surname');
+        $this->surname->setLabel('Priimek:');
+        $this->surname->addRule('required', 'Manjka priimek');
+        $this->surname->setAttribute('class', 'form-control');
+        $this->addElement($this->surname);
+
         $this->password = new HTML_QuickForm2_Element_InputPassword('password');
+        $this->password->setLabel('Geslo');
         $this->password->addRule('required', 'Manjka geslo');
         $this->password->setAttribute('class', 'form-control');
         $this->addElement($this->password);
+
+        $this->phone = new HTML_QuickForm2_Element_InputText('phone');
+        $this->phone->setLabel('Telefon:');
+        $this->phone->addRule('required', 'Manjka ptelefon');
+        $this->phone->setAttribute('class', 'form-control');
+        $this->addElement($this->phone);
+
+        $this->user_address = new HTML_QuickForm2_Element_InputText('user_address');
+        $this->user_address->setLabel('Ulica in hišna št.:');
+        $this->user_address->addRule('required', 'Manjka ulica in hišna št.');
+        $this->user_address->setAttribute('class', 'form-control');
+        $this->addElement($this->user_address);
+
+        $this->user_post = new HTML_QuickForm2_Element_InputText('user_post');
+        $this->user_post->setLabel('Poštna št:');
+        $this->user_post->addRule('required', 'Manjka potšna št.');
+        $this->user_post->setAttribute('class', 'form-control');
+        $this->addElement($this->user_post);
+
+        $this->user_city = new HTML_QuickForm2_Element_InputText('user_city');
+        $this->user_city->setLabel('Kraj:');
+        $this->user_city->addRule('required', 'Manjka kraj');
+        $this->user_city->setAttribute('class', 'form-control');
+        $this->addElement($this->user_city);
+
+        $this->user_country = new HTML_QuickForm2_Element_InputText('user_country');
+        $this->user_country->setLabel('Država:');
+        $this->user_country->addRule('required', 'Manjka država');
+        $this->user_country->setAttribute('class', 'form-control');
+        $this->addElement($this->user_country);
+
 
         $this->button = new HTML_QuickForm2_Element_InputSubmit('register');
         $this->button->setValue('Registracija');
