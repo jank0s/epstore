@@ -28,7 +28,7 @@ class UsersController {
             $params['user_created_at'] = date("Y-m-d H:i:s");
 
             UserDB::insert($params);
-            ViewHelper::redirect(BASE_URL);
+            echo ViewHelper::render("view/user-register-success.php");
         }else {
             echo ViewHelper::render("view/user-register.php", [
                 "form" => $form
