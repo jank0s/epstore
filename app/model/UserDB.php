@@ -5,7 +5,10 @@ require_once 'model/AbstractDB.php';
 class UserDB extends AbstractDB {
 
     public static function insert(array $params) {
-        return parent::modify("", $params);
+        $params['password_digest'] = password_hash($params['password'], PASSWORD_DEFAULT);
+        #var_dump($params);
+        return parent::modify("INSERT INTO User (email, name, surname, password_digest, phone, role_id, user_active, user_activation_token, user_activation_token_created_at, user_created_at, user_address, user_post, user_city, user_country) "
+                ."VALUE (:email, :name, :surname, :password_digest, :phone, :role_id, :user_active, :user_activation_token, :user_activation_token_created_at, :user_created_at, :user_address, :user_post, :user_city, :user_country)", $params);
     }
 
     public static function update(array $params) {
