@@ -14,4 +14,12 @@ class UsersController {
         ]);
     }
 
+    public static function register() {
+        $form = null;
+
+        echo ViewHelper::render("view/user-register.php", [
+            "form" => $form
+        ]);
+    }
+
 }

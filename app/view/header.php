@@ -78,7 +78,7 @@
                     </li>
                 <?php else: ?>
                     <li>
-                        <a href="">Registracija</a>
+                        <a href="<?= BASE_URL . "register" ?>">Registracija</a>
                     </li>
                     <li>
                         <a href="<?= BASE_URL . "login" ?>">Prijava</a>

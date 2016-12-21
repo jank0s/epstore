@@ -39,6 +39,9 @@ $urls = [
     "/^users$/" => function ($method) {
         UsersController::index();
     },
+    "/^register$/" => function ($method) {
+        UsersController::register();
+    },
     "/^$/" => function () {
         ViewHelper::redirect(BASE_URL . "products");
     },
