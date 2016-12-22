@@ -189,6 +189,11 @@ class AddUserForm extends UsersAbstractForm {
     {
         parent::__construct($id);
 
+        $this->password->addRule('required', 'Vnesite geslo.');
+        $this->password->addRule('minlength', 'Geslo naj vsebuje vsaj 6 znakov.', 6);
+        $this->password->addRule('regex', 'V geslu uporabite vsaj 1 številko.', '/[0-9]+/');
+        $this->repeat_password->addRule('required', 'Ponovno vnesite izbrano geslo.');
+
         $this->addElement($this->phone);
         $this->addElement($this->user_address);
         $this->addElement($this->user_post);
