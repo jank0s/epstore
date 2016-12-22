@@ -18,7 +18,7 @@ class UsersController {
     }
 
     public static function register() {
-        $form = new RegisterForm("register_form");
+        $form = new RegisterUserForm("register_form");
 
         if ($form->validate()) {
             $params = $form->getValue();
