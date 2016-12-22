@@ -17,6 +17,7 @@ abstract class UsersAbstractForm extends HTML_QuickForm2 {
     public $name;
     public $surname;
     public $password;
+    public $repeat_password;
     public $phone;
     public $role_id;
     public $user_address;
@@ -56,9 +57,15 @@ abstract class UsersAbstractForm extends HTML_QuickForm2 {
         $this->password->setAttribute('class', 'form-control');
         $this->addElement($this->password);
 
+        $this->repeat_password = new HTML_QuickForm2_Element_InputPassword('repeat_password');
+        $this->repeat_password->setLabel('Ponovitev gesla:');
+        $this->repeat_password->addRule('eq', 'Gesli se ne ujamata', $this->password);
+        $this->repeat_password->setAttribute('class', 'form-control');
+        $this->addElement($this->repeat_password);
+
         $this->phone = new HTML_QuickForm2_Element_InputText('phone');
         $this->phone->setLabel('Telefon:');
-        $this->phone->addRule('required', 'Manjka ptelefon');
+        $this->phone->addRule('required', 'Manjka telefon');
         $this->phone->setAttribute('class', 'form-control');
         $this->addElement($this->phone);
 
@@ -70,7 +77,7 @@ abstract class UsersAbstractForm extends HTML_QuickForm2 {
 
         $this->user_post = new HTML_QuickForm2_Element_InputText('user_post');
         $this->user_post->setLabel('Poštna št:');
-        $this->user_post->addRule('required', 'Manjka potšna št.');
+        $this->user_post->addRule('required', 'Manjka poštna št.');
         $this->user_post->setAttribute('class', 'form-control');
         $this->addElement($this->user_post);
 
