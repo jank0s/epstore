@@ -134,4 +134,14 @@ class SessionsController {
         }
     }
 
+    public static function authorizeAllowEditUser($user_id){
+        $user = UserDB::get(['user_id' => $user_id]);
+        if( !( self::loggedIn() && $user_id == $_SESSION['user']['user_id'] ) &&
+            !( self::adminAuthorized() ) &&
+            !( self::merchantAuthorized() && $user['role_id'] == 3 )){
+                ViewHelper::redirect(BASE_URL);
+        }
+
+    }
+
 }

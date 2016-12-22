@@ -48,4 +48,11 @@ class UserDB extends AbstractDB {
                         . " ORDER BY user_id ASC");
     }
 
+    public static function getAllCustomers() {
+        return parent::query("SELECT *"
+            . " FROM User NATURAL JOIN Role"
+            . " WHERE role_id = 3"
+            . " ORDER BY user_id ASC");
+    }
+
 }

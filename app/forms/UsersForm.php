@@ -155,6 +155,7 @@ class AddUserForm extends UsersAbstractForm {
         $roles = RoleDB::dict();
         if(!SessionsController::adminAuthorized()){
             unset($roles['1']);
+            unset($roles['2']);
         }
         $this->role_id->loadOptions($roles);
         $this->addElement($this->role_id);

@@ -49,6 +49,9 @@ $urls = [
     "/^users\/(\d+)$/" => function ($method, $id) {
         var_dump($id);
     },
+    "/^users\/(\d+)\/edit$/" => function ($method, $id) {
+        UsersController::edit($id);
+    },
     "/^register$/" => function ($method) {
         UsersController::register();
     },

@@ -14,7 +14,7 @@ class UsersController {
         SessionsController::authorizeAdminOrMerchant();
 
         echo ViewHelper::render("view/user-list.php", [
-            "users" => UserDB::getAll()
+            "users" => (SessionsController::adminAuthorized()? UserDB::getAll() : UserDB::getAllCustomers())
         ]);
     }
 
@@ -104,6 +104,13 @@ class UsersController {
         }
 
     }
+
+    public static function edit($user_id){
+        SessionsController::authorizeAllowEditUser($user_id);
+
+
+    }
+
 
     public static function sendActivationEMail($params){
         $from = new SendGrid\Email("EPStore", "no-reply@epstore.tk");
