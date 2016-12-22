@@ -25,7 +25,6 @@ class UsersController {
             $params['role_id'] = 3;
             $params['user_active'] = 0;
             $params['user_activation_token'] = strtr(base64_encode(openssl_random_pseudo_bytes(48)), array('+'=>'-', '/'=>'_'));
-
             $params['user_activation_token_created_at'] = date("Y-m-d H:i:s");
             $params['user_created_at'] = date("Y-m-d H:i:s");
 
