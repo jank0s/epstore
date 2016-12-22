@@ -29,8 +29,8 @@ class UsersController {
             $params['user_created_at'] = date("Y-m-d H:i:s");
 
             try {
-                $user_id = UserDB::insert($params);
-                self::sendActivationEMail($user_id, $params['user_activation_token'], $params['email']);
+                $params['user_id'] = UserDB::insert($params);
+                self::sendActivationEMail($params);
                 echo ViewHelper::render("view/user-register-success.php");
             } catch (PDOException $e) {
                 if ($e->errorInfo[1] == 1062) {
@@ -58,12 +58,12 @@ class UsersController {
 
     }
 
-    public static function sendActivationEMail($user_id, $token, $email){
-        $from = new SendGrid\Email(null, "no-reply@epstore.tk");
-        $to = new SendGrid\Email(null, $email);
+    public static function sendActivationEMail($params){
+        $from = new SendGrid\Email("EPStore", "no-reply@epstore.tk");
+        $to = new SendGrid\Email($params['name'] . " " . $params['surname'], $params['email']);
         $subject = "EPStore - Aktivacija računa";
 
-        $activation_url = "https://" . $_SERVER["HTTP_HOST"] . BASE_URL . 'users/' . $user_id . '/activate/' . $token;
+        $activation_url = "https://" . $_SERVER["HTTP_HOST"] . BASE_URL . 'users/' . $params['user_id'] . '/activate/' . $params['user_activation_token'];
 
         $content = new SendGrid\Content("text/html", "<p>Račun lahko aktivirate na naslovu: <a href='" . $activation_url . "'></a>" . $activation_url ."</p>");
         $mail = new SendGrid\Mail($from, $subject, $to, $content);
