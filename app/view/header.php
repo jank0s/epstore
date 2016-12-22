@@ -69,7 +69,7 @@
                         </a>
                         <ul id="login-dp" class="dropdown-menu">
                             <li>
-                                <a href=""><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Profil</a>
+                                <a href="<?= BASE_URL . "users/" . $_SESSION['user']['user_id'] . "/edit" ?>"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Profil</a>
                             </li>
                             <li>
                                 <a href="<?= BASE_URL . "logout" ?>"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Odjava</a>

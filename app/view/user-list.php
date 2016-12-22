@@ -33,7 +33,7 @@
                         <td><?= $user['user_active']? 'DA' : 'NE' ?></td>
                         <td><?= $user['user_created_at'] ?></td>
                         <td class="text-right table-links">
-                            <a href="" class="label label-info">
+                            <a href="<?= BASE_URL . "users/" . $user['user_id'] . "/edit" ?>" class="label label-info">
                                 <i class="fa fa-pencil" title="Uredi" aria-hidden="true"></i>
                             </a>
                         </td>
