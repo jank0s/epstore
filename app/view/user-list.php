@@ -17,6 +17,7 @@
                 <th>Email</th>
                 <th>Vloga</th>
                 <th>Aktiviran</th>
+                <th>Ustvarjen</th>
                 <th></th>
             </tr>
             </thead>
@@ -30,6 +31,7 @@
                         <td><?= $user['email'] ?></td>
                         <td><?= $user['role_name'] ?></td>
                         <td><?= $user['user_active']? 'DA' : 'NE' ?></td>
+                        <td><?= $user['user_created_at'] ?></td>
                         <td class="text-right table-links">
                             <a href="" class="label label-info">
                                 <i class="fa fa-pencil" title="Uredi" aria-hidden="true"></i>
