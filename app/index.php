@@ -36,8 +36,15 @@ $urls = [
     "/^logout$/" => function ($method) {
         SessionsController::destroy();
     },
+
     "/^users$/" => function ($method) {
         UsersController::index();
+    },
+    "/^users\/(\d+)\/activate\/([a-zA-Z0-9-_]*)$/" => function ($method, $id, $token) {
+        UsersController::activate($id, $token);
+    },
+    "/^users\/(\d+)$/" => function ($method, $id) {
+        var_dump($id);
     },
     "/^register$/" => function ($method) {
         UsersController::register();

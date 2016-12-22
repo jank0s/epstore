@@ -19,8 +19,12 @@ class UserDB extends AbstractDB {
         return parent::modify("", $id);
     }
 
+    public static function setActive($user_id) {
+        return parent::modify("UPDATE User SET user_active = 1 WHERE user_id = :user_id", ["user_id" => $user_id]);
+    }
+
     public static function get(array $user_id) {
-        $users = parent::query("", $user_id);
+        $users = parent::query("SELECT * FROM User WHERE user_id = :user_id", $user_id);
         
         if (count($users) == 1) {
             return $users[0];
