@@ -77,6 +77,33 @@ abstract class UsersAbstractForm extends HTML_QuickForm2 {
         $this->repeat_password->setAttribute('class', 'form-control');
         $this->addElement($this->repeat_password);
 
+        $this->phone = new HTML_QuickForm2_Element_InputText('phone');
+        $this->phone->setLabel('Telefon:');
+        $this->phone->setAttribute('class', 'form-control');
+        $this->addElement($this->phone);
+
+        $this->user_address = new HTML_QuickForm2_Element_InputText('user_address');
+        $this->user_address->setLabel('Ulica in hišna št.:');
+        $this->user_address->setAttribute('class', 'form-control');
+        $this->user_address->addRule('regex', 'Uporabiti smete le črke, številke in presledek.', '/^[a-zA-ZščćžŠČĆŽ 0-9]+$/');
+        $this->user_address->addRule('maxlength', 'Vnos naj bo krajši od 255 znakov.', 255);
+        $this->addElement($this->user_address);
+
+        $this->user_post = new HTML_QuickForm2_Element_InputText('user_post');
+        $this->user_post->setLabel('Poštna št:');
+        $this->user_post->setAttribute('class', 'form-control');
+        $this->addElement($this->user_post);
+
+        $this->user_city = new HTML_QuickForm2_Element_InputText('user_city');
+        $this->user_city->setLabel('Kraj:');
+        $this->user_city->setAttribute('class', 'form-control');
+        $this->addElement($this->user_city);
+
+        $this->user_country = new HTML_QuickForm2_Element_InputText('user_country');
+        $this->user_country->setLabel('Država:');
+        $this->user_country->setAttribute('class', 'form-control');
+        $this->addElement($this->user_country);
+
         $this->addRecursiveFilter('trim');
         $this->addRecursiveFilter('htmlspecialchars');
     }
@@ -89,37 +116,12 @@ class RegisterUserForm extends UsersAbstractForm {
     {
         parent::__construct($id);
 
-        $this->phone = new HTML_QuickForm2_Element_InputText('phone');
-        $this->phone->setLabel('Telefon:');
         $this->phone->addRule('required', 'Vnesite telefon.');
-        $this->phone->setAttribute('class', 'form-control');
-        $this->addElement($this->phone);
-
-        $this->user_address = new HTML_QuickForm2_Element_InputText('user_address');
-        $this->user_address->setLabel('Ulica in hišna št.:');
         $this->user_address->addRule('required', 'Vnesite ulico in hišna št.');
-        $this->user_address->setAttribute('class', 'form-control');
-        $this->user_address->addRule('regex', 'Uporabiti smete le črke, številke in presledek.', '/^[a-zA-ZščćžŠČĆŽ 0-9]+$/');
-        $this->user_address->addRule('maxlength', 'Vnos naj bo krajši od 255 znakov.', 255);
-        $this->addElement($this->user_address);
-
-        $this->user_post = new HTML_QuickForm2_Element_InputText('user_post');
-        $this->user_post->setLabel('Poštna št:');
         $this->user_post->addRule('required', 'Vnesite poštno št.');
-        $this->user_post->setAttribute('class', 'form-control');
-        $this->addElement($this->user_post);
-
-        $this->user_city = new HTML_QuickForm2_Element_InputText('user_city');
-        $this->user_city->setLabel('Kraj:');
         $this->user_city->addRule('required', 'Vnesite kraj');
-        $this->user_city->setAttribute('class', 'form-control');
-        $this->addElement($this->user_city);
-
-        $this->user_country = new HTML_QuickForm2_Element_InputText('user_country');
-        $this->user_country->setLabel('Država:');
         $this->user_country->addRule('required', 'Vnesite državo');
-        $this->user_country->setAttribute('class', 'form-control');
-        $this->addElement($this->user_country);
+
 
         $this->captcha = new HTML_QuickForm2_Element_Captcha_ReCaptcha(
             'captcha[recaptcha]',
@@ -147,9 +149,14 @@ class AddUserForm extends UsersAbstractForm {
         parent::__construct($id);
 
         $this->role_id = new HTML_QuickForm2_Element_Select('role_id');
+        $this->role_id->setValue('3');
         $this->role_id->setLabel("Vloga:");
         $this->role_id->setAttribute('class', 'form-control');
-        $this->role_id->loadOptions(RoleDB::dict());
+        $roles = RoleDB::dict();
+        if(!SessionsController::adminAuthorized()){
+            unset($roles['1']);
+        }
+        $this->role_id->loadOptions($roles);
         $this->addElement($this->role_id);
 
         $this->button = new HTML_QuickForm2_Element_InputSubmit('create');

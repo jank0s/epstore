@@ -36,9 +36,6 @@
                             <a href="" class="label label-info">
                                 <i class="fa fa-pencil" title="Uredi" aria-hidden="true"></i>
                             </a>
-                            <a href="" class="label label-danger">
-                                <i class="fa fa-trash" title="Onemogoči" aria-hidden="true"></i>
-                            </a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

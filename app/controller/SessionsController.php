@@ -128,4 +128,10 @@ class SessionsController {
         }
     }
 
+    public static function authorizeAdminOrMerchant(){
+        if(!self::adminAuthorized() && !self::merchantAuthorized()){
+            ViewHelper::redirect(BASE_URL);
+        }
+    }
+
 }

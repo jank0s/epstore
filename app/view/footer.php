@@ -18,5 +18,7 @@
 <!-- Bootstrap Core JavaScript -->
 <script src="<?= JS_URL . "bootstrap.min.js" ?>"></script>
 
+<script src =<?= JS_URL . "script.js" ?> ></script>
+
 </body>
 </html>

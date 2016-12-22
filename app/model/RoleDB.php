@@ -35,7 +35,7 @@ class RoleDB extends AbstractDB {
     public static function dict() {
         $result = array();
         foreach (self::getAll() as $row) {
-            $result[$row['role_name']] = $row['role_name'];
+            $result[$row['role_id']] = $row['role_name'];
         }
         return $result;
     }

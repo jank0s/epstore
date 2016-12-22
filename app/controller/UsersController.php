@@ -11,7 +11,7 @@ require_once("lib/sendgrid-php/sendgrid-php.php");
 
 class UsersController {
     public static function index() {
-        SessionsController::authorizeAdmin();
+        SessionsController::authorizeAdminOrMerchant();
 
         echo ViewHelper::render("view/user-list.php", [
             "users" => UserDB::getAll()
@@ -29,6 +29,7 @@ class UsersController {
             $params['user_activation_token_created_at'] = date("Y-m-d H:i:s");
             $params['user_created_at'] = date("Y-m-d H:i:s");
 
+
             try {
                 $params['user_id'] = UserDB::insert($params);
                 self::sendActivationEMail($params);
@@ -40,6 +41,7 @@ class UsersController {
                         "form" => $form
                     ]);
                 } else {
+                    var_dump($e);
                     echo('Napaka');
                 }
             }
@@ -51,10 +53,42 @@ class UsersController {
     }
 
     public static function add(){
+        SessionsController::authorizeAdminOrMerchant();
+
         $form = new AddUserForm("add_user_form");
 
         if ($form->validate()) {
+            $params = $form->getValue();
+            if($params['role_id']==1 && $_SESSION['user']['role_id']!=1){
+                ViewHelper::redirect(BASE_URL);
+            }
 
+            $params['user_active'] = 1;
+            $params['user_activation_token'] = 0;
+            $params['user_activation_token_created_at'] = date("Y-m-d H:i:s");
+            $params['user_created_at'] = date("Y-m-d H:i:s");
+
+            if($params['role_id']!=3){
+                $params['user_address'] = "";
+                $params['user_post'] = 0;
+                $params['user_city'] = "";
+                $params['user_country'] = "";
+            }
+
+            try {
+                $params['user_id'] = UserDB::insert($params);
+                echo ViewHelper::render("view/user-register-success.php");
+            } catch (PDOException $e) {
+                if ($e->errorInfo[1] == 1062) {
+                    $form->email->setError('Email že obstaja!');
+                    echo ViewHelper::render("view/user-add.php", [
+                        "form" => $form
+                    ]);
+                } else {
+                    var_dump($e);
+                    echo('Napaka');
+                }
+            }
         }else {
             echo ViewHelper::render("view/user-add.php", [
                 "form" => $form
