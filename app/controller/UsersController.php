@@ -28,11 +28,20 @@ class UsersController {
             $params['user_activation_token_created_at'] = date("Y-m-d H:i:s");
             $params['user_created_at'] = date("Y-m-d H:i:s");
 
-            $user_id = UserDB::insert($params);
-
-            self::sendActivationEMail($user_id, $params['user_activation_token'], $params['email']);
-
-            echo ViewHelper::render("view/user-register-success.php");
+            try {
+                $user_id = UserDB::insert($params);
+                self::sendActivationEMail($user_id, $params['user_activation_token'], $params['email']);
+                echo ViewHelper::render("view/user-register-success.php");
+            } catch (PDOException $e) {
+                if ($e->errorInfo[1] == 1062) {
+                    $form->email->setError('Email že obstaja!');
+                    echo ViewHelper::render("view/user-register.php", [
+                        "form" => $form
+                    ]);
+                } else {
+                    echo('Napaka');
+                }
+            }
         }else {
             echo ViewHelper::render("view/user-register.php", [
                 "form" => $form
