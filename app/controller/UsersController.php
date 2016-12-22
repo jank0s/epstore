@@ -107,7 +107,92 @@ class UsersController {
 
     public static function edit($user_id){
         SessionsController::authorizeAllowEditUser($user_id);
+        $form = null;
 
+        if(SessionsController::adminAuthorized()){
+            if($_SESSION['user']['user_id'] == $user_id){
+                $form = new EditAdminUserForm("add_user_form", true);
+            }else{
+                $form = new EditAdminUserForm("add_user_form", false);
+            }
+        }else if(SessionsController::merchantAuthorized() && $_SESSION['user']['user_id'] == $user_id){
+            $form = new EditMerchantUserForm("edit_user_form", true);
+        }else{
+            if($_SESSION['user']['user_id'] == $user_id){
+                $form = new EditUserForm("edit_user_form", true);
+            }else{
+                $form = new EditUserForm("edit_user_form", false);
+            }
+        }
+
+        if ($form->validate()) {
+            $params = $form->getValue();
+            $currentParams=UserDB::get(['user_id' => $user_id]);
+            if(!isset($params['role_id'])){
+                $params['role_id']=$currentParams['role_id'];
+            }
+            if($params['role_id']==1 && $_SESSION['user']['role_id']!=1){
+                ViewHelper::redirect(BASE_URL);
+            }
+
+
+            if($params['role_id']!=3){
+                $params['user_address'] = "";
+                $params['user_post'] = 0;
+                $params['user_city'] = "";
+                $params['user_country'] = "";
+                $params['phone'] = "";
+            }
+
+            $params['user_id'] = $user_id;
+            try {
+                $params['user_id'] = UserDB::update($params);
+                self::updateCurrentUser($params['user_id']);
+                ViewHelper::redirect(BASE_URL . "users/" . $user_id . "/edit");
+            } catch (PDOException $e) {
+                if ($e->errorInfo[1] == 1062) {
+                    $form->email->setError('Email že obstaja!');
+                    echo ViewHelper::render("view/user-edit.php", [
+                        "form" => $form
+                    ]);
+                } else {
+                    var_dump($e);
+                    echo('Napaka');
+                }
+            }
+        }else {
+            echo ViewHelper::render("view/user-edit.php", [
+                "form" => $form
+            ]);
+        }
+    }
+
+    public static function editForm($user_id){
+        SessionsController::authorizeAllowEditUser($user_id);
+        $user = UserDB::get(['user_id' => $user_id]);
+        $form = null;
+
+        if(SessionsController::adminAuthorized()){
+            if($_SESSION['user']['user_id'] == $user_id){
+                $form = new EditAdminUserForm("add_user_form", true);
+            }else{
+                $form = new EditAdminUserForm("add_user_form", false);
+            }
+        }else if(SessionsController::merchantAuthorized() && $_SESSION['user']['user_id'] == $user_id){
+            $form = new EditMerchantUserForm("edit_user_form", true);
+        }else{
+            if($_SESSION['user']['user_id'] == $user_id){
+                $form = new EditUserForm("edit_user_form", true);
+            }else{
+                $form = new EditUserForm("edit_user_form", false);
+            }
+        }
+
+        $dataSource = new HTML_QuickForm2_DataSource_Array($user);
+        $form->addDataSource($dataSource);
+        echo ViewHelper::render("view/user-edit.php", [
+            "form" => $form
+        ]);
 
     }
 
@@ -126,6 +211,15 @@ class UsersController {
         $sg = new \SendGrid($apiKey);
 
         $response = $sg->client->mail()->send()->post($mail);
+    }
+
+    public static function updateCurrentUser(){
+        $user = UserDB::get(['user_id' => $_SESSION['user']['user_id']]);
+        $_SESSION['user']['user_id'] = $user['user_id'];
+        $_SESSION['user']['role_id'] = $user['role_id'];
+        $_SESSION['user']['name'] = $user['name'];
+        $_SESSION['user']['surname'] = $user['surname'];
+        $_SESSION['user']['email'] = $user['email'];
     }
 
 }

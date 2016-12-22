@@ -50,7 +50,12 @@ $urls = [
         var_dump($id);
     },
     "/^users\/(\d+)\/edit$/" => function ($method, $id) {
-        UsersController::edit($id);
+        if ($method == 'POST'){
+            UsersController::edit($id);
+        }else{
+            UsersController::editForm($id);
+        }
+
     },
     "/^register$/" => function ($method) {
         UsersController::register();

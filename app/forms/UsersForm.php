@@ -64,45 +64,42 @@ abstract class UsersAbstractForm extends HTML_QuickForm2 {
 
         $this->password = new HTML_QuickForm2_Element_InputPassword('password');
         $this->password->setLabel('Geslo:');
-        $this->password->addRule('required', 'Vnesite geslo.');
         $this->password->setAttribute('class', 'form-control');
-        $this->password->addRule('minlength', 'Geslo naj vsebuje vsaj 6 znakov.', 6);
-        $this->password->addRule('regex', 'V geslu uporabite vsaj 1 številko.', '/[0-9]+/');
+
         $this->addElement($this->password);
 
         $this->repeat_password = new HTML_QuickForm2_Element_InputPassword('repeat_password');
         $this->repeat_password->setLabel('Ponovitev gesla:');
         $this->repeat_password->addRule('eq', 'Gesli se ne ujamata.', $this->password);
-        $this->repeat_password->addRule('required', 'Ponovno vnesite izbrano geslo.');
         $this->repeat_password->setAttribute('class', 'form-control');
         $this->addElement($this->repeat_password);
 
         $this->phone = new HTML_QuickForm2_Element_InputText('phone');
         $this->phone->setLabel('Telefon:');
         $this->phone->setAttribute('class', 'form-control');
-        $this->addElement($this->phone);
+
 
         $this->user_address = new HTML_QuickForm2_Element_InputText('user_address');
         $this->user_address->setLabel('Ulica in hišna št.:');
         $this->user_address->setAttribute('class', 'form-control');
         $this->user_address->addRule('regex', 'Uporabiti smete le črke, številke in presledek.', '/^[a-zA-ZščćžŠČĆŽ 0-9]+$/');
         $this->user_address->addRule('maxlength', 'Vnos naj bo krajši od 255 znakov.', 255);
-        $this->addElement($this->user_address);
+
 
         $this->user_post = new HTML_QuickForm2_Element_InputText('user_post');
         $this->user_post->setLabel('Poštna št:');
         $this->user_post->setAttribute('class', 'form-control');
-        $this->addElement($this->user_post);
+
 
         $this->user_city = new HTML_QuickForm2_Element_InputText('user_city');
         $this->user_city->setLabel('Kraj:');
         $this->user_city->setAttribute('class', 'form-control');
-        $this->addElement($this->user_city);
+
 
         $this->user_country = new HTML_QuickForm2_Element_InputText('user_country');
         $this->user_country->setLabel('Država:');
         $this->user_country->setAttribute('class', 'form-control');
-        $this->addElement($this->user_country);
+
 
         $this->addRecursiveFilter('trim');
         $this->addRecursiveFilter('htmlspecialchars');
@@ -110,11 +107,55 @@ abstract class UsersAbstractForm extends HTML_QuickForm2 {
 
 }
 
+class EditUserForm extends UsersAbstractForm {
+
+    public function __construct($id, $requirePass)
+    {
+        parent::__construct($id);
+
+        if($requirePass){
+            $this->password->addRule('required', 'Vnesite geslo.');
+            $this->password->addRule('minlength', 'Geslo naj vsebuje vsaj 6 znakov.', 6);
+            $this->password->addRule('regex', 'V geslu uporabite vsaj 1 številko.', '/[0-9]+/');
+            $this->repeat_password->addRule('required', 'Ponovno vnesite izbrano geslo.');
+        }
+
+        $this->addElement($this->phone);
+        $this->addElement($this->user_address);
+        $this->addElement($this->user_post);
+        $this->addElement($this->user_city);
+        $this->addElement($this->user_country);
+
+        $this->phone->addRule('required', 'Vnesite telefon.');
+        $this->user_address->addRule('required', 'Vnesite ulico in hišna št.');
+        $this->user_post->addRule('required', 'Vnesite poštno št.');
+        $this->user_city->addRule('required', 'Vnesite kraj');
+        $this->user_country->addRule('required', 'Vnesite državo');
+
+        $this->button = new HTML_QuickForm2_Element_InputSubmit('register');
+        $this->button->setValue('Registracija');
+        $this->button->setAttribute('class', 'btn btn-primary pull-right');
+        $this->button->setAttribute('value', 'Posodobi');
+        $this->addElement($this->button);
+    }
+}
+
 class RegisterUserForm extends UsersAbstractForm {
 
     public function __construct($id)
     {
         parent::__construct($id);
+
+        $this->password->addRule('required', 'Vnesite geslo.');
+        $this->password->addRule('minlength', 'Geslo naj vsebuje vsaj 6 znakov.', 6);
+        $this->password->addRule('regex', 'V geslu uporabite vsaj 1 številko.', '/[0-9]+/');
+        $this->repeat_password->addRule('required', 'Ponovno vnesite izbrano geslo.');
+
+        $this->addElement($this->phone);
+        $this->addElement($this->user_address);
+        $this->addElement($this->user_post);
+        $this->addElement($this->user_city);
+        $this->addElement($this->user_country);
 
         $this->phone->addRule('required', 'Vnesite telefon.');
         $this->user_address->addRule('required', 'Vnesite ulico in hišna št.');
@@ -148,8 +189,13 @@ class AddUserForm extends UsersAbstractForm {
     {
         parent::__construct($id);
 
+        $this->addElement($this->phone);
+        $this->addElement($this->user_address);
+        $this->addElement($this->user_post);
+        $this->addElement($this->user_city);
+        $this->addElement($this->user_country);
+
         $this->role_id = new HTML_QuickForm2_Element_Select('role_id');
-        $this->role_id->setValue('3');
         $this->role_id->setLabel("Vloga:");
         $this->role_id->setAttribute('class', 'form-control');
         $roles = RoleDB::dict();
@@ -168,3 +214,49 @@ class AddUserForm extends UsersAbstractForm {
     }
 }
 
+class EditMerchantUserForm extends UsersAbstractForm {
+    public function __construct($id, $requirePass)
+    {
+        parent::__construct($id);
+
+        if($requirePass){
+            $this->password->addRule('required', 'Vnesite geslo.');
+            $this->password->addRule('minlength', 'Geslo naj vsebuje vsaj 6 znakov.', 6);
+            $this->password->addRule('regex', 'V geslu uporabite vsaj 1 številko.', '/[0-9]+/');
+            $this->repeat_password->addRule('required', 'Ponovno vnesite izbrano geslo.');
+        }
+
+        $this->password = new HTML_QuickForm2_Element_InputPassword('password');
+        $this->password->setLabel('Geslo:');
+        $this->password->setAttribute('class', 'form-control');
+
+        $this->repeat_password = new HTML_QuickForm2_Element_InputPassword('repeat_password');
+        $this->repeat_password->setLabel('Ponovitev gesla:');
+        $this->repeat_password->addRule('eq', 'Gesli se ne ujamata.', $this->password);
+        $this->repeat_password->setAttribute('class', 'form-control');
+
+
+        $this->button = new HTML_QuickForm2_Element_InputSubmit('create');
+        $this->button->setValue('Ustvari');
+        $this->button->setAttribute('class', 'btn btn-primary pull-right');
+        $this->button->setAttribute('value', 'Posodobi');
+        $this->addElement($this->button);
+    }
+}
+
+class EditAdminUserForm extends AddUserForm {
+
+    public function __construct($id, $requirePass)
+    {
+        parent::__construct($id);
+
+        if($requirePass){
+            $this->password->addRule('required', 'Vnesite geslo.');
+            $this->password->addRule('minlength', 'Geslo naj vsebuje vsaj 6 znakov.', 6);
+            $this->password->addRule('regex', 'V geslu uporabite vsaj 1 številko.', '/[0-9]+/');
+            $this->repeat_password->addRule('required', 'Ponovno vnesite izbrano geslo.');
+        }
+
+        $this->button->setAttribute('value', 'Posodobi');
+    }
+}

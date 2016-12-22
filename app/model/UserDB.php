@@ -12,7 +12,15 @@ class UserDB extends AbstractDB {
     }
 
     public static function update(array $params) {
-        return parent::modify("", $params);
+        if(empty($params['password'])){
+            return parent::modify("UPDATE User SET email = :email, name = :name, surname = :surname, phone = :phone, role_id = :role_id, user_address = :user_address, user_post = :user_post, user_city = :user_city, user_country = :user_country "
+                . "WHERE user_id = :user_id", $params);
+        }else{
+            $params['password_digest'] = password_hash($params['password'], PASSWORD_DEFAULT);
+            return parent::modify("UPDATE User SET email = :email, name = :name, surname = :surname, password_digest = :password_digest, phone = :phone, role_id = :role_id, user_address = :user_address, user_post = :user_post, user_city = :user_city, user_country = :user_country "
+                . "WHERE user_id = :user_id", $params);
+        }
+
     }
 
     public static function delete(array $id) {
