@@ -75,3 +75,16 @@ footer {
 .form-signin .btn {
     margin-top: 15px;
 }
+
+.form-register {
+    max-width: 500px;
+    padding: 15px;
+}
+
+.form-register p {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+    padding: 0;
+}
