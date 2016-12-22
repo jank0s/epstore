@@ -9,6 +9,9 @@ require_once 'HTML/QuickForm2/Element/InputCheckbox.php';
 require_once 'HTML/QuickForm2/Element/InputPassword.php';
 require_once 'HTML/QuickForm2/Element/Button.php';
 require_once 'HTML/QuickForm2/Element/Captcha/ReCaptcha.php';
+require_once 'HTML/QuickForm2/Element/Select.php';
+
+require_once 'model/RoleDB.php';
 
 
 abstract class UsersAbstractForm extends HTML_QuickForm2 {
@@ -74,6 +77,18 @@ abstract class UsersAbstractForm extends HTML_QuickForm2 {
         $this->repeat_password->setAttribute('class', 'form-control');
         $this->addElement($this->repeat_password);
 
+        $this->addRecursiveFilter('trim');
+        $this->addRecursiveFilter('htmlspecialchars');
+    }
+
+}
+
+class RegisterUserForm extends UsersAbstractForm {
+
+    public function __construct($id)
+    {
+        parent::__construct($id);
+
         $this->phone = new HTML_QuickForm2_Element_InputText('phone');
         $this->phone->setLabel('Telefon:');
         $this->phone->addRule('required', 'Vnesite telefon.');
@@ -106,18 +121,6 @@ abstract class UsersAbstractForm extends HTML_QuickForm2 {
         $this->user_country->setAttribute('class', 'form-control');
         $this->addElement($this->user_country);
 
-        $this->addRecursiveFilter('trim');
-        $this->addRecursiveFilter('htmlspecialchars');
-    }
-
-}
-
-class RegisterUserForm extends UsersAbstractForm {
-
-    public function __construct($id)
-    {
-        parent::__construct($id);
-
         $this->captcha = new HTML_QuickForm2_Element_Captcha_ReCaptcha(
             'captcha[recaptcha]',
             array('id' => 'captcha_recaptcha'),
@@ -137,27 +140,22 @@ class RegisterUserForm extends UsersAbstractForm {
     }
 }
 
-class CreateUserForm extends UsersAbstractForm {
+class AddUserForm extends UsersAbstractForm {
 
     public function __construct($id)
     {
         parent::__construct($id);
 
-        $this->captcha = new HTML_QuickForm2_Element_Captcha_ReCaptcha(
-            'captcha[recaptcha]',
-            array('id' => 'captcha_recaptcha'),
-            array(
-                'label' => 'ReCaptcha',
-                'public-key'  => '6LdoaA8UAAAAAN6ttm_N-4GQ9chkl-BqAlOVm0Y5',
-                'private-key' => '6LdoaA8UAAAAAGxGH1xAfgEMlNJegCmeGMcccRAv'
-            )
-        );
-        $this->addElement($this->captcha);
+        $this->role_id = new HTML_QuickForm2_Element_Select('role_id');
+        $this->role_id->setLabel("Vloga:");
+        $this->role_id->setAttribute('class', 'form-control');
+        $this->role_id->loadOptions(RoleDB::dict());
+        $this->addElement($this->role_id);
 
-        $this->button = new HTML_QuickForm2_Element_InputSubmit('register');
-        $this->button->setValue('Registracija');
+        $this->button = new HTML_QuickForm2_Element_InputSubmit('create');
+        $this->button->setValue('Ustvari');
         $this->button->setAttribute('class', 'btn btn-primary pull-right');
-        $this->button->setAttribute('value', 'Registracija');
+        $this->button->setAttribute('value', 'Ustvari');
         $this->addElement($this->button);
     }
 }

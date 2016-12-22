@@ -40,6 +40,9 @@ $urls = [
     "/^users$/" => function ($method) {
         UsersController::index();
     },
+    "/^users\/add$/" => function ($method) {
+        UsersController::add();
+    },
     "/^users\/(\d+)\/activate\/([a-zA-Z0-9-_]*)$/" => function ($method, $id, $token) {
         UsersController::activate($id, $token);
     },

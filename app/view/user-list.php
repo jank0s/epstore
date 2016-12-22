@@ -2,7 +2,7 @@
 <div class="container">
     <h1>Uporabniki</h1>
     <div class="row text-right">
-            <a href="" class="btn btn-success">Dodaj uporabnika</a>
+            <a href="<?= BASE_URL . "users/add" ?>" class="btn btn-success">Dodaj uporabnika</a>
     </div>
 
     <br/>

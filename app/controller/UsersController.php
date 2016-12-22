@@ -1,6 +1,7 @@
 <?php
 
 require_once("model/UserDB.php");
+require_once("model/RoleDB.php");
 require_once("ViewHelper.php");
 require_once("controller/SessionsController.php");
 require_once("controller/UsersController.php");
@@ -44,6 +45,18 @@ class UsersController {
             }
         }else {
             echo ViewHelper::render("view/user-register.php", [
+                "form" => $form
+            ]);
+        }
+    }
+
+    public static function add(){
+        $form = new AddUserForm("add_user_form");
+
+        if ($form->validate()) {
+
+        }else {
+            echo ViewHelper::render("view/user-add.php", [
                 "form" => $form
             ]);
         }
