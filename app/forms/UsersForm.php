@@ -110,7 +110,7 @@ abstract class UsersAbstractForm extends HTML_QuickForm2 {
 
         $this->button = new HTML_QuickForm2_Element_InputSubmit('register');
         $this->button->setValue('Registracija');
-        $this->button->setAttribute('class', 'btn btn-primary');
+        $this->button->setAttribute('class', 'btn btn-primary pull-right');
         $this->addElement($this->button);
 
         $this->addRecursiveFilter('trim');
