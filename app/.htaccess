@@ -1,7 +1,3 @@
-SSLVerifyClient optional
-SSLVerifyDepth 1
-SSLOptions +ExportCertData
-
 RewriteEngine On
 
 RewriteCond %{HTTPS} off
