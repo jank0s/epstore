@@ -5,7 +5,7 @@ require_once 'model/AbstractDB.php';
 class ProductDB extends AbstractDB {
 
     public static function insert(array $params) {
-        return parent::modify("INSERT INTO Product(product_name, product_description, product_price) VALUE (:name, :description, :price)", $params);
+        return parent::modify("INSERT INTO Product(product_name, product_description, product_price) VALUE (:product_name, :product_description, :product_price)", $params);
     }
 
     public static function update(array $params) {
