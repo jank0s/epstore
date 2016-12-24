@@ -17,6 +17,8 @@ class ProductsController {
     }
     
     public static function product_dashboard(){
+        SessionsController::authorizeMerchant();
+
         echo ViewHelper::render("view/product-dashboard.php", [
             "products" => ProductDB::getAll()
         ]);
@@ -46,32 +48,36 @@ class ProductsController {
         }
     }
     
-    //TODO: if empty, require params
     public static function edit($id) {
-        $form = null;  
-        if(SessionsController::merchantAuthorized()){
-            $form = new EditProductForm("form-edit");
-            
-            if ($form->validate()) {
-               $params = $form->getValue();
-               $params['product_id'] = $id;
+        SessionsController::authorizeMerchant();
 
-               if($_SESSION['user']['role_id']!=2){
-                    ViewHelper::redirect(BASE_URL);
-                    echo("ni pravi user");
-                }
-                try {
-                    ProductDB::update($params);
-                    echo ViewHelper::render("view/product-add-success.php");
-                } catch (PDOException $e) {
-                    var_dump($e);
-                    echo('Napaka');
-                }
-            } 
+        $form = new EditProductForm("form-edit");
+        if ($form->validate()) {
+            $params = $form->getValue();
+            $params['product_id'] = $id;
+
+            if($_SESSION['user']['role_id']!=2){
+                ViewHelper::redirect(BASE_URL);
+                echo("ni pravi user");
+            }
+            try {
+                ProductDB::update($params);
+                echo ViewHelper::render("view/product-add-success.php");
+            } catch (PDOException $e) {
+                var_dump($e);
+                echo('Napaka');
+            }
+        }else{
+            echo ViewHelper::render("view/product-edit.php", [
+                "form" => $form
+            ]);
         }
+
     }
     
     public static function editForm($product_id) {
+        SessionsController::authorizeMerchant();
+
         $product = ProductDB::get(array('product_id' => $product_id));
         $form = null;
         if(SessionsController::merchantAuthorized()){
