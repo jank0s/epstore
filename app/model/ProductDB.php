@@ -16,8 +16,8 @@ class ProductDB extends AbstractDB {
         return parent::modify("", $id);
     }
 
-    public static function get(array $id) {
-        $products = parent::query("", $id);
+    public static function get(array $product_id) {
+        $products = parent::query("SELECT * FROM Product WHERE product_id = :product_id", $product_id);    
         
         if (count($products) == 1) {
             return $products[0];

@@ -26,6 +26,17 @@ $urls = [
             ProductsController::index();
         }
     },
+    "/^products-dashboard$/" => function($method) {
+        ProductsController::product_dashboard();
+    },
+    "/^products-dashboard\/(\d+)\/edit$/" => function ($method, $id) {
+        if ($method == 'POST'){
+            ProductsController::edit($id);
+        }else{
+            ProductsController::editForm($id);
+        }
+
+    },
     "/^login$/" => function ($method) {
         if($method == 'POST'){
             SessionsController::create();
@@ -59,7 +70,7 @@ $urls = [
     },
     "/^register$/" => function ($method) {
         UsersController::register();
-    },
+    },            
     "/^$/" => function () {
         ViewHelper::redirect(BASE_URL . "products");
     },

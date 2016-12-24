@@ -53,10 +53,10 @@
                 <?php endif ?>
                 <?php if (SessionsController::merchantAuthorized()): ?>
                     <li>
-                        <a href="#">Naročila</a>
+                        <a href="<?= BASE_URL . "orders" ?>">Naročila</a>
                     </li>
                     <li>
-                        <a href="#">Izdelki</a>
+                        <a href="<?= BASE_URL . "products-dashboard" ?>">Izdelki</a>
                     </li>
                 <?php endif ?>
             </ul>
