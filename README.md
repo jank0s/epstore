@@ -4,4 +4,6 @@ demo: http://epstore.tk
 
 default admin user: admin@epstore.tk/admin
 
-test1
+admin@epstore.tk/admin
+prodajalec@epstore.tk/prodajalec
+stranka@ep.si/stranka

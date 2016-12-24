@@ -17,7 +17,8 @@
                 <th>Opis</th>
                 <th>Ocena</th>
                 <th>Aktiviran</th>
-                <th></th>
+                <th>Spremeni status</th>
+                <th>Urejanje</th>
             </tr>
             </thead>
 
@@ -30,7 +31,17 @@
                         <td><?= $product['product_description'] ?></td>
                         <td><?= $product['product_rating'] ?></td>
                         <td><?= $product['product_valid']? 'DA' : 'NE' ?></td> 
-                        
+                        <td><?php if($product['product_valid']): ?>
+                            <a href="<?= BASE_URL . "products/" . $product['product_id'] . "/deactivate" ?>" class="label label-warning">
+                                <i class="fa fa-close" title="Deaktiviraj" aria-hidden="true"></i>
+                            </a>
+                            <?php else: ?>
+                            <a href="<?= BASE_URL . "products/" . $product['product_id'] . "/activate" ?>" class="label label-success">
+                                <i class="fa fa-check" title="aktiviraj" aria-hidden="true"></i>
+                            </a>
+                        <?php endif; ?>
+                        </td> 
+                           
                              <td class="text-right table-links"> 
                             <a href="<?= BASE_URL . "products/" . $product['product_id'] . "/edit" ?>" class="label label-info">
                                 <i class="fa fa-pencil" title="Uredi" aria-hidden="true"></i>

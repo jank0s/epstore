@@ -104,6 +104,17 @@ class UsersController {
         }
 
     }
+    
+    public static function reactivate($user_id) {
+        SessionsController::authorizeAdminOrMerchant();
+        UserDB::setActive($user_id);
+        ViewHelper::redirect(BASE_URL . "users");
+    }
+    public static function deactivate($user_id) {
+        SessionsController::authorizeAdminOrMerchant();
+        UserDB::setInactive($user_id);
+        ViewHelper::redirect(BASE_URL . "users");
+    }
 
     public static function edit($user_id){
         SessionsController::authorizeAllowEditUser($user_id);

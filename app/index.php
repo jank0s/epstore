@@ -39,6 +39,14 @@ $urls = [
     "/^products\/add$/" => function ($method) {
         ProductsController::add();
     },
+    "/^products\/(\d+)\/deactivate$/" => function ($method, $id) {
+        ProductsController::deactivate($id);
+        
+    },
+    "/^products\/(\d+)\/activate$/" => function ($method, $id) {
+        ProductsController::activate($id);
+        
+    },
     "/^login$/" => function ($method) {
         if($method == 'POST'){
             SessionsController::create();
@@ -59,6 +67,16 @@ $urls = [
     "/^users\/(\d+)\/activate\/([a-zA-Z0-9-_]*)$/" => function ($method, $id, $token) {
         UsersController::activate($id, $token);
     },
+    "/^users\/(\d+)\/deactivate$/" => function ($method, $id) {
+        UsersController::deactivate($id);
+        
+    },
+            
+    "/^users\/(\d+)\/activate$/" => function ($method, $id) {
+        UsersController::reactivate($id);
+        
+    },
+ 
     "/^users\/(\d+)$/" => function ($method, $id) {
         var_dump($id);
     },

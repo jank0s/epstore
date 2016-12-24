@@ -18,9 +18,8 @@ class ProductsController {
     
     public static function product_dashboard(){
         SessionsController::authorizeMerchant();
-
         echo ViewHelper::render("view/product-dashboard.php", [
-            "products" => ProductDB::getAll()
+            "products" => ProductDB::getAllDashboard()
         ]);
     }
     
@@ -47,6 +46,21 @@ class ProductsController {
             ]);
         }
     }
+    
+    public static function deactivate($id){
+        SessionsController::authorizeMerchant();
+        ProductDB::setInactive($id);
+        ViewHelper::redirect(BASE_URL . "products/dashboard");
+        
+    }
+       
+    public static function activate($id){
+        SessionsController::authorizeMerchant();
+        ProductDB::setActive($id);
+        ViewHelper::redirect(BASE_URL . "products/dashboard");
+        }
+    
+    
     
     public static function edit($id) {
         SessionsController::authorizeMerchant();

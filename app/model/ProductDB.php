@@ -14,7 +14,15 @@ class ProductDB extends AbstractDB {
                 . " product_price = :product_price"
                 . " WHERE product_id = :product_id ", $params);
     }
-
+    
+    public static function setActive($id) {
+        return parent::modify("UPDATE Product SET product_valid = 1 WHERE product_id = :id", ["id" => $id]);
+    }
+    
+    public static function setInactive($id) {
+        return parent::modify("UPDATE Product SET product_valid = 0 WHERE product_id = :id", ["id" => $id]);
+    }
+    
     public static function delete(array $id) {
         return parent::modify("", $id);
     }
@@ -28,7 +36,13 @@ class ProductDB extends AbstractDB {
             throw new InvalidArgumentException("No such product");
         }
     }
-
+    
+ public static function getAllDashboard() {
+        return parent::query("SELECT product_id, product_name, product_description, product_price, product_rating, product_valid"
+                        . " FROM Product"
+                        . " ORDER BY product_id ASC");
+    }
+    
     public static function getAll() {
         return parent::query("SELECT product_id, product_name, product_description, product_price, product_rating, product_valid"
                         . " FROM Product"

@@ -18,7 +18,8 @@
                 <th>Vloga</th>
                 <th>Aktiviran</th>
                 <th>Ustvarjen</th>
-                <th></th>
+                <th>Spremeni status</th>
+                <th>Urejanje</th>
             </tr>
             </thead>
 
@@ -32,7 +33,17 @@
                         <td><?= $user['role_name'] ?></td>
                         <td><?= $user['user_active']? 'DA' : 'NE' ?></td>
                         <td><?= $user['user_created_at'] ?></td>
-                        <td class="text-right table-links">
+                        <td><?php if($user['user_active']): ?>
+                            <a href="<?= BASE_URL . "users/" . $user['user_id'] . "/deactivate" ?>" class="label label-warning">
+                                <i class="fa fa-close" title="Deaktiviraj" aria-hidden="true"></i>
+                            </a>
+                            <?php else: ?>
+                            <a href="<?= BASE_URL . "users/" . $user['user_id']  . "/activate" ?>" class="label label-success">
+                                <i class="fa fa-check" title="aktiviraj" aria-hidden="true"></i>
+                            </a>
+                        <?php endif; ?>
+                        </td> 
+                        <td class="text-right table-links"> 
                             <a href="<?= BASE_URL . "users/" . $user['user_id'] . "/edit" ?>" class="label label-info">
                                 <i class="fa fa-pencil" title="Uredi" aria-hidden="true"></i>
                             </a>
