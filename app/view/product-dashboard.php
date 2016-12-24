@@ -29,10 +29,10 @@
                         <td><?= $product['product_price'] ?></td>
                         <td><?= $product['product_description'] ?></td>
                         <td><?= $product['product_rating'] ?></td>
-                        <td>TODO <!--: $product['product_valid']? 'DA' : 'NE' ? --></td> 
+                        <td><?= $product['product_valid']? 'DA' : 'NE' ?></td> 
                         
                              <td class="text-right table-links"> 
-                            <a href="<?= BASE_URL . "products-dashboard/" . $product['product_id'] . "/edit" ?>" class="label label-info">
+                            <a href="<?= BASE_URL . "products/" . $product['product_id'] . "/edit" ?>" class="label label-info">
                                 <i class="fa fa-pencil" title="Uredi" aria-hidden="true"></i>
                             </a>
                         </td>
@@ -45,7 +45,7 @@
 
     <?php if (empty($products)): ?>
         <div class="text-center">
-            <p>Ni uporabnikov</p>
+            <p>Ni izdelkov</p>
         </div>
     <?php endif ?>
 </div>

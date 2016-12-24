@@ -23,26 +23,65 @@ class ProductsController {
     }
     
     public static function add() {
+        SessionsController::authorizeMerchant();
+        $form = new AddProductForm("add_product_form");
 
-    }
-
-    public static function edit() {
-
+        if ($form->validate()) {
+            $params = $form->getValue();
+            if($_SESSION['user']['role_id']!=2){
+                ViewHelper::redirect(BASE_URL);
+            }
+            
+            try {
+                ProductDB::insert($params);
+                echo ViewHelper::render("view/product-add-success.php");
+            } catch (PDOException $e) {
+                var_dump($e);
+                echo('Napaka');
+            }
+        } else {
+            echo ViewHelper::render("view/product-add.php", [
+               "form" => $form 
+            ]);
+        }
     }
     
-    //vrne error- class EditProductForm not found line 37
+    //TODO: if empty, require params
+    public static function edit($id) {
+        $form = null;  
+        if(SessionsController::merchantAuthorized()){
+            $form = new EditProductForm("form-edit");
+            
+            if ($form->validate()) {
+               $params = $form->getValue();
+               $params['product_id'] = $id;
+
+               if($_SESSION['user']['role_id']!=2){
+                    ViewHelper::redirect(BASE_URL);
+                    echo("ni pravi user");
+                }
+                try {
+                    ProductDB::update($params);
+                    echo ViewHelper::render("view/product-add-success.php");
+                } catch (PDOException $e) {
+                    var_dump($e);
+                    echo('Napaka');
+                }
+            } 
+        }
+    }
+    
     public static function editForm($product_id) {
-        $product = ProductDB::get(['product_id' => $product_id]);
+        $product = ProductDB::get(array('product_id' => $product_id));
         $form = null;
         if(SessionsController::merchantAuthorized()){
-            $form = new EditProductForm("edit_product_form");
+            $form = new EditProductForm("form-edit");
+            $dataSource = new HTML_QuickForm2_DataSource_Array($product);
+            $form->addDataSource($dataSource);
+            echo ViewHelper::render("view/product-edit.php", [
+                "form" => $form
+            ]);
         }
-        
-        $dataSource = new HTML_QuickForm2_DataSource_Array($product);
-        $form->addDataSource($dataSource);
-        echo ViewHelper::render("view/product-edit.php", [
-            "form" => $form
-        ]);
     }
 
     public static function delete() {

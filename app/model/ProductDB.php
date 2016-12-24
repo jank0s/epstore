@@ -5,11 +5,14 @@ require_once 'model/AbstractDB.php';
 class ProductDB extends AbstractDB {
 
     public static function insert(array $params) {
-        return parent::modify("", $params);
+        return parent::modify("INSERT INTO Product(product_name, product_description, product_price) VALUE (:name, :description, :price)", $params);
     }
 
     public static function update(array $params) {
-        return parent::modify("", $params);
+        return parent::modify("UPDATE Product SET"
+                . " product_name = :product_name, product_description = :product_description ,"
+                . " product_price = :product_price"
+                . " WHERE product_id = :product_id ", $params);
     }
 
     public static function delete(array $id) {
@@ -27,10 +30,10 @@ class ProductDB extends AbstractDB {
     }
 
     public static function getAll() {
-        return parent::query("SELECT product_id, product_name, product_description, product_price, product_rating"
+        return parent::query("SELECT product_id, product_name, product_description, product_price, product_rating, product_valid"
                         . " FROM Product"
                         . " WHERE product_valid = 1"
                         . " ORDER BY product_id ASC");
     }
-
+    
 }

@@ -56,7 +56,7 @@
                         <a href="<?= BASE_URL . "orders" ?>">Naročila</a>
                     </li>
                     <li>
-                        <a href="<?= BASE_URL . "products-dashboard" ?>">Izdelki</a>
+                        <a href="<?= BASE_URL . "products/dashboard" ?>">Izdelki</a>
                     </li>
                 <?php endif ?>
             </ul>

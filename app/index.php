@@ -26,16 +26,18 @@ $urls = [
             ProductsController::index();
         }
     },
-    "/^products-dashboard$/" => function($method) {
+    "/^products\/dashboard$/" => function($method) {
         ProductsController::product_dashboard();
     },
-    "/^products-dashboard\/(\d+)\/edit$/" => function ($method, $id) {
+    "/^products\/(\d+)\/edit$/" => function ($method, $id) {
         if ($method == 'POST'){
             ProductsController::edit($id);
         }else{
             ProductsController::editForm($id);
         }
-
+    },
+    "/^products\/add$/" => function ($method) {
+        ProductsController::add();
     },
     "/^login$/" => function ($method) {
         if($method == 'POST'){
