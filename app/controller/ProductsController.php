@@ -47,7 +47,7 @@ class ProductsController {
             ]);
         }
     }
-    
+
     public static function edit($id) {
         SessionsController::authorizeMerchant();
 

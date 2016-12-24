@@ -2,6 +2,9 @@
 
 demo: http://epstore.tk
 
-default admin user: admin@epstore.tk/admin
+##Default users
+* admin@epstore.tk/admin
+* prodajalec@epstore.tk/prodajalec
+* stranka@ep.si/stranka
 
 test1
