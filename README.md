@@ -6,7 +6,3 @@ demo: http://epstore.tk
 * admin@epstore.tk/admin
 * prodajalec@epstore.tk/prodajalec
 * stranka@ep.si/stranka
-
-admin@epstore.tk/admin
-prodajalec@epstore.tk/prodajalec
-stranka@ep.si/stranka
