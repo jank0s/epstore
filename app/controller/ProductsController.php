@@ -16,6 +16,13 @@ class ProductsController {
         ]);
     }
     
+    public static function product_details($id) {
+        $products = ProductDB::get(["product_id" => $id]);
+        echo ViewHelper::render("view/product-details.php",
+                ["product" => $products]);
+        
+    }
+    
     public static function product_dashboard(){
         SessionsController::authorizeMerchant();
         echo ViewHelper::render("view/product-dashboard.php", [

@@ -52,7 +52,7 @@
                             <img src="<?= IMAGES_URL . "320x150.png" ?>" alt="">
                             <div class="caption">
                                 <h4>
-                                    <a href="#"><?= $product['product_name'] ?></a>
+                                    <a href="<?= BASE_URL . 'products/' . $product['product_id'] ?>"><?= $product['product_name'] ?></a>
                                 </h4>
                                 <h4 class="pull-right"><?= $product['product_price'] ?> €</h4>
                                 </br>

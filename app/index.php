@@ -22,10 +22,13 @@ $path = isset($_SERVER["PATH_INFO"]) ? trim($_SERVER["PATH_INFO"], "/") : "";
 // ROUTER: defines mapping between URLS and controllers
 $urls = [
     "/^products\/?(\d+)?$/"  => function ($method, $id = null) {
-        if ($id == null) {
+        
+    if ($id == null) {
             ProductsController::index();
+        } else {
+            ProductsController::product_details($id);
         }
-    },
+    },        
     "/^products\/dashboard$/" => function($method) {
         ProductsController::product_dashboard();
     },
