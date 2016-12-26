@@ -14,30 +14,34 @@ class CartController {
    
     public static function showCart(){
        SessionsController::authorizeCustomer();
-       $vars = ["cart" => Cart::getAll(),
-           "total" => Cart::total()];
-            
-       echo ViewHelper::render("view/show-cart.php", $vars);
+       try{
+            $vars = ["cart" => Cart::getAll(),
+                "total" => Cart::total()];     
+            echo ViewHelper::render("view/show-cart.php", $vars);
+
+       } catch (Exception $ex) {
+            echo("ni možno prikazati vozička" . $ex->getMessage());
+       }
    }
    
     public static function remove(){
-       SessionsController::authorizeCustomer();
-       $id = isset($_POST["id"]) ? intval($_POST["id"]) : null;    
-       $id = htmlspecialchars($id);
-       if ($id !== null) {
-            Cart::remove($id);
-            
-       }
-      ViewHelper::redirect(BASE_URL . "cart");
-
+        SessionsController::authorizeCustomer();
+        $id = isset($_POST["id"]) ? intval($_POST["id"]) : null;    
+        if ($id !== null) {
+            try{
+                Cart::remove($id);
+            } catch (Exception $ex) {
+                echo("napaka pri odstranjevanju izdelka" . $ex->getMessage());
+            }
+        }
+        ViewHelper::redirect(BASE_URL . "cart");
    }
    
     public static function updateCart() {
         SessionsController::authorizeCustomer();
         $id = (isset($_POST["id"])) ? intval($_POST["id"]) : null;
-        $id = htmlspecialchars($id);
         $quantity = (isset($_POST["quantity"])) ? intval($_POST["quantity"]) : null;
-
+        
         if ($id !== null && $quantity !== null) {
             Cart::update($id, $quantity);
         }
@@ -48,7 +52,6 @@ class CartController {
     public static function addToCart() {
         SessionsController::authorizeCustomer();
         $id = isset($_POST["product_id"]) ? intval($_POST["product_id"]) : null;
-        $id = htmlspecialchars($id);
         if ($id !== null) {
             Cart::add($id);
             echo ViewHelper::render("view/cart-add-success.php");
@@ -56,5 +59,17 @@ class CartController {
             echo("ni dodan v košarico!");
             var_dump($_SESSION['cart']);
         }
+    }
+    
+    public static function review(){
+        SessionsController::authorizeCustomer();
+        try{
+            $vars = ["cart" => Cart::getAll(),
+                "total" => Cart::total()];     
+            echo ViewHelper::render("view/review.php", $vars);
+
+       } catch (Exception $ex) {
+            echo("ni možno prikazati vozička" . $ex->getMessage());
+       }
     }
 }

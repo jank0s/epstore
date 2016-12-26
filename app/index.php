@@ -68,6 +68,9 @@ $urls = [
             ViewHelper::redirect(BASE_URL . "cart");
         }
     },
+    "/^cart\/review$/" => function ($method) {
+        CartController::review();
+    },
     "/^login$/" => function ($method) {
         if($method == 'POST'){
             SessionsController::create();
