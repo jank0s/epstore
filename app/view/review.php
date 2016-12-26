@@ -39,7 +39,7 @@
             </tbody>
         </table>
         <p class="pull-right">Skupni znesek: <b><?= number_format($total, 2) ?> EUR</b></p>
-            <a href="<?= BASE_URL . "cart/invoice" ?>" class="btn btn-success pull-left">Oddaj naročilo</a>
+            <a href="<?= BASE_URL . "cart/create-invoice" ?>" class="btn btn-success pull-left">Oddaj naročilo</a>
             <?php endif; ?>
     </div>
 
