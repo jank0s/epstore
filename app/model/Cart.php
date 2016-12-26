@@ -38,8 +38,8 @@ class Cart {
     public static function update($id, $quantity) {
        $product = ProductDB::get(["product_id" =>$id]);
        $quantity = intval($quantity);
-
-        if ($product != null) {
+       
+        if (filter_var($quantity, FILTER_VALIDATE_INT) && $product != null) {
             if ($quantity <= 0) {
                 unset($_SESSION["cart"][$id]);
             } else {
