@@ -65,6 +65,7 @@ class CartController {
         SessionsController::authorizeCustomer();
         try{
             $vars = ["cart" => Cart::getAll(),
+                "user" => UserDB::get(["user_id" => $_SESSION['user']['user_id']]),
                 "total" => Cart::total()];     
             echo ViewHelper::render("view/review.php", $vars);
 

@@ -7,13 +7,12 @@
         if(!empty($cart)): ?>
             <h3>Podatki za dostavo</h3>
                
-               <p><b>User ID: </b><?=$_SESSION['user']['user_id'] ?></p> 
-               <p><b>Ime: </b><?=$_SESSION['user']['name'] ?></p> 
-               <p><b>Priimek: </b><?=$_SESSION['user']['surname'] ?></p> 
-               <p><b>E-mail: </b><?=$_SESSION['user']['email'] ?></p> 
-                <p><b>Naslov </b><?=$_SESSION['user']['email'] ?></p> 
-               <p><b>Pošta: </b><?=$_SESSION['user']['email'] ?></p> 
-               <p><b>Država: </b><?=$_SESSION['user']['email'] ?></p> 
+            <p><?= $user['name'] . " " . $user['surname']; ?> <br>
+               <?= $user['email'] ?> <br> 
+               <?= $user['phone']  ?> <br>
+               <?= $user['user_address'] ?> <br>
+               <?= $user['user_post'] . ", " . $user['user_city'] ?> <br>
+               <?= $user['user_country'] ?></p> 
 
             <h3>Podatki o izdelkih</h3>
         <table class="table table-striped table-hover">
