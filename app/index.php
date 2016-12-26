@@ -8,6 +8,7 @@ if(isset($_SERVER["HTTPS"])){
 }
 
 require_once("controller/ProductsController.php");
+require_once("controller/ProductsRESTController.php");
 require_once("controller/SessionsController.php");
 require_once("controller/UsersController.php");
 require_once("controller/CartController.php");
@@ -115,6 +116,28 @@ $urls = [
     "/^$/" => function () {
         ViewHelper::redirect(BASE_URL . "products");
     },
+    # REST API
+    "/^api\/products\/(\d+)$/" => function ($method, $id = null) {
+        // TODO: izbris knjige z uporabo HTTP metode DELETE
+        switch ($method) {
+            case "PUT":
+                break;
+            case "DELETE":
+                break;
+            default: # GET
+                break;
+        }
+    },
+    "/^api\/products$/" => function ($method, $id = null) {
+        switch ($method) {
+            case "POST":
+                break;
+            default: # GET
+                ProductsRESTController::index();
+                break;
+        }
+    },
+
 ];
 
 foreach ($urls as $pattern => $controller) {
