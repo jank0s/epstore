@@ -22,8 +22,7 @@ $path = isset($_SERVER["PATH_INFO"]) ? trim($_SERVER["PATH_INFO"], "/") : "";
 
 // ROUTER: defines mapping between URLS and controllers
 $urls = [
-    "/^products\/?(\d+)?$/"  => function ($method, $id = null) {
-        
+    "/^products\/?(\d+)?$/"  => function ($method, $id = null) { 
     if ($id == null) {
             ProductsController::index();
         } else {
@@ -45,23 +44,29 @@ $urls = [
     },
     "/^products\/(\d+)\/deactivate$/" => function ($method, $id) {
         ProductsController::deactivate($id);
-        
     },
     "/^products\/(\d+)\/activate$/" => function ($method, $id) {
         ProductsController::activate($id);
-        
     },
-            
     "/^products\/add-to-cart$/" => function ($method) {
         if($method == 'POST'){
             CartController::addToCart();
         } else {
-            echo "napaka"; #fix
+            ViewHelper::redirect(BASE_URL . "products");
         }
-    },
-            
+    },      
     "/^cart$/" => function ($method) {
         CartController::showCart();
+    },
+    "/^cart\/update$/" => function ($method) {
+        CartController::updateCart();
+    },
+    "/^cart\/remove$/" => function ($method) {
+        if($method == 'POST'){
+            CartController::remove();
+        } else {
+            ViewHelper::redirect(BASE_URL . "cart");
+        }
     },
     "/^login$/" => function ($method) {
         if($method == 'POST'){

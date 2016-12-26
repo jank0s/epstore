@@ -18,20 +18,26 @@
             <tbody>
                 <?php
                     foreach ($cart as $product): ?>
-                    <tr>
-                        <td><?= $product['quantity'] ?></td>
-                        <td><?= $product['product_id'] ?></td>
-                        <td><?= $product['product_name'] ?></td>
-                        <td><?= $product['product_price'] ?></td>
-                        
-                    </tr>
-                            <?php endforeach; 
-                           ?>
+                        <form action="<?= BASE_URL . "cart/update" ?>" method="post">
+                            <input type="hidden" name="id" value="<?= $product["product_id"] ?>" />                    
+                        <tr>
+                            <td><input type="number" name="quantity" value="<?= $product["quantity"] ?>"/></td>
+                            <td><?= $product['product_id'] ?></td>
+                            <td><?= $product['product_name'] ?></td>
+                            <td><?= $product['product_price'] ?></td>
+                            <td><button class="fa fa-refresh" title="Posodobi" aria-hidden="true"></button></td>
+                            </form>
+                            <td><form action="<?= BASE_URL . "cart/remove" ?>" method="post">                        
+                                <input type="hidden" name="id" value="<?= $product["product_id"] ?>" />
+                                <button class="fa fa-close" title="Odstrani" aria-hidden="true"></button> </form>
+                            </td>
+                        </tr>                
+                 
+                <?php endforeach; ?>
             </tbody>
         </table>
-        <?php
-                endif;
-                ?>
+        <p class="pull-right">Total: <b><?= number_format($total, 2) ?> EUR</b></p>
+        <?php endif; ?>
     </div>
 
     <?php if (empty($cart)): ?>

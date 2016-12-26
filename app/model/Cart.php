@@ -36,8 +36,8 @@ class Cart {
     }
 
     public static function update($id, $quantity) {
-        $product = ProductDB::get($id);
-        $quantity = intval($quantity);
+       $product = ProductDB::get(["product_id" =>$id]);
+       $quantity = intval($quantity);
 
         if ($product != null) {
             if ($quantity <= 0) {
@@ -47,11 +47,13 @@ class Cart {
             }
         }
     }
-
-    public static function purge() {
-        unset($_SESSION["cart"]);
+    public static function remove($id) {
+       $product = ProductDB::get(["product_id" => $id]);
+        if ($product != null) {
+            unset($_SESSION["cart"][$id]);
+        }
     }
-
+    
     public static function total() {
         return array_reduce(self::getAll(), function ($total, $book) {
             return $total + $book["product_price"] * $book["quantity"];
