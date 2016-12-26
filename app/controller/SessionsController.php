@@ -41,7 +41,9 @@ class SessionsController {
                 $_SESSION['user']['name'] = $user['name'];
                 $_SESSION['user']['surname'] = $user['surname'];
                 $_SESSION['user']['email'] = $user['email'];
-
+               #creating cart
+                $_SESSION['cart'] = array();
+                        
                 echo ViewHelper::redirect(BASE_URL);
             }else{
                 $form->email->setError('Prijava ni uspela!');

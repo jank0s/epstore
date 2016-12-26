@@ -37,7 +37,20 @@ class ProductDB extends AbstractDB {
         }
     }
     
- public static function getAllDashboard() {
+    public static function getForIds(array $ids) {
+        $db = self::getConnection();
+
+        $id_placeholders = implode(",", array_fill(0, count($ids), "?"));
+      #  echo($id_placeholders);
+        $statement = $db->prepare("SELECT *
+            FROM Product 
+            WHERE product_id IN (" . $id_placeholders . ")");
+        $statement->execute($ids);
+        
+        return $statement->fetchAll();       
+    }
+    
+     public static function getAllDashboard() {
         return parent::query("SELECT product_id, product_name, product_description, product_price, product_rating, product_valid"
                         . " FROM Product"
                         . " ORDER BY product_id ASC");

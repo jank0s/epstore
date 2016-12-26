@@ -59,6 +59,14 @@
                         <a href="<?= BASE_URL . "products/dashboard" ?>">Izdelki</a>
                     </li>
                 <?php endif ?>
+                <?php if (SessionsController::customerAuthorized()): ?>
+                    <li>
+                        <a href="<?= BASE_URL . "cart" ?>">Košarica</a>
+                    </li>
+                    <li>
+                        <a href="<?= BASE_URL . "history" ?>">Zgodovina nakupov</a>
+                    </li>
+                <?php endif ?>    
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <?php if (SessionsController::loggedIn()): ?>

@@ -10,6 +10,7 @@ if(isset($_SERVER["HTTPS"])){
 require_once("controller/ProductsController.php");
 require_once("controller/SessionsController.php");
 require_once("controller/UsersController.php");
+require_once("controller/CartController.php");
 
 define("BASE_URL", rtrim($_SERVER["SCRIPT_NAME"], "index.php"));
 define("IMAGES_URL", rtrim($_SERVER["SCRIPT_NAME"], "index.php") . "static/images/");
@@ -50,6 +51,18 @@ $urls = [
         ProductsController::activate($id);
         
     },
+            
+    "/^products\/add-to-cart$/" => function ($method) {
+        if($method == 'POST'){
+            CartController::addToCart();
+        } else {
+            echo "napaka"; #fix
+        }
+    },
+            
+    "/^cart$/" => function ($method) {
+        CartController::showCart();
+    },
     "/^login$/" => function ($method) {
         if($method == 'POST'){
             SessionsController::create();
@@ -74,12 +87,10 @@ $urls = [
         UsersController::deactivate($id);
         
     },
-            
     "/^users\/(\d+)\/activate$/" => function ($method, $id) {
         UsersController::reactivate($id);
         
     },
- 
     "/^users\/(\d+)$/" => function ($method, $id) {
         var_dump($id);
     },
@@ -89,7 +100,6 @@ $urls = [
         }else{
             UsersController::editForm($id);
         }
-
     },
     "/^register$/" => function ($method) {
         UsersController::register();
