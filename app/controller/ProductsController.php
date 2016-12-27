@@ -39,7 +39,6 @@ class ProductsController {
             if($_SESSION['user']['role_id']!=2){
                 ViewHelper::redirect(BASE_URL);
             }
-            
             try {
                 ProductDB::insert($params);
                 echo ViewHelper::render("view/product-add-success.php");
@@ -54,20 +53,35 @@ class ProductsController {
         }
     }
     
-    public static function deactivate($id){
+    public static function deactivate(){
         SessionsController::authorizeMerchant();
-        ProductDB::setInactive($id);
-        ViewHelper::redirect(BASE_URL . "products/dashboard");
-        
+        $id = isset($_POST["product_id"]) ? intval($_POST["product_id"]) : null;    
+        if ($id !== null) {
+            try{
+                ProductDB::setInactive($id);
+                ViewHelper::redirect(BASE_URL . "products/dashboard");
+            } catch (Exception $ex) {
+                echo("napaka pri potrjevanju izdelka" . $ex->getMessage());
+            }
+        } else {
+            echo("ID ni pravilen");
+        }        
     }
        
     public static function activate($id){
         SessionsController::authorizeMerchant();
-        ProductDB::setActive($id);
-        ViewHelper::redirect(BASE_URL . "products/dashboard");
+        $id = isset($_POST["product_id"]) ? intval($_POST["product_id"]) : null;    
+        if ($id !== null) {
+            try{
+                ProductDB::setActive($id);
+                ViewHelper::redirect(BASE_URL . "products/dashboard");
+            } catch (Exception $ex) {
+                echo("napaka pri potrjevanju izdelka" . $ex->getMessage());
+            }
+        } else {
+            echo("ID ni pravilen");
         }
-    
-    
+    }
     
     public static function edit($id) {
         SessionsController::authorizeMerchant();
@@ -93,7 +107,6 @@ class ProductsController {
                 "form" => $form
             ]);
         }
-
     }
     
     public static function editForm($product_id) {
@@ -110,9 +123,4 @@ class ProductsController {
             ]);
         }
     }
-
-    public static function delete() {
-
-    }
-
 }

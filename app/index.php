@@ -44,11 +44,11 @@ $urls = [
     "/^products\/add$/" => function ($method) {
         ProductsController::add();
     },
-    "/^products\/(\d+)\/deactivate$/" => function ($method, $id) {
-        ProductsController::deactivate($id);
+    "/^products\/deactivate$/" => function ($method) {
+        ProductsController::deactivate();
     },
-    "/^products\/(\d+)\/activate$/" => function ($method, $id) {
-        ProductsController::activate($id);
+    "/^products\/activate$/" => function ($method) {
+        ProductsController::activate();
     },
     "/^products\/add-to-cart$/" => function ($method) {
         if($method == 'POST'){
@@ -66,8 +66,6 @@ $urls = [
     "/^cart\/remove$/" => function ($method) {
         if($method == 'POST'){
             CartController::remove();
-        } else {
-            ViewHelper::redirect(BASE_URL . "cart");
         }
     },
     "/^cart\/review$/" => function ($method) {
@@ -83,6 +81,29 @@ $urls = [
             SessionsController::index();
         }
     },
+    "/^history$/" => function ($method) {
+        OrderController::historyForUser();
+    },
+    "/^history\/(\d+)$/" => function ($method, $id) {
+        OrderController::orderDetailUser($id);
+    },
+    "/^orders\/(\d+)$/" => function ($method, $id) {
+        OrderController::orderDetailMerchant($id);
+    },
+            
+    "/^orders$/" => function ($method) {
+        OrderController::submittedOrders();
+    },
+    "/^orders\/activate$/" => function ($method) {
+        if($method == 'POST'){
+            OrderController::activate();
+        }
+    },
+    "/^orders\/deactivate$/" => function ($method) {
+        if($method == 'POST'){
+            OrderController::deactivate();
+        }
+    },
     "/^logout$/" => function ($method) {
         SessionsController::destroy();
     },
@@ -96,12 +117,12 @@ $urls = [
     "/^users\/(\d+)\/activate\/([a-zA-Z0-9-_]*)$/" => function ($method, $id, $token) {
         UsersController::activate($id, $token);
     },
-    "/^users\/(\d+)\/deactivate$/" => function ($method, $id) {
-        UsersController::deactivate($id);
+    "/^users\/deactivate$/" => function ($method) {
+        UsersController::deactivate();
         
     },
-    "/^users\/(\d+)\/activate$/" => function ($method, $id) {
-        UsersController::reactivate($id);
+    "/^users\/activate$/" => function ($method) {
+        UsersController::reactivate();
         
     },
     "/^users\/(\d+)$/" => function ($method, $id) {

@@ -34,13 +34,15 @@
                         <td><?= $user['user_active']? 'DA' : 'NE' ?></td>
                         <td><?= $user['user_created_at'] ?></td>
                         <td><?php if($user['user_active']): ?>
-                            <a href="<?= BASE_URL . "users/" . $user['user_id'] . "/deactivate" ?>" class="label label-warning">
-                                <i class="fa fa-close" title="Deaktiviraj" aria-hidden="true"></i>
-                            </a>
+                            <form action="<?= BASE_URL . "users/deactivate" ?>" method="post">                        
+                            <input type="hidden" name="user_id" value="<?= $user['user_id'] ?>" />
+                            <button class="label label-danger" title="Deaktiviraj" aria-hidden="true"><i class="fa fa-close" title="Prekliči naročilo" aria-hidden="true"></i>
+                            </button></form>
                             <?php else: ?>
-                            <a href="<?= BASE_URL . "users/" . $user['user_id']  . "/activate" ?>" class="label label-success">
-                                <i class="fa fa-check" title="aktiviraj" aria-hidden="true"></i>
-                            </a>
+                            <form action="<?= BASE_URL . "users/activate" ?>" method="post">                        
+                            <input type="hidden" name="user_id" value="<?= $user['user_id'] ?>" />
+                            <button class="label label-success" title="Aktiviraj" aria-hidden="true"><i class="fa fa-check" title="Aktiviraj" aria-hidden="true"></i>
+                            </button></form>
                         <?php endif; ?>
                         </td> 
                         <td class="text-right table-links"> 

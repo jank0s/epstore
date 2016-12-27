@@ -107,13 +107,31 @@ class UsersController {
     
     public static function reactivate($user_id) {
         SessionsController::authorizeAdminOrMerchant();
-        UserDB::setActive($user_id);
-        ViewHelper::redirect(BASE_URL . "users");
+        $user_id = isset($_POST["user_id"]) ? intval($_POST["user_id"]) : null;    
+        if ($user_id !== null) {
+            try{
+                UserDB::setActive($user_id);
+                ViewHelper::redirect(BASE_URL . "users");
+            } catch (Exception $ex) {
+                echo("napaka pri potrjevanju" . $ex->getMessage());
+            }
+        } else {
+            echo("ID ni pravilen");
+        }  
     }
-    public static function deactivate($user_id) {
+    public static function deactivate() {
         SessionsController::authorizeAdminOrMerchant();
-        UserDB::setInactive($user_id);
-        ViewHelper::redirect(BASE_URL . "users");
+        $user_id = isset($_POST["user_id"]) ? intval($_POST["user_id"]) : null;    
+        if ($user_id !== null) {
+            try{
+                UserDB::setInactive($user_id);
+                ViewHelper::redirect(BASE_URL . "users");
+            } catch (Exception $ex) {
+                echo("napaka pri potrjevanju" . $ex->getMessage());
+            }
+        } else {
+            echo("ID ni pravilen");
+        }
     }
 
     public static function edit($user_id){

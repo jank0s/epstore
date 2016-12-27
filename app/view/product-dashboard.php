@@ -32,13 +32,15 @@
                         <td><?= $product['product_rating'] ?></td>
                         <td><?= $product['product_valid']? 'DA' : 'NE' ?></td> 
                         <td><?php if($product['product_valid']): ?>
-                            <a href="<?= BASE_URL . "products/" . $product['product_id'] . "/deactivate" ?>" class="label label-warning">
-                                <i class="fa fa-close" title="Deaktiviraj" aria-hidden="true"></i>
-                            </a>
+                            <form action="<?= BASE_URL . "products/deactivate" ?>" method="post">                        
+                            <input type="hidden" name="product_id" value="<?= $product["product_id"] ?>" />
+                            <button class="label label-danger" title="Deaktiviraj" aria-hidden="true"><i class="fa fa-close" title="Prekliči naročilo" aria-hidden="true"></i>
+                            </button></form>
                             <?php else: ?>
-                            <a href="<?= BASE_URL . "products/" . $product['product_id'] . "/activate" ?>" class="label label-success">
-                                <i class="fa fa-check" title="aktiviraj" aria-hidden="true"></i>
-                            </a>
+                            <form action="<?= BASE_URL . "products/activate" ?>" method="post">                        
+                            <input type="hidden" name="product_id" value="<?= $product["product_id"] ?>" />
+                            <button class="label label-success" title="Aktiviraj" aria-hidden="true"><i class="fa fa-check" title="Aktiviraj" aria-hidden="true"></i>
+                            </button></form>
                         <?php endif; ?>
                         </td> 
                            

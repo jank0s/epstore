@@ -17,6 +17,20 @@ class OrderDB extends AbstractDB {
                 . " VALUES (:order_id, :product_id, :product_price, :quantity)", $params);
     }
     
+    public static function getForUser($id) {
+        return parent::query("SELECT *"
+                        . " FROM `Order`"
+                        . " WHERE user_id = :user_id", $id);
+    }
+    
+    public static function getOrderDetails($id) {
+        return parent::query("SELECT * FROM epstore.`Order`, Order_item,"
+           . " Product, `User` WHERE `User`.user_id = `Order`.user_id AND"
+           . " Product.product_id = Order_item.product_id AND"
+           . " `Order`.order_id = Order_item.order_id"
+           . " AND `Order`.order_id = :order_id", $id);
+    }
+    
     
     public static function update(array $params) {
         return parent::modify("UPDATE Product SET"
@@ -25,12 +39,12 @@ class OrderDB extends AbstractDB {
                 . " WHERE product_id = :product_id ", $params);
     }
     
-    public static function setActive($id) {
-        return parent::modify("UPDATE Product SET product_valid = 1 WHERE product_id = :id", ["id" => $id]);
+    public static function activate(array $params) {
+        return parent::modify("UPDATE `Order` SET status_id = 2, order_updated_at = :order_updated_at WHERE order_id = :order_id ", $params);
     }
     
-    public static function setInactive($id) {
-        return parent::modify("UPDATE Product SET product_valid = 0 WHERE product_id = :id", ["id" => $id]);
+    public static function deactivate(array $params) {
+        return parent::modify("UPDATE `Order` SET status_id = 3, order_updated_at = :order_updated_at WHERE order_id = :order_id ", $params);
     }
     
     public static function delete(array $id) {
@@ -60,10 +74,9 @@ class OrderDB extends AbstractDB {
         return $statement->fetchAll();       
     }
     
-     public static function getAllDashboard() {
-        return parent::query("SELECT product_id, product_name, product_description, product_price, product_rating, product_valid"
-                        . " FROM Product"
-                        . " ORDER BY product_id ASC");
+    public static function getAllUnconfirmed() {
+        return parent::query("SELECT *"
+                . " FROM `Order` WHERE status_id < 3");
     }
     
     public static function getAll() {
