@@ -62,5 +62,12 @@ class ProductDB extends AbstractDB {
                         . " WHERE product_valid = 1"
                         . " ORDER BY product_id ASC");
     }
+
+    public static function getAllwithURI(array $prefix) {
+        return parent::query("SELECT product_id as id, product_name as name, product_description as description, product_price as price, product_rating as rating, "
+            . "          CONCAT(:prefix, product_id) as uri "
+            . "FROM Product "
+            . "ORDER BY product_id ASC", $prefix);
+    }
     
 }

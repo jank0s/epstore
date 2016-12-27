@@ -11,7 +11,9 @@ require_once("forms/ProductsForm.php");
 class ProductsRESTController {
 
     public static function index() {
-        echo ViewHelper::renderJSON(ProductDB::getAll());
+        $prefix = $_SERVER["REQUEST_SCHEME"] . "://" . $_SERVER["HTTP_HOST"]
+            . $_SERVER["REQUEST_URI"] . "/";
+        echo ViewHelper::renderJSON(ProductDB::getAllwithURI(["prefix" => $prefix]));
     }
 
 
