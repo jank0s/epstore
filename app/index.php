@@ -12,6 +12,7 @@ require_once("controller/ProductsRESTController.php");
 require_once("controller/SessionsController.php");
 require_once("controller/UsersController.php");
 require_once("controller/CartController.php");
+require_once("controller/OrderController.php");
 
 define("BASE_URL", rtrim($_SERVER["SCRIPT_NAME"], "index.php"));
 define("IMAGES_URL", rtrim($_SERVER["SCRIPT_NAME"], "index.php") . "static/images/");
@@ -71,6 +72,9 @@ $urls = [
     },
     "/^cart\/review$/" => function ($method) {
         CartController::review();
+    },
+    "/^cart\/create-invoice$/" => function ($method) {
+        OrderController::createInvoice();
     },
     "/^login$/" => function ($method) {
         if($method == 'POST'){
