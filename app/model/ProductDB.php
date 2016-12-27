@@ -69,5 +69,15 @@ class ProductDB extends AbstractDB {
             . "FROM Product "
             . "ORDER BY product_id ASC", $prefix);
     }
+
+    public static function getShort(array $product_id) {
+        $products = parent::query("SELECT product_id as id, product_name as name, product_description as description, product_price as price, product_rating as rating FROM Product WHERE product_id = :product_id", $product_id);
+
+        if (count($products) == 1) {
+            return $products[0];
+        } else {
+            throw new InvalidArgumentException("No such product");
+        }
+    }
     
 }

@@ -16,5 +16,12 @@ class ProductsRESTController {
         echo ViewHelper::renderJSON(ProductDB::getAllwithURI(["prefix" => $prefix]));
     }
 
+    public static function get($id) {
+        try {
+            echo ViewHelper::renderJSON(ProductDB::getShort(["product_id" => $id]));
+        } catch (InvalidArgumentException $e) {
+            echo ViewHelper::renderJSON($e->getMessage(), 404);
+        }
+    }
 
 }

@@ -143,13 +143,13 @@ $urls = [
     },
     # REST API
     "/^api\/products\/(\d+)$/" => function ($method, $id = null) {
-        // TODO: izbris knjige z uporabo HTTP metode DELETE
         switch ($method) {
             case "PUT":
                 break;
             case "DELETE":
                 break;
             default: # GET
+                ProductsRESTController::get($id);
                 break;
         }
     },
