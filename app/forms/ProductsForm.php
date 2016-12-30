@@ -39,7 +39,11 @@ abstract class ProductsAbstractForm extends HTML_QuickForm2 {
         $this->price->setAttribute('size', 8);
         $this->price->setLabel('Cena (€)');
         $this->price->addRule('required', 'Vnesite ceno.');
-        $this->price->addRule('maxlength', 'Opis naj bo krajši od 1000 znakov.', 1000);
+        $this->price->addRule('callback', 'Cena mora biti v veljavnem formatu (primer 10.1)', array(
+            'callback' => 'filter_var',
+            'arguments' => [FILTER_VALIDATE_FLOAT]
+                )
+        );
         $this->addElement($this->price);
         
         $this->description = new HTML_QuickForm2_Element_Textarea('product_description');

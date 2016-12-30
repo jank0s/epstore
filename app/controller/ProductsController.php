@@ -41,10 +41,13 @@ class ProductsController {
             }
             try {
                 ProductDB::insert($params);
-                echo ViewHelper::render("view/product-add-success.php");
+            $_SESSION['alerts'][0] = ["type" => "success", "value" => "Uspešno dodan izdelek!"];
+                ViewHelper::redirect(BASE_URL . "products/dashboard");
             } catch (PDOException $e) {
-                var_dump($e);
-                echo('Napaka');
+                $_SESSION['alerts'][0] = ["type" => "danger", "value" => "Izdelek ni bil uspešno dodan!"];
+                echo ViewHelper::render("view/product-add.php", [
+                    "form" => $form 
+            ]);            
             }
         } else {
             echo ViewHelper::render("view/product-add.php", [
