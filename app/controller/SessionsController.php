@@ -43,17 +43,17 @@ class SessionsController {
                 $_SESSION['user']['email'] = $user['email'];
                #creating cart
                 $_SESSION['cart'] = array();
-                        
+
+                $_SESSION['alerts'][] = ["type" => "success", 'value' => "Prijava uspešna!"];
                 echo ViewHelper::redirect(BASE_URL);
             }else{
                 $form->email->setError('Prijava ni uspela!');
                 if($x509email != null){
                     $form->email->setAttribute('disabled');
                 }
-                $alerts[] = ["type" => "danger", 'value' => "Prijava ni uspela!"];
+                $_SESSION['alerts'][] = ["type" => "danger", 'value' => "Prijava ni uspela!"];
                 echo ViewHelper::render("view/login.php", [
-                    "form" => $form,
-                    "alerts" => $alerts
+                    "form" => $form
                 ]);
             }
         } else {

@@ -6,6 +6,11 @@ class ViewHelper {
     public static function render($file, $variables = array()) {
         extract($variables);
 
+        if(isset($_SESSION['alerts'])){
+            $alerts = array_merge($_SESSION['alerts']);
+            unset($_SESSION['alerts']);
+        }
+
         ob_start();
         include("view/header.php");
         include($file);
