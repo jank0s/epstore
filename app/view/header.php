@@ -98,3 +98,16 @@
     </div>
     <!-- /.container -->
 </nav>
+
+<?php if (isset($alerts)): ?>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <?php foreach ($alerts as $alert): ?>
+                <div class="<?= "alert alert-" . $alert['type'] ?>">
+                    <button type="button" class="close" data-dismiss="alert">x</button>
+                    <?= $alert['value'] ?>
+                </div>
+            <?php endforeach;?>
+        </div>
+    </div>
+<?php endif ?>

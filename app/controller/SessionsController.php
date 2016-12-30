@@ -50,8 +50,10 @@ class SessionsController {
                 if($x509email != null){
                     $form->email->setAttribute('disabled');
                 }
+                $alerts[] = ["type" => "danger", 'value' => "Prijava ni uspela!"];
                 echo ViewHelper::render("view/login.php", [
-                    "form" => $form
+                    "form" => $form,
+                    "alerts" => $alerts
                 ]);
             }
         } else {
