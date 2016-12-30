@@ -29,11 +29,13 @@ class UsersController {
             $params['user_activation_token_created_at'] = date("Y-m-d H:i:s");
             $params['user_created_at'] = date("Y-m-d H:i:s");
 
-
             try {
                 $params['user_id'] = UserDB::insert($params);
                 self::sendActivationEMail($params);
-                echo ViewHelper::render("view/user-register-success.php");
+
+                $_SESSION['alerts'][] = ["type" => "success", 'value' => "Registracija uspešna! V nekaj minutah boste prejeli elektronsko sporočilo z navodili za potrditev vašega računa."];
+                echo ViewHelper::redirect(BASE_URL);
+                #echo ViewHelper::render("view/user-register-success.php");
             } catch (PDOException $e) {
                 if ($e->errorInfo[1] == 1062) {
                     $form->email->setError('Email že obstaja!');
