@@ -7,7 +7,7 @@ class ViewHelper {
         extract($variables);
 
         if(isset($_SESSION['alerts'])){
-            $alerts = array_merge($_SESSION['alerts']);
+            $alerts = $_SESSION['alerts'];
             unset($_SESSION['alerts']);
         }
 

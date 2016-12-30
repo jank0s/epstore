@@ -8,6 +8,12 @@ require_once("forms/SessionsForm.php");
 class SessionsController {
 
     public static function index() {
+        if(self::loggedIn()){
+            $_SESSION['alerts'][0] = ["type" => "info", "value" => "Za ponovno prijavo se morate najprej odjaviti!"];
+            ViewHelper::redirect(BASE_URL);
+            exit();
+        }
+
         $form = new LoginForm("login_form");
 
         $x509email = self::getX509email();
@@ -19,6 +25,8 @@ class SessionsController {
         echo ViewHelper::render("view/login.php", [
             "form" => $form
         ]);
+
+
     }
 
     public static function create(){
