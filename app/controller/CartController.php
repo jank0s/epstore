@@ -41,6 +41,10 @@ class CartController {
         SessionsController::authorizeCustomer();
         $id = (isset($_POST["id"])) ? intval($_POST["id"]) : null;
         $quantity = (isset($_POST["quantity"])) ? intval($_POST["quantity"]) : null;
+        if(filter_var($quantity, FILTER_VALIDATE_INT) == false) {
+            $_SESSION['alerts'][0] = ["type" => "warning", "value" => "Količina ni celo število!"];
+            ViewHelper::redirect(BASE_URL . "cart");
+        }
         
         if ($id !== null && $quantity !== null) {
             Cart::update($id, $quantity);
@@ -54,10 +58,12 @@ class CartController {
         $id = isset($_POST["product_id"]) ? intval($_POST["product_id"]) : null;
         if ($id !== null) {
             Cart::add($id);
-            echo ViewHelper::render("view/cart-add-success.php");
+            $_SESSION['alerts'][0] = ["type" => "success", "value" => "Izdelek dodan v košarico!"];
+            ViewHelper::redirect(BASE_URL . "products");
+            
         } else {
-            echo("ni dodan v košarico!");
-            var_dump($_SESSION['cart']);
+            $_SESSION['alerts'][0] = ["type" => "warning", "value" => "Dodajanje v košarico ni uspelo!"];
+            ViewHelper::redirect(BASE_URL . "products");
         }
     }
     

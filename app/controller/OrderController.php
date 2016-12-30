@@ -45,9 +45,11 @@ class OrderController {
                 } 
                 #   ko se ustvari naročilo izprazni košarico 
                 unset($_SESSION['cart']);
-                echo ViewHelper::render("view/order-success.php");             
+                $_SESSION['alerts'][0] = ["type" => "success", "value" => "Naročilo uspešno oddano v obdelavo!"];
+                echo ViewHelper::redirect(BASE_URL . "products");             
             } catch(Exception $ex){
-                    echo("neuspesno vnašanje naročila " . $ex->getMessage());
+                $_SESSION['alerts'][0] = ["type" => "warning", "value" => "Naročilo ni bilo usšeno oddano!"];
+                echo ViewHelper::redirect(BASE_URL . "products");            
             }
         } else {
             echo "ni možno oddati praznega naročila!";
@@ -100,6 +102,7 @@ class OrderController {
             try{
             $order_updated_at = date("Y-m-d H:i:s");
                 OrderDB::activate(["order_updated_at" => $order_updated_at, "order_id" =>$id]);
+                $_SESSION['alerts'][0] = ["type" => "info", "value" => "Naročilo $id uspešno potrjeno."];
                 ViewHelper::redirect(BASE_URL . "orders");
             } catch (Exception $ex) {
                 echo("napaka pri potrjevanju izdelka" . $ex->getMessage());
@@ -113,6 +116,7 @@ class OrderController {
             try{
             $order_updated_at = date("Y-m-d H:i:s");
                 OrderDB::deactivate(["order_updated_at" => $order_updated_at, "order_id" =>$id]);
+                $_SESSION['alerts'][0] = ["type" => "info", "value" => "Naročilo $id uspešno stornirano."];
                 ViewHelper::redirect(BASE_URL . "orders");
             } catch (Exception $ex) {
                 echo("napaka pri potrjevanju izdelka" . $ex->getMessage());

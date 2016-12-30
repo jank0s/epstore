@@ -113,6 +113,7 @@ class UsersController {
         if ($user_id !== null) {
             try{
                 UserDB::setActive($user_id);
+                $_SESSION['alerts'][0] = ["type" => "info", "value" => "Uporabnik $user_id uspešno aktiviran."];
                 ViewHelper::redirect(BASE_URL . "users");
             } catch (Exception $ex) {
                 echo("napaka pri potrjevanju" . $ex->getMessage());
@@ -126,7 +127,8 @@ class UsersController {
         $user_id = isset($_POST["user_id"]) ? intval($_POST["user_id"]) : null;    
         if ($user_id !== null) {
             try{
-                UserDB::setInactive($user_id);
+                UserDB::setInactive($user_id);            
+                $_SESSION['alerts'][0] = ["type" => "info", "value" => "Uporabnik $user_id uspešno deaktiviran."];
                 ViewHelper::redirect(BASE_URL . "users");
             } catch (Exception $ex) {
                 echo("napaka pri potrjevanju" . $ex->getMessage());

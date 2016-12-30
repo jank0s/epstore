@@ -41,10 +41,10 @@ class ProductsController {
             }
             try {
                 ProductDB::insert($params);
-            $_SESSION['alerts'][0] = ["type" => "success", "value" => "Uspešno dodan izdelek!"];
+                $_SESSION['alerts'][0] = ["type" => "success", "value" => "Uspešno dodan izdelek $params[product_name]!"];
                 ViewHelper::redirect(BASE_URL . "products/dashboard");
             } catch (PDOException $e) {
-                $_SESSION['alerts'][0] = ["type" => "danger", "value" => "Izdelek ni bil uspešno dodan!"];
+                $_SESSION['alerts'][0] = ["type" => "danger", "value" => "Dodajanje izdelka ni blo uspešno!"];
                 echo ViewHelper::render("view/product-add.php", [
                     "form" => $form 
             ]);            
@@ -62,6 +62,7 @@ class ProductsController {
         if ($id !== null) {
             try{
                 ProductDB::setInactive($id);
+                $_SESSION['alerts'][0] = ["type" => "info", "value" => "Izdelek $id uspešno deaktiviran."];
                 ViewHelper::redirect(BASE_URL . "products/dashboard");
             } catch (Exception $ex) {
                 echo("napaka pri potrjevanju izdelka" . $ex->getMessage());
@@ -77,6 +78,7 @@ class ProductsController {
         if ($id !== null) {
             try{
                 ProductDB::setActive($id);
+                $_SESSION['alerts'][0] = ["type" => "info", "value" => "Izdelek $id uspešno aktiviran."];
                 ViewHelper::redirect(BASE_URL . "products/dashboard");
             } catch (Exception $ex) {
                 echo("napaka pri potrjevanju izdelka" . $ex->getMessage());
@@ -100,8 +102,9 @@ class ProductsController {
             }
             try {
                 ProductDB::update($params);
-                echo ViewHelper::render("view/product-add-success.php");
-            } catch (PDOException $e) {
+                $_SESSION['alerts'][0] = ["type" => "success", "value" => "Izdelek $id uspešno posodobljen."];
+                ViewHelper::redirect(BASE_URL . "products/dashboard");
+                } catch (PDOException $e) {
                 var_dump($e);
                 echo('Napaka');
             }
