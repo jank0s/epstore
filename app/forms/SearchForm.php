@@ -18,7 +18,7 @@ class SearchForm extends HTML_QuickForm2 {
     public function __construct($id, $method = 'get') {
         parent::__construct($id, $method);
 
-        $this->attributes['action'] = "#";
+        $this->setAttribute('action', "/products");
 
         $this->setAttribute('class', 'form-signin');
 
