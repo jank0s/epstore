@@ -1,5 +1,10 @@
 <!-- Page Content -->
 <div class="container">
+    <?php if (empty($orders)): ?>
+        <div class="text-center">
+            <p>Ni preteklih naročil</p>
+        </div>
+    <?php else: ?>
     <h2>Oddano</h2>
     <div class="table-responsive full">
         <table class="table table-striped table-hover">
@@ -120,10 +125,5 @@
             </tbody>
         </table>
     </div>
-    
-    <?php if (empty($orders)): ?>
-        <div class="text-center">
-            <p>Ni naročil</p>
-        </div>
-    <?php endif ?>
+    <?php endif; ?>
 </div>
