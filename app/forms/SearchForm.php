@@ -15,8 +15,8 @@ class SearchForm extends HTML_QuickForm2 {
     public $search;
     public $button;
 
-    public function __construct($id) {
-        parent::__construct($id);
+    public function __construct($id, $method = 'get') {
+        parent::__construct($id, $method);
 
         $this->setAttribute('class', 'form-signin');
 
