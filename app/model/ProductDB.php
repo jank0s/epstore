@@ -38,7 +38,7 @@ class ProductDB extends AbstractDB {
     }
     
     public static function getSearchResult(array $query) {
-        return parent::query("SELECT * FROM Product WHERE MATCH(product_name) AGAINST (:query IN BOOLEAN MODE)", $query);
+        return parent::query("SELECT * FROM Product WHERE MATCH(product_name, product_description) AGAINST (:query IN BOOLEAN MODE)", $query);
     }
     
     public static function getForIds(array $ids) {

@@ -6,14 +6,33 @@ require_once("controller/SessionsController.php");
 require_once("controller/UsersController.php");
 require_once("lib/sendgrid-php/sendgrid-php.php");
 require_once("forms/ProductsForm.php");
-
+require_once("forms/SearchForm.php");
 
 class ProductsController {
 
     public static function index() {
-        echo ViewHelper::render("view/product-list.php", [
-            "products" => ProductDB::getAll()
-        ]);
+        
+        $form = new SearchForm("search-form");
+        
+        if($form->validate()){
+            $query = $form->getValue();
+            $products = ProductDB::getSearchResult(["query" => $query['poizvedba']]);
+            if(sizeof($products) > 0){
+            echo ViewHelper::render("view/product-list.php", [
+                        "form" => $form,
+                        "products" => $products
+                    ]);
+            } else {
+                $_SESSION['alerts'][0] = ["type" => "info", "value" => "Ni izdelka, ki bi ustrezal iskalnemu nizu."];
+                echo ViewHelper::render("view/product-list.php", [
+                        "form" => $form,
+                        "products" => ProductDB::getAll()]);
+            }
+        } else {
+            echo ViewHelper::render("view/product-list.php", [
+                        "form" => $form,
+                        "products" => ProductDB::getAll()]);
+        }
     }
     
     public static function product_details($id) {
@@ -131,10 +150,18 @@ class ProductsController {
     }
     
     public static function search($query){
-        $products = ProductDB::getSearchResult(["query" => $query]);
-        echo ViewHelper::render("view/product-list.php", [
-            "products" => $products
-        ]);
-        
+        try{
+            $form = new SearchForm("form-search");
+            if($form->validate()){
+                $query = $form->getValue();
+                $products = ProductDB::getSearchResult(["query" => $query]);
+                echo ViewHelper::render("view/product-list.php", [
+                    "products" => $products
+                ]);
+            }
+        } catch (Exception $e) {
+            $_SESSION['alerts'][0] = ["type" => "info", "value" => "Ni izdelkov, ki bi ustrezali iskalnemu nizu."];
+            ViewHelper::redirect(BASE_URL . "products");
+        }
     }
 }

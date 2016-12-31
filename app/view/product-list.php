@@ -4,11 +4,8 @@
     <div class="row">
 
         <div class="col-md-3">
-            <p class="lead">Izdelki</p>
             <div class="list-group">
-                <a href="#" class="list-group-item">Kategorija 1</a>
-                <a href="#" class="list-group-item">Kategorija 2</a>
-                <a href="#" class="list-group-item">Kategorija 3</a>
+                <?= $form ?>
             </div>
         </div>
 
