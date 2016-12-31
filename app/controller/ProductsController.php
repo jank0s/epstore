@@ -12,7 +12,7 @@ class ProductsController {
 
     public static function index() {
         
-        $form = new SearchForm("search-form");
+        $form = new SearchForm("search-form", "get");
         
         if($form->validate()){
             $query = $form->getValue();
