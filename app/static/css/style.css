@@ -181,6 +181,9 @@ footer {
 	max-height: 155px;
 }
 
+/*
+FORMS
+*/
 
 .form-signin {
 	max-width: 330px;
@@ -226,4 +229,8 @@ footer {
 
 form .btn {
 	margin-top: 15px;
+}
+
+form .error {
+	color: #a94442;
 }
