@@ -26,7 +26,7 @@ abstract class ProductsAbstractForm extends HTML_QuickForm2 {
     public function __construct($id) {
         parent::__construct($id);
 
-        $this->setAttribute('action', "/products");
+        $this->setAttribute('action', "#");
         
         $this->setAttribute("class", "form-edit");
         
