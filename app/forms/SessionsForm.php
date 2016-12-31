@@ -19,6 +19,8 @@ abstract class SessionsAbstractForm extends HTML_QuickForm2 {
     public function __construct($id) {
         parent::__construct($id);
 
+        $this->attributes['action'] = "#";
+
         $this->setAttribute('class', 'form-signin');
 
         $this->email = new HTML_QuickForm2_Element_InputText('email');

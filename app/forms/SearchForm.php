@@ -18,6 +18,8 @@ class SearchForm extends HTML_QuickForm2 {
     public function __construct($id, $method = 'get') {
         parent::__construct($id, $method);
 
+        $this->attributes['action'] = "#";
+
         $this->setAttribute('class', 'form-signin');
 
         $this->search = new HTML_QuickForm2_Element_InputText('poizvedba');
