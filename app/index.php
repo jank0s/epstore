@@ -56,7 +56,10 @@ $urls = [
         } else {
             ViewHelper::redirect(BASE_URL . "products");
         }
-    },      
+    },
+    "/^products\/search\/([a-zA-Z0-9-_]*)$/" => function ($method, $query) {
+        ProductsController::search($query);  
+    }, 
     "/^cart$/" => function ($method) {
         CartController::showCart();
     },

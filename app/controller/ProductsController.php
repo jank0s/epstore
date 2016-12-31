@@ -20,7 +20,7 @@ class ProductsController {
         $products = ProductDB::get(["product_id" => $id]);
         echo ViewHelper::render("view/product-details.php",
                 ["product" => $products]);
-        
+ 
     }
     
     public static function product_dashboard(){
@@ -128,5 +128,13 @@ class ProductsController {
                 "form" => $form
             ]);
         }
+    }
+    
+    public static function search($query){
+        $products = ProductDB::getSearchResult(["query" => $query]);
+        echo ViewHelper::render("view/product-list.php", [
+            "products" => $products
+        ]);
+        
     }
 }
