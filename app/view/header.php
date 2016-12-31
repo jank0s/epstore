@@ -61,14 +61,16 @@
                 <?php endif ?>
                 <?php if (SessionsController::customerAuthorized()): ?>
                     <li>
-                        <a href="<?= BASE_URL . "cart" ?>">Košarica</a>
-                    </li>
-                    <li>
                         <a href="<?= BASE_URL . "history" ?>">Zgodovina nakupov</a>
                     </li>
                 <?php endif ?>    
             </ul>
             <ul class="nav navbar-nav navbar-right">
+                <?php if (SessionsController::customerAuthorized()): ?>
+                    <li>
+                        <a href="<?= BASE_URL . "cart" ?>"><i class="fa fa-shopping-basket" aria-hidden="true"></i> Košarica - <?= number_format(Cart::total(), 2) ?> €</a>
+                    </li>
+                <?php endif ?>
                 <?php if (SessionsController::loggedIn()): ?>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
