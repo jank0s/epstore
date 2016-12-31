@@ -33,7 +33,7 @@ class OrderController {
                 try{
                     $order_id =  OrderDB::insert($order);            
                 } catch (Exception $ex) {
-
+                    echo "napaka pri vstavljanju";
                 }
                 #podatki za order_product > order_id, product_id, item_price, item_quantity
                 foreach ($params as $product){
@@ -48,7 +48,7 @@ class OrderController {
                 $_SESSION['alerts'][0] = ["type" => "success", "value" => "Naročilo uspešno oddano v obdelavo!"];
                 echo ViewHelper::redirect(BASE_URL . "products");             
             } catch(Exception $ex){
-                $_SESSION['alerts'][0] = ["type" => "warning", "value" => "Naročilo ni bilo usšeno oddano!"];
+                $_SESSION['alerts'][0] = ["type" => "warning", "value" => "Naročilo ni bilo uspešno oddano!"];
                 echo ViewHelper::redirect(BASE_URL . "products");            
             }
         } else {
