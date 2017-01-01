@@ -100,12 +100,18 @@ class UsersController {
 
     public static function activate($user_id, $token) {
         $user = UserDB::get(["user_id" => $user_id]);
-        if($user['user_activation_token'] == $token){
-            UserDB::setActive($user_id);
-            $_SESSION['alerts'][0] = ["type" => "success", "value" => "Uporabniški račun uspešno aktiviran. Sedaj se lahko prijavite."];
-            ViewHelper::redirect(BASE_URL . "login");
-        }
 
+        if( !isset($user) ){
+            $_SESSION['alerts'][] = ["type" => "danger", 'value' => "Uporabnik ne obstaja!"];
+        }else if( !($user['user_activation_token'] == $token) ){
+            $_SESSION['alerts'][] = ["type" => "danger", 'value' => "Neveljaven žeton!"];
+        }else if( !true ){
+            $_SESSION['alerts'][] = ["type" => "danger", 'value' => "Žeton je potekel!"];
+        }else{
+            UserDB::setActive($user_id);
+            $_SESSION['alerts'][] = ["type" => "success", "value" => "Uporabniški račun uspešno aktiviran. Sedaj se lahko prijavite."];
+        }
+        ViewHelper::redirect(BASE_URL . "login");
     }
     
     public static function reactivate($user_id) {
