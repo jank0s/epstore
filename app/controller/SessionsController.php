@@ -39,31 +39,33 @@ class SessionsController {
         if ($form->validate()) {
             $login_values = $form->getValue();
             $user = UserDB::getUserByEmail($login_values);
-            if (isset($user) &&
-                ( $x509email != null && $user['email'] == $x509email || $user['role_id'] == 3 ) &&
-                $user['user_active'] == 1 &&
-                password_verify($login_values['password'], $user['password_digest'])){
-
+            if(!isset($user)){
+                $_SESSION['alerts'][] = ["type" => "danger", 'value' => "Uporabnik ne obstaja!"];
+            }else if( !( $x509email != null && $user['email'] == $x509email || $user['role_id'] == 3 ) ){
+                $_SESSION['alerts'][] = ["type" => "danger", 'value' => "Prijava brez digitalnega potrdila ni dovoljena!"];
+            }else if( !($user['user_active'] == 1) ){
+                $_SESSION['alerts'][] = ["type" => "danger", 'value' => "Uporabnik ni aktiviran"];
+            }else if( !(password_verify($login_values['password'], $user['password_digest'])) ){
+                $_SESSION['alerts'][] = ["type" => "danger", 'value' => "Geslo je napačno!"];
+            }else{
                 $_SESSION['user']['user_id'] = $user['user_id'];
                 $_SESSION['user']['role_id'] = $user['role_id'];
                 $_SESSION['user']['name'] = $user['name'];
                 $_SESSION['user']['surname'] = $user['surname'];
                 $_SESSION['user']['email'] = $user['email'];
-               #creating cart
+                #creating cart
                 $_SESSION['cart'] = array();
 
-                $_SESSION['alerts'][] = ["type" => "success", 'value' => "Prijava uspešna!"];
+                $_SESSION['alerts'][] = ["type" => "success", 'value' => "Prijava uspešna. Dobrodošli!"];
                 echo ViewHelper::redirect(BASE_URL);
-            }else{
-                $form->email->setError('Prijava ni uspela!');
-                if($x509email != null){
-                    $form->email->setAttribute('disabled');
-                }
-                $_SESSION['alerts'][] = ["type" => "danger", 'value' => "Prijava ni uspela!"];
-                echo ViewHelper::render("view/login.php", [
-                    "form" => $form
-                ]);
+                exit();
             }
+            if($x509email != null){
+                $form->email->setAttribute('disabled');
+            }
+            echo ViewHelper::render("view/login.php", [
+                "form" => $form
+            ]);
         } else {
             if($x509email != null){
                 $form->email->setAttribute('disabled');
