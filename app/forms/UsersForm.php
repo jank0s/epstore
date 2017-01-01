@@ -34,7 +34,7 @@ abstract class UsersAbstractForm extends HTML_QuickForm2 {
     public function __construct($id) {
         parent::__construct($id);
 
-        $this->setAttribute('action', "/products");
+        $this->setAttribute('action', "#");
 
         $this->setAttribute('class', 'form-register');
 
@@ -147,6 +147,8 @@ class RegisterUserForm extends UsersAbstractForm {
     public function __construct($id)
     {
         parent::__construct($id);
+
+        $this->setAttribute('action', "/register");
 
         $this->password->addRule('required', 'Vnesite geslo.');
         $this->password->addRule('minlength', 'Geslo naj vsebuje vsaj 6 znakov.', 6);
