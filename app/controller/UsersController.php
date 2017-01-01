@@ -102,6 +102,7 @@ class UsersController {
         $user = UserDB::get(["user_id" => $user_id]);
         if($user['user_activation_token'] == $token){
             UserDB::setActive($user_id);
+            $_SESSION['alerts'][0] = ["type" => "success", "value" => "Uporabniški račun uspešno aktiviran. Sedaj se lahko prijavite."];
             ViewHelper::redirect(BASE_URL . "login");
         }
 
