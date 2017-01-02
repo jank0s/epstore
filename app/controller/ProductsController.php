@@ -46,13 +46,11 @@ class ProductsController {
             $data["product_id"] = $id;
             $data["user_id"] = $_SESSION["user"]["user_id"]; 
             if (!RatingDB::get($data)){
-                #insert se izvede, vendar vrne SQLSTATE[HY000]: General error
                 try{ 
                     RatingDB::insert($data);
                 } catch (Exception $ex) {
                     echo ("napaka pri vnosu!". $ex->getMessage());
                 }
-                #insert se izvede, vendar vrne SQLSTATE[HY000]: General error
                 try{ 
                    RatingDB::update(["product_id" => $data["product_id"], "product_id2" => $data["product_id"]]);
                 } catch (Exception $ex) {

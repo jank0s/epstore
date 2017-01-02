@@ -19,12 +19,12 @@ class RatingDB extends AbstractDB {
     }
 
     public static function insert(array $params) {
-        return parent::query("INSERT INTO Rating(product_id, user_id, rating_value)"
+        return parent::modify("INSERT INTO Rating(product_id, user_id, rating_value)"
                 . " VALUE (:product_id, :user_id, :rating_value)", $params);
     }
 
     public static function update(array $params) {
-        return parent::query("UPDATE Product SET product_rating = (SELECT AVG(rating_value) from Rating WHERE product_id = :product_id) WHERE product_id = :product_id2", $params);
+        return parent::modify("UPDATE Product SET product_rating = (SELECT AVG(rating_value) from Rating WHERE product_id = :product_id) WHERE product_id = :product_id2", $params);
     }
     
 
