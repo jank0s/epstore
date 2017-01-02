@@ -58,11 +58,12 @@
                             <div class="ratings">
                                 <p class="pull-right">15 ocen</p>
                                 <p>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
+                                    <?php for($i = 0; $i < intval($product['product_rating']); $i++): ?>
+                                        <span class="glyphicon glyphicon-star"></span>
+                                    <?php endfor; ?>
+                                    <?php for($i = 0 ; $i < 5 -intval($product['product_rating']); $i++): ?>
+                                        <span class="glyphicon glyphicon-star-empty"></span>
+                                    <?php endfor; ?>
                                 </p>
                             </div>
                         </div>
