@@ -191,12 +191,13 @@ class ProductsController {
         if ($form->validate()) {
             $params = $form->getValue();
             $params['product_id'] = $product_id;
-            $params['image_name'] = $params['image_path']['name'];
             try {
                 $target_dir = "./static/images/";
-                $target_file = $target_dir . basename($params["image_path"]["name"]);
-                #var_dump($params);
-                move_uploaded_file($params["image_path"]["tmp_name"], $target_file);
+                $temp = explode(".", $params['image_path']['name']);
+                
+                $target_file = round(microtime(true)) . "." . end($temp);            
+                $params['image_name'] = $target_file;  
+                move_uploaded_file($params["image_path"]["tmp_name"], $target_dir . $target_file);
                 ImageDB::insert($params);
                 $_SESSION['alerts'][0] = ["type" => "success", "value" => "Slika uspešno dodana."];
                 ViewHelper::redirect(BASE_URL . "products/dashboard");

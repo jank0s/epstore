@@ -12,8 +12,8 @@
         <div class="col-md-9">
 
             <div class="row carousel-holder">
-
-                <div class="col-md-12">
+                <!--Odkomentiraj za slide div -->
+                <!--div class="col-md-12">
                     <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
                       
                         <ol class="carousel-indicators">
@@ -39,7 +39,7 @@
                             <span class="glyphicon glyphicon-chevron-right"></span>
                         </a>
                     </div>
-                </div>
+                </div-->
 
             </div>
 
@@ -51,9 +51,9 @@
                             $image = ImageDB::get(["product_id" => $product["product_id"]]);
                                 if(count($image) > 0):
                                 ?>
-                            <img style="margin-left:auto; margin-right:auto; width:auto" src="<?= IMAGES_URL . $image[0]['image_name'] ?>" alt="">
+                            <img style="height:150px; width:auto" src="<?= IMAGES_URL . $image[0]['image_name'] ?>" alt="">
                             <?php else: ?>
-                                  <img src="<?= IMAGES_URL . '320x150.png' ?>" alt="">
+                                  <img style="height:150px; width:auto"wor src="<?= IMAGES_URL . '320x150.png' ?>" alt="">
                             <?php endif; ?>
                             <div class="caption">
                                 <h4>
