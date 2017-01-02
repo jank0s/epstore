@@ -16,24 +16,34 @@ class ProductsController {
         
         $form = new SearchForm("search-form", $method='get');
         
+        $products = ProductDB::getAll();
+        $ratings = ProductDB::getRatingCount();
+        
+        foreach ($products as $product){
+            $products[$product['product_id'] -1]['rating_count'] = $ratings[$product['product_id']-1]['rating_count'];
+        }
+        
         if($form->validate()){
             $query = $form->getValue();
             $products = ProductDB::getSearchResult(["query" => $query['poizvedba']]);
+            
+            foreach ($products as $product){
+                $products[$product['product_id'] -1]['rating_count'] = $ratings[$product['product_id']-1]['rating_count'];
+            }
             if(sizeof($products) > 0){
-            echo ViewHelper::render("view/product-list.php", [
+                echo ViewHelper::render("view/product-list.php", [
                         "form" => $form,
-                        "products" => $products
-                    ]);
+                    "products" => $products]);
             } else {
                 $_SESSION['alerts'][0] = ["type" => "info", "value" => "Ni izdelka, ki bi ustrezal iskalnemu nizu."];
                 echo ViewHelper::render("view/product-list.php", [
                         "form" => $form,
-                        "products" => ProductDB::getAll()]);
+                    "products" => $products]);
             }
         } else {
             echo ViewHelper::render("view/product-list.php", [
                         "form" => $form,
-                        "products" => ProductDB::getAll()]);
+                    "products" => $products]);
         }
     }
     
@@ -42,6 +52,7 @@ class ProductsController {
         $form = new RateProductForm("rate-form", $method="post");
         
         if($form->validate()){
+            SessionsController::authorizeCustomer();
             $data = $form->getValue();
             $data["product_id"] = $id;
             $data["user_id"] = $_SESSION["user"]["user_id"]; 

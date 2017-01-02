@@ -67,8 +67,8 @@ class ProductDB extends AbstractDB {
                         . " ORDER BY product_id ASC");
     }
     
-     public static function getProductRating(array $params) {
-        return parent::query("SELECT COUNT(*) AS rating_count FROM Rating WHERE product_id = :product_id GROUP BY product_id", $params);
+     public static function getRatingCount() {
+        return parent::query("SELECT product_id, COUNT(*) AS rating_count FROM Rating GROUP BY product_id");
     }
     
 
