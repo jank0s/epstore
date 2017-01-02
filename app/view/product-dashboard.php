@@ -18,6 +18,7 @@
                 <th>Ocena</th>
                 <th>Aktiviran</th>
                 <th>Spremeni status</th>
+                <th>Dodajanje slik</th>
                 <th>Urejanje</th>
             </tr>
             </thead>
@@ -43,8 +44,12 @@
                             </button></form>
                         <?php endif; ?>
                         </td> 
-                           
-                             <td class="text-right table-links"> 
+                          <td class= "table-links"> 
+                            <a href="<?= BASE_URL . "products/" . $product['product_id'] . "/add-photo" ?>" class="label label-info">
+                                <i class="fa fa-camera" title="Dodaj sliko" aria-hidden="true"></i>
+                            </a>
+                        </td>
+                             <td class="table-links"> 
                             <a href="<?= BASE_URL . "products/" . $product['product_id'] . "/edit" ?>" class="label label-info">
                                 <i class="fa fa-pencil" title="Uredi" aria-hidden="true"></i>
                             </a>

@@ -9,7 +9,7 @@ require_once("forms/ProductsForm.php");
 require_once("forms/SearchForm.php");
 require_once("forms/RateProductForm.php");
 require_once("model/RatingDB.php");
-
+require_once("forms/ImageForm.php");
 class ProductsController {
 
     public static function index() {
@@ -17,19 +17,11 @@ class ProductsController {
         $form = new SearchForm("search-form", $method='get');
         
         $products = ProductDB::getAll();
-        $ratings = ProductDB::getRatingCount();
-        
-        foreach ($products as $product){
-            $products[$product['product_id'] -1]['rating_count'] = $ratings[$product['product_id']-1]['rating_count'];
-        }
         
         if($form->validate()){
             $query = $form->getValue();
             $products = ProductDB::getSearchResult(["query" => $query['poizvedba']]);
             
-            foreach ($products as $product){
-                $products[$product['product_id'] -1]['rating_count'] = $ratings[$product['product_id']-1]['rating_count'];
-            }
             if(sizeof($products) > 0){
                 echo ViewHelper::render("view/product-list.php", [
                         "form" => $form,
@@ -189,6 +181,18 @@ class ProductsController {
                 "form" => $form
             ]);
         }
+    }
+    
+    public static function photoForm($product_id) {
+        SessionsController::authorizeMerchant();
+
+        $images = ProductDB::getImages(array('product_id' => $product_id));
+        $form = new ImageForm("form-edit");
+        echo ViewHelper::render("view/image-add.php", [
+                "form" => $form,
+                "images" => $images
+            ]);
+        
     }
     
     public static function search($query){

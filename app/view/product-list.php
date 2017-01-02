@@ -58,7 +58,7 @@
                             <div class="ratings">
                                 <p class="pull-right">
                         <?=
-                                $ratingCount = $product['rating_count'];
+                                $ratingCount = ProductDB::getProductRating($product);
                                 switch($ratingCount){
                                     case(1):
                                         echo " ocena";
@@ -67,10 +67,10 @@
                                         echo " oceni";
                                         break;
                                     default:
-                                       echo " ocen";
-                                       break;
-                                }
-                        ?> 
+                                        echo " ocen";
+                                        break;
+                                    }      
+                        ?>
                                 </p>
                                 <p>
                                     <?php for($i = 0; $i < intval($product['product_rating']); $i++): ?>

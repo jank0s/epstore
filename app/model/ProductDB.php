@@ -67,11 +67,20 @@ class ProductDB extends AbstractDB {
                         . " ORDER BY product_id ASC");
     }
     
-     public static function getRatingCount() {
-        return parent::query("SELECT product_id, COUNT(*) AS rating_count FROM Rating GROUP BY product_id");
+    public static function getProductRating(array $params) {
+        $products = parent::query("SELECT COUNT(*) AS rating_count FROM Rating WHERE product_id = :product_id GROUP BY product_id", $params);
+        if (count($products) == 0) {
+            return 0;
+        } else {
+            return $products[0]['rating_count'];
+        }
+        
     }
     
-
+    public static function getImages(array $product_id) {
+        return parent::query("SELECT image_id FROM Image WHERE product_id = :product_id", $product_id);
+    }
+    
     public static function getAllwithURI(array $prefix) {
         return parent::query("SELECT product_id as id, product_name as name, product_description as description, product_price as price, product_rating as rating, "
             . "          CONCAT(:prefix, product_id) as uri "
