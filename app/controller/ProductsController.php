@@ -7,6 +7,8 @@ require_once("controller/UsersController.php");
 require_once("lib/sendgrid-php/sendgrid-php.php");
 require_once("forms/ProductsForm.php");
 require_once("forms/SearchForm.php");
+require_once("forms/RateProductForm.php");
+require_once("model/RatingDB.php");
 
 class ProductsController {
 
@@ -37,10 +39,41 @@ class ProductsController {
     
     public static function product_details($id) {
         $products = ProductDB::get(["product_id" => $id]);
-        echo ViewHelper::render("view/product-details.php",
-                ["product" => $products]);
- 
+        $form = new RateProductForm("rate-form", $method="post");
+        
+        if($form->validate()){
+            $data = $form->getValue();
+            $data["product_id"] = $id;
+            $data["user_id"] = $_SESSION["user"]["user_id"]; 
+            if (!RatingDB::get($data)){
+                #insert se izvede, vendar vrne SQLSTATE[HY000]: General error
+                try{ 
+                    RatingDB::insert($data);
+                } catch (Exception $ex) {
+                    echo ("napaka pri vnosu!". $ex->getMessage());
+                }
+                #insert se izvede, vendar vrne SQLSTATE[HY000]: General error
+                try{ 
+                   RatingDB::update(["product_id" => $data["product_id"], "product_id2" => $data["product_id"]]);
+                } catch (Exception $ex) {
+                    echo ("napaka pri vnosu!". $ex->getMessage());
+                } 
+                
+                $_SESSION['alerts'][0] = ["type" => "info", "value" => "Uspešno ste ocenili izdelek."];
+                $products = ProductDB::get(["product_id" => $id]);
+                echo ViewHelper::render("view/product-details.php",
+                ["product" => $products, "form" => $form]);
+            } else {
+                $_SESSION['alerts'][0] = ["type" => "info", "value" => "Ta izdelek ste že ocenili!"];
+                echo ViewHelper::render("view/product-details.php",
+                ["product" => $products, "form" => $form]);
+            }
+        } else {
+            echo ViewHelper::render("view/product-details.php",
+                ["product" => $products, "form" => $form]);
+        }
     }
+    
     
     public static function product_dashboard(){
         SessionsController::authorizeMerchant();

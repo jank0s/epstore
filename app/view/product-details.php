@@ -30,21 +30,30 @@
 				<div class="col-md-12">
 					<div class="product-title"><?=($product['product_name']) ?></div>
 					<div class="product-desc"><?=($product['product_description']) ?></div>
-					<div class="product-rating"><i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star-o"></i> </div>
-					<hr>
-					<div class="product-price"><?= ($product['product_price']) ?> €</div>
+					<div class="product-rating">
+                                        <?php for($i = 0; $i < intval($product['product_rating']); $i++): ?>
+                                            <i class="fa fa-star gold"></i>                                        
+                                        <?php
+                                        endfor;
+                                        for($i = 0 ; $i < 5 -intval($product['product_rating']); $i++): ?>
+                                            <i class="fa fa-star-o"></i>
+                                        <?php endfor; ?> <?= $product['product_rating'] ?> / 5</div>
+                                        <hr>
+                                        <div class="product-price"><?= ($product['product_price']) ?> €</div>
 					<div class="product-stock">Na zalogi</div>
 					<hr>
 				            <?php if(SessionsController::customerAuthorized()): ?>
                                 	<div class="btn-group cart">
                                 
                                         <form action="add-to-cart" method="post" />
-                                                    <input name="product_id" value ="<?= $product['product_id'] ?>" type="hidden"/>
-                                                    <button type="submit" class="btn btn-success"/>
-                                                            Dodaj v košarico 
-                                                    </button>
-                                                </form>
-                                             </div>
+                                            <input name="product_id" value ="<?= $product['product_id'] ?>" type="hidden"/>
+                                            <button type="submit" class="btn btn-success"/>
+                                            Dodaj v košarico 
+                                            </button>
+                                        </form>
+                                            <?= $form ?>
+                                             
+                                        </div>                                     
                                            <?php endif; ?>
                                         </div>
 				</div>
