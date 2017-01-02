@@ -56,7 +56,22 @@
                                 <p><?= $product['product_description'] ?></p>
                             </div>
                             <div class="ratings">
-                                <p class="pull-right">15 ocen</p>
+                                <p class="pull-right">
+                        <?=
+                                $ratingCount = ProductDB::getProductRating($product)[0]['rating_count'];
+                                switch($ratingCount){
+                                    case(1):
+                                        echo " ocena";
+                                        break;
+                                    case(2):
+                                        echo " oceni";
+                                        break;
+                                    default:
+                                       echo " ocen";
+                                       break;
+                                }
+                        ?>
+                                </p>
                                 <p>
                                     <?php for($i = 0; $i < intval($product['product_rating']); $i++): ?>
                                         <span class="glyphicon glyphicon-star"></span>
