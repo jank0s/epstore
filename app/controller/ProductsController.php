@@ -10,6 +10,8 @@ require_once("forms/SearchForm.php");
 require_once("forms/RateProductForm.php");
 require_once("model/RatingDB.php");
 require_once("forms/ImageForm.php");
+require_once("model/ImageDB.php");
+
 class ProductsController {
 
     public static function index() {
@@ -42,7 +44,7 @@ class ProductsController {
     public static function product_details($id) {
         $products = ProductDB::get(["product_id" => $id]);
         $form = new RateProductForm("rate-form", $method="post");
-        
+        $images = ImageDB::get(array('product_id' => $id));
         if($form->validate()){
             SessionsController::authorizeCustomer();
             $data = $form->getValue();
@@ -63,15 +65,15 @@ class ProductsController {
                 $_SESSION['alerts'][0] = ["type" => "info", "value" => "Uspešno ste ocenili izdelek."];
                 $products = ProductDB::get(["product_id" => $id]);
                 echo ViewHelper::render("view/product-details.php",
-                ["product" => $products, "form" => $form]);
+                ["product" => $products, "form" => $form, "images" => $images]);
             } else {
                 $_SESSION['alerts'][0] = ["type" => "info", "value" => "Ta izdelek ste že ocenili!"];
                 echo ViewHelper::render("view/product-details.php",
-                ["product" => $products, "form" => $form]);
+                ["product" => $products, "form" => $form, "images" => $images]);
             }
         } else {
             echo ViewHelper::render("view/product-details.php",
-                ["product" => $products, "form" => $form]);
+                ["product" => $products, "form" => $form, "images" => $images]);
         }
     }
     
@@ -182,17 +184,43 @@ class ProductsController {
             ]);
         }
     }
+     public static function addImage($product_id) {
+        SessionsController::authorizeMerchant();
+        $images = ImageDB::get(array('product_id' => $product_id));
+        $form = new ImageForm("image-form");
+        if ($form->validate()) {
+            $params = $form->getValue();
+            $params['product_id'] = $product_id;
+            $params['image_name'] = $params['image_path']['name'];
+            try {
+                $target_dir = "./static/images/";
+                $target_file = $target_dir . basename($params["image_path"]["name"]);
+                #var_dump($params);
+                move_uploaded_file($params["image_path"]["tmp_name"], $target_file);
+                ImageDB::insert($params);
+                $_SESSION['alerts'][0] = ["type" => "success", "value" => "Slika uspešno dodana."];
+                ViewHelper::redirect(BASE_URL . "products/dashboard");
+            } catch (PDOException $e) {
+                    echo('Napaka'. $e->getMessage());
+            }
+        }else{
+            echo ViewHelper::render("view/image-add.php", [
+                "form" => $form,
+                "images" => $images
+
+            ]);
+        }
+    }
     
-    public static function photoForm($product_id) {
+    public static function imageForm($product_id) {
         SessionsController::authorizeMerchant();
 
-        $images = ProductDB::getImages(array('product_id' => $product_id));
-        $form = new ImageForm("form-edit");
+        $images = ImageDB::get(array('product_id' => $product_id));
+        $form = new ImageForm("image-form");
         echo ViewHelper::render("view/image-add.php", [
                 "form" => $form,
                 "images" => $images
             ]);
-        
     }
     
     public static function search($query){

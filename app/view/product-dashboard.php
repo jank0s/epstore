@@ -45,7 +45,7 @@
                         <?php endif; ?>
                         </td> 
                           <td class= "table-links"> 
-                            <a href="<?= BASE_URL . "products/" . $product['product_id'] . "/add-photo" ?>" class="label label-info">
+                            <a href="<?= BASE_URL . "products/" . $product['product_id'] . "/add-image" ?>" class="label label-info">
                                 <i class="fa fa-camera" title="Dodaj sliko" aria-hidden="true"></i>
                             </a>
                         </td>

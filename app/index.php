@@ -57,11 +57,11 @@ $urls = [
             ViewHelper::redirect(BASE_URL . "products");
         }
     },      
-    "/^products\/(\d+)\/add-photo$/" => function ($method, $id) {
+    "/^products\/(\d+)\/add-image$/" => function ($method, $id) {
         if ($method == 'POST'){
-            ProductsController::addPhoto($id);
+            ProductsController::addImage($id);
         }else{
-            ProductsController::photoForm($id);
+            ProductsController::imageForm($id);
         }
     },
     "/^products\/search\/([a-zA-Z0-9-_]*)$/" => function ($method, $query) {

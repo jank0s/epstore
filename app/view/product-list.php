@@ -15,6 +15,7 @@
 
                 <div class="col-md-12">
                     <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                      
                         <ol class="carousel-indicators">
                             <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
                             <li data-target="#carousel-example-generic" data-slide-to="1"></li>
@@ -46,7 +47,14 @@
                 <?php foreach ($products as $product): ?>
                     <div class="col-sm-4 col-lg-4 col-md-4">
                         <div class="thumbnail">
-                            <img src="<?= IMAGES_URL . "320x150.png" ?>" alt="">
+                            <?php
+                            $image = ImageDB::get(["product_id" => $product["product_id"]]);
+                                if(count($image) > 0):
+                                ?>
+                            <img style="margin-left:auto; margin-right:auto; width:auto" src="<?= IMAGES_URL . $image[0]['image_name'] ?>" alt="">
+                            <?php else: ?>
+                                  <img src="<?= IMAGES_URL . '320x150.png' ?>" alt="">
+                            <?php endif; ?>
                             <div class="caption">
                                 <h4>
                                     <a href="<?= BASE_URL . 'products/' . $product['product_id'] ?>"><?= $product['product_name'] ?></a>

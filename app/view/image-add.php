@@ -1,10 +1,12 @@
-<div class="container form-register">
+<div class="container">
     <h2 class="form-signin-heading">Urejanje slik</h2>
-    
-					
-					<div>
-					
- <img src="cinqueterre.jpg" class="img-rounded" alt="Cinque Terre" width="304" height="236">
-					</div>
+        <div class="col-md-2">
+	<?php foreach($images as $img): ?>
+            <div class="thumbnail">
+                <a href="#" class="pull-right">izbriši sliko</a>
+                <img style="width:200px;" src="<?= IMAGES_URL . $img["image_name"] ?>" alt="ni slike">
+        </div>
+        <?php endforeach; ?>
+        </div>
     <div><?= $form ?></div>
 </div>

@@ -2,30 +2,38 @@
     <div class="content-wrapper">	
 		<div class="item-container">	
 			<div class="container">	
-				<div class="col-md-12">
-                                    <!-- odkomentiraj za prikaz slik  -->
-                                    <!--div class="product col-md-3 service-image-left">
-                    
-						<center>
-							<img id="item-display" src="http://www.corsair.com/Media/catalog/product/g/s/gs600_psu_sideview_blue_2.png" alt=""></img>
-						</center>
-					</div>
-					
-					<div class="container service1-items col-sm-2 col-md-2 pull-left">
-					
-                                            <center>
-							<a id="item-1" class="service1-item">
-								<img src="http://www.corsair.com/Media/catalog/product/g/s/gs600_psu_sideview_blue_2.png" alt=""></img>
-							</a>
-							<a id="item-2" class="service1-item">
-								<img src="http://www.corsair.com/Media/catalog/product/g/s/gs600_psu_sideview_blue_2.png" alt=""></img>
-							</a>
-							<a id="item-3" class="service1-item">
-								<img src="http://www.corsair.com/Media/catalog/product/g/s/gs600_psu_sideview_blue_2.png" alt=""></img>
-							</a>
-						</center>
-					</div-->
-				</div>
+                        <?php if(!empty($images)): ?>
+                            <div class="col-md-12">
+                    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                       
+                         <div class="carousel-inner" style="height:300px">
+                            <?php $prvi = True; 
+                            foreach($images as $img):
+                                if($prvi): ?>
+                            <div class="item active">
+                                <img style=" min-height:100%; display: block; margin-left: auto; margin-right: auto;" src="<?= IMAGES_URL . $img["image_name"] ?>" alt="">
+                            </div>
+                             <?php 
+                             $prvi = False;
+                             continue;
+                             else:
+                             ?>
+                            <div class="item">
+                                <img style=" min-height:100%; display: block; margin-left: auto; margin-right: auto;" src="<?= IMAGES_URL . $img["image_name"] ?>" alt="">
+                            </div>
+                            <?php endif; 
+                            endforeach; ?>
+                        </div>
+                        <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left"></span>
+                        </a>
+                        <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                        </a>
+                    </div>
+                </div>
+                            <?php endif; ?>
+            </div>
 					
 				<div class="col-md-12">
 					<div class="product-title"><?=($product['product_name']) ?></div>
@@ -59,8 +67,4 @@
 				</div>
 			</div> 
 		</div>
-		
-	</div>
-</div>
-
-</div>
+	
