@@ -116,7 +116,9 @@ class UsersController {
     
     public static function reactivate($user_id) {
         SessionsController::authorizeAdminOrMerchant();
-        $user_id = isset($_POST["user_id"]) ? intval($_POST["user_id"]) : null;    
+        $user_id = isset($_POST["user_id"]) ? intval($_POST["user_id"]) : null;
+        $user_id = htmlspecialchars($user_id);
+        $user_id = trim($user_id);
         if ($user_id !== null) {
             try{
                 UserDB::setActive($user_id);
@@ -131,7 +133,9 @@ class UsersController {
     }
     public static function deactivate() {
         SessionsController::authorizeAdminOrMerchant();
-        $user_id = isset($_POST["user_id"]) ? intval($_POST["user_id"]) : null;    
+        $user_id = isset($_POST["user_id"]) ? intval($_POST["user_id"]) : null;
+        $user_id = htmlspecialchars($user_id);
+        $user_id = trim($user_id);
         if ($user_id !== null) {
             try{
                 UserDB::setInactive($user_id);            

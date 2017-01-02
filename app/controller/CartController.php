@@ -26,7 +26,9 @@ class CartController {
    
     public static function remove(){
         SessionsController::authorizeCustomer();
-        $id = isset($_POST["id"]) ? intval($_POST["id"]) : null;    
+        $id = isset($_POST["id"]) ? intval($_POST["id"]) : null;
+        $id = htmlspecialchars($id);
+        $id = trim($id);
         if ($id !== null) {
             try{
                 Cart::remove($id);
@@ -40,8 +42,10 @@ class CartController {
     public static function updateCart() {
         SessionsController::authorizeCustomer();
         $id = (isset($_POST["id"])) ? intval($_POST["id"]) : null;
+        $id = htmlspecialchars($id);
+        $id = trim($id);
         $quantity = (isset($_POST["quantity"])) ? intval($_POST["quantity"]) : null;
-        if(filter_var($quantity, FILTER_VALIDATE_INT) == false) {
+        if(filter_var($id, FILTER_VALIDATE_INT) == false||filter_var($quantity, FILTER_VALIDATE_INT) == false) {
             $_SESSION['alerts'][0] = ["type" => "warning", "value" => "Količina ni celo število!"];
             ViewHelper::redirect(BASE_URL . "cart");
         }
@@ -56,6 +60,8 @@ class CartController {
     public static function addToCart() {
         SessionsController::authorizeCustomer();
         $id = isset($_POST["product_id"]) ? intval($_POST["product_id"]) : null;
+        $id = htmlspecialchars($id);
+        $id = trim($id);
         if ($id !== null) {
             Cart::add($id);
             $_SESSION['alerts'][0] = ["type" => "success", "value" => "Izdelek dodan v košarico!"];

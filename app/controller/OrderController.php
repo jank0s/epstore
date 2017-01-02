@@ -97,7 +97,9 @@ class OrderController {
     
     public static function activate(){
         SessionsController::authorizeMerchant();
-        $id = isset($_POST["order_id"]) ? intval($_POST["order_id"]) : null;    
+        $id = isset($_POST["order_id"]) ? intval($_POST["order_id"]) : null;
+        $id = htmlspecialchars($id);
+        $id = trim($id);
         if ($id !== null) {
             try{
             $order_updated_at = date("Y-m-d H:i:s");
@@ -111,7 +113,9 @@ class OrderController {
    }
    public static function deactivate(){
         SessionsController::authorizeMerchant();
-        $id = isset($_POST["order_id"]) ? intval($_POST["order_id"]) : null;    
+        $id = isset($_POST["order_id"]) ? intval($_POST["order_id"]) : null;
+        $id = htmlspecialchars($id);
+        $id = trim($id);
         if ($id !== null) {
             try{
             $order_updated_at = date("Y-m-d H:i:s");

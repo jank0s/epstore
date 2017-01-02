@@ -18,6 +18,15 @@ class ImageDB extends AbstractDB {
         
     }
 
+    public static function getByImageID(array $product_id) {
+        $image= parent::query("SELECT * FROM Image WHERE product_id = :product_id", $product_id);
+        if (count($image) == 1) {
+            return $image[0];
+        } else {
+            throw new InvalidArgumentException("No such product");
+        }
+    }
+    
      public static function insert(array $params) {
         return parent::modify("INSERT INTO Image(product_id, image_name) VALUE (:product_id, :image_name)", ["product_id" => $params['product_id'] ,"image_name" => $params['image_name']]);
     }

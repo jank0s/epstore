@@ -64,6 +64,11 @@ $urls = [
             ProductsController::imageForm($id);
         }
     },
+    "/^products\/(\d+)\/delete-image$/" => function ($method, $id) {
+        if ($method == 'POST'){
+            ProductsController::deleteImage();
+        }
+    },
     "/^products\/search\/([a-zA-Z0-9-_]*)$/" => function ($method, $query) {
         ProductsController::search($query);  
     }, 

@@ -113,7 +113,9 @@ class ProductsController {
     
     public static function deactivate(){
         SessionsController::authorizeMerchant();
-        $id = isset($_POST["product_id"]) ? intval($_POST["product_id"]) : null;    
+        $id = isset($_POST["product_id"]) ? intval($_POST["product_id"]) : null;  
+        $id = htmlspecialchars($id);
+        $id = trim($id);
         if ($id !== null) {
             try{
                 ProductDB::setInactive($id);
@@ -129,7 +131,9 @@ class ProductsController {
        
     public static function activate($id){
         SessionsController::authorizeMerchant();
-        $id = isset($_POST["product_id"]) ? intval($_POST["product_id"]) : null;    
+        $id = isset($_POST["product_id"]) ? intval($_POST["product_id"]) : null;
+        $id = htmlspecialchars($id);
+        $id = trim($id);
         if ($id !== null) {
             try{
                 ProductDB::setActive($id);
@@ -222,6 +226,20 @@ class ProductsController {
                 "form" => $form,
                 "images" => $images
             ]);
+    }
+    
+    public static function deleteImage(){
+        SessionsController::authorizeMerchant();
+        $id = isset($_POST["image_id"]) ? intval($_POST["image_id"]) : null;
+        $id = htmlspecialchars($id);
+        $id = trim($id);
+        try{
+            ImageDB::delete(["image_id" => $id]);
+             $_SESSION['alerts'][0] = ["type" => "info", "value" => "Slika je bila izbrisana."];
+            ViewHelper::redirect(BASE_URL . "products/dashboard");
+        } catch (Exception $ex) {
+            var_dump($ex->getMessage());
+        }
     }
     
     public static function search($query){
