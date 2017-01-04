@@ -51,9 +51,9 @@
                             $image = ImageDB::get(["product_id" => $product["product_id"]]);
                                 if(count($image) > 0):
                                 ?>
-                            <img style="height:150px; width:auto" src="<?= IMAGES_URL . $image[0]['image_name'] ?>" alt="">
+                            <img class="product-list" src="<?= IMAGES_URL . $image[0]['image_name'] ?>" alt="">
                             <?php else: ?>
-                                  <img style="height:150px; width:auto"wor src="<?= IMAGES_URL . '320x150.png' ?>" alt="">
+                                  <img class="product-list" src="<?= IMAGES_URL . '320x150.png' ?>" alt="">
                             <?php endif; ?>
                             <div class="caption">
                                 <h4>

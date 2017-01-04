@@ -11,7 +11,7 @@
                             foreach($images as $img):
                                 if($prvi): ?>
                             <div class="item active">
-                                <img style=" height:300px; width:auto; display: block; margin-left: auto; margin-right: auto;" src="<?= IMAGES_URL . $img["image_name"] ?>" alt="">
+                                <img class="slider" src="<?= IMAGES_URL . $img["image_name"] ?>" alt="">
                             </div>
                              <?php 
                              $prvi = False;
@@ -19,7 +19,7 @@
                              else:
                              ?>
                             <div class="item">
-                                <img style=" height:300px; width:auto; display: block; margin-left: auto; margin-right: auto;" src="<?= IMAGES_URL . $img["image_name"] ?>" alt="">
+                                <img class="slider" src="<?= IMAGES_URL . $img["image_name"] ?>" alt="">
                             </div>
                             <?php endif; 
                             endforeach; ?>
