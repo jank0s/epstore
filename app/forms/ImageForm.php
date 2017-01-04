@@ -30,7 +30,7 @@ class ImageForm extends HTML_QuickForm2 {
         
         $this->file->addRule('mimetype', 'Dovoljeni formati: gif, png, jpeg',
                  array('image/gif', 'image/png', 'image/jpeg'));
-        $this->file->addRule('maxfilesize', 'Datoteka je prevelika, dovoljena velikost je 200kB', 204800);
+        $this->file->addRule('maxfilesize', 'Datoteka je prevelika, dovoljena velikost je 400kB', 409600);
         $this->file->addRule('required', 'Izberi datoteko!');
         $this->addElement($this->file);
 
