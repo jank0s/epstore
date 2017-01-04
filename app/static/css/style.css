@@ -238,3 +238,11 @@ form .btn {
 form .error {
 	color: #a94442;
 }
+
+.container.product-details-image img {
+	height: 300px;
+	width: auto;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}

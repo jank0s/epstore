@@ -1,12 +1,12 @@
 <div class="container-fluid">
     <div class="content-wrapper">	
 		<div class="item-container">	
-			<div class="container">	
+			<div class="container product-details-image">
                         <?php if(!empty($images)): ?>
                             <div class="col-md-12">
                     <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
                        
-                         <div class="carousel-inner" style="height:300px">
+                         <div class="carousel-inner">
                             <?php $prvi = True; 
                             foreach($images as $img):
                                 if($prvi): ?>
