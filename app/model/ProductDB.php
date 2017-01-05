@@ -37,8 +37,13 @@ class ProductDB extends AbstractDB {
         }
     }
     
-    public static function getSearchResult(array $query) {
+    public static function getBooleanSearchResult(array $query) {
         return parent::query("SELECT * FROM Product WHERE MATCH(product_name, product_description) AGAINST (:query IN BOOLEAN MODE) AND product_valid = 1", $query);
+    }
+
+    public static function getSearchResult(array $query) {
+        $query['query'] = '%' . $query['query'] . '%';
+        return parent::query("SELECT * FROM Product WHERE (product_name LIKE :query) AND product_valid = 1", $query);
     }
     
     public static function getForIds(array $ids) {

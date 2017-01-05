@@ -22,7 +22,10 @@ class ProductsController {
         
         if($form->validate()){
             $query = $form->getValue();
-            $products = ProductDB::getSearchResult(["query" => $query['poizvedba']]);
+            $products = ProductDB::getBooleanSearchResult(["query" => $query['poizvedba']]);
+            if(empty($products)){
+                $products = ProductDB::getSearchResult(["query" => $query['poizvedba']]);
+            }
             
             if(sizeof($products) > 0){
                 echo ViewHelper::render("view/product-list.php", [
@@ -247,7 +250,10 @@ class ProductsController {
             $form = new SearchForm("form-search");
             if($form->validate()){
                 $query = $form->getValue();
-                $products = ProductDB::getSearchResult(["query" => $query]);
+                $products = ProductDB::getBooleanSearchResult(["query" => $query]);
+                if(empty($products)){
+                    $products = ProductDB::getSearchResult(["query" => $query]);
+                }
                 echo ViewHelper::render("view/product-list.php", [
                     "products" => $products
                 ]);
