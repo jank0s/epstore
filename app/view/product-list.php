@@ -60,8 +60,7 @@
                                     <a href="<?= BASE_URL . 'products/' . $product['product_id'] ?>"><?= $product['product_name'] ?></a>
                                 </h4>
                                 <h4 class="pull-right"><?= $product['product_price'] ?> €</h4>
-                                </br>
-                                <p><?= $product['product_description'] ?></p>
+                                <p class="pull-left"><?= $product['product_description'] ?></p>
                             </div>
                             <div class="ratings">
                                 <p class="pull-right">
