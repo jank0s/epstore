@@ -32,6 +32,7 @@ abstract class ProductsAbstractForm extends HTML_QuickForm2 {
         
         $this->name = new HTML_QuickForm2_Element_InputText('product_name');
         $this->name->setAttribute('size', 30);
+        $this->name->setAttribute('class', 'form-control');
         $this->name->setLabel('Ime izdelka:');
         $this->name->addRule('required', 'Vnesite ime.');
         $this->name->addRule('maxlength', 'Ime naj bo krajše od 255 znakov.', 255);
@@ -39,6 +40,7 @@ abstract class ProductsAbstractForm extends HTML_QuickForm2 {
         
         $this->price = new HTML_QuickForm2_Element_InputText('product_price');
         $this->price->setAttribute('size', 8);
+        $this->price->setAttribute('class', 'form-control');
         $this->price->setLabel('Cena (€)');
         $this->price->addRule('required', 'Vnesite ceno.');
         $this->price->addRule('callback', 'Cena mora biti v veljavnem formatu (primer 10.1)', array(
@@ -51,6 +53,7 @@ abstract class ProductsAbstractForm extends HTML_QuickForm2 {
         $this->description = new HTML_QuickForm2_Element_Textarea('product_description');
         $this->description->setAttribute('rows', 10);
         $this->description->setAttribute('cols', 60);
+        $this->description->setAttribute('class', 'form-control');
         $this->description->setLabel('Opis:');
         $this->description->addRule('required', 'Vnesite opis.');
         $this->description->addRule('maxlength', 'Opis naj bo krajši od 1000 znakov.', 1000);
