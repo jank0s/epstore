@@ -20,7 +20,7 @@ class SearchForm extends HTML_QuickForm2 {
 
         $this->setAttribute('action', "/products");
 
-        $this->setAttribute('class', 'form-signin');
+        $this->setAttribute('class', 'form-search');
 
         $this->search = new HTML_QuickForm2_Element_InputText('poizvedba');
         $this->search->addRule('required', 'Vnesi poizvedbo');
