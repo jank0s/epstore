@@ -79,6 +79,10 @@ class UsersController {
 
             try {
                 $params['user_id'] = UserDB::insert($params);
+                $user = UserDB::get(["user_id" => $params['user_id']]);
+                $name = $user["name"] . " " . $user["surname"];
+           
+                UsersController::addLog($_SESSION['user']['user_id'], "added new user: $name [ID $params[user_id]]");
                 echo ViewHelper::render("view/user-register-success.php");
             } catch (PDOException $e) {
                 if ($e->errorInfo[1] == 1062) {
@@ -122,6 +126,9 @@ class UsersController {
         if ($user_id !== null) {
             try{
                 UserDB::setActive($user_id);
+                $user = UserDB::get(["user_id" => $user_id]);
+                $name = $user["name"] . " " . $user["surname"];
+                UsersController::addLog($_SESSION['user']['user_id'], "activated user: $name [ID $user_id]");
                 $_SESSION['alerts'][0] = ["type" => "info", "value" => "Uporabnik $user_id uspešno aktiviran."];
                 ViewHelper::redirect(BASE_URL . "users");
             } catch (Exception $ex) {
@@ -138,7 +145,10 @@ class UsersController {
         $user_id = trim($user_id);
         if ($user_id !== null) {
             try{
-                UserDB::setInactive($user_id);            
+                UserDB::setInactive($user_id);     
+                $user = UserDB::get(["user_id" => $user_id]);
+                $name = $user["name"] . " " . $user["surname"];
+                UsersController::addLog($_SESSION['user']['user_id'], "deactivated user: $name [ID $user_id]");
                 $_SESSION['alerts'][0] = ["type" => "info", "value" => "Uporabnik $user_id uspešno deaktiviran."];
                 ViewHelper::redirect(BASE_URL . "users");
             } catch (Exception $ex) {
@@ -265,5 +275,13 @@ class UsersController {
         $_SESSION['user']['surname'] = $user['surname'];
         $_SESSION['user']['email'] = $user['email'];
     }
-
+    public static function addLog($user, $action){
+	$log = fopen('/var/log/epstore/log.txt', "a+");
+        $role = $_SESSION['user']['role_id'] == 1 ? "Admin" : "Merchant";
+        $name = $role . " " . $_SESSION['user']['name'] . " " . $_SESSION['user']['surname'];
+        
+        fputs($log, date("[d.m.Y, H:i:s]") . " $name [ID $user] $action \n");
+	
+        fclose($log);
+    }
 }

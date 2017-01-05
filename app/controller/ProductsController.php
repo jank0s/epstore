@@ -98,7 +98,9 @@ class ProductsController {
                 ViewHelper::redirect(BASE_URL);
             }
             try {
-                ProductDB::insert($params);
+                $id = ProductDB::insert($params);
+                $product_name = $params["product_name"];
+                UsersController::addLog($_SESSION['user']['user_id'], "added new product: $product_name [ID $id]");
                 $_SESSION['alerts'][0] = ["type" => "success", "value" => "Uspešno dodan izdelek $params[product_name]!"];
                 ViewHelper::redirect(BASE_URL . "products/dashboard");
             } catch (PDOException $e) {
@@ -122,6 +124,10 @@ class ProductsController {
         if ($id !== null) {
             try{
                 ProductDB::setInactive($id);
+                $product_name = ProductDB::get(["product_id" => $id])['product_name'];
+                
+                UsersController::addLog($_SESSION['user']['user_id'], "deactivated product:  $product_name [ID $id]");
+                
                 $_SESSION['alerts'][0] = ["type" => "info", "value" => "Izdelek $id uspešno deaktiviran."];
                 ViewHelper::redirect(BASE_URL . "products/dashboard");
             } catch (Exception $ex) {
@@ -140,6 +146,9 @@ class ProductsController {
         if ($id !== null) {
             try{
                 ProductDB::setActive($id);
+                $product_name = ProductDB::get(["product_id" => $id])['product_name'];
+                
+                UsersController::addLog($_SESSION['user']['user_id'], "activated product:  $product_name [ID $id]");
                 $_SESSION['alerts'][0] = ["type" => "info", "value" => "Izdelek $id uspešno aktiviran."];
                 ViewHelper::redirect(BASE_URL . "products/dashboard");
             } catch (Exception $ex) {
@@ -164,6 +173,8 @@ class ProductsController {
             }
             try {
                 ProductDB::update($params);
+                $product_name = $params["product_name"];
+                UsersController::addLog($_SESSION['user']['user_id'], "edited product:  $product_name [ID $id]");
                 $_SESSION['alerts'][0] = ["type" => "success", "value" => "Izdelek $id uspešno posodobljen."];
                 ViewHelper::redirect(BASE_URL . "products/dashboard");
                 } catch (PDOException $e) {
@@ -204,8 +215,12 @@ class ProductsController {
                 
                 $target_file = round(microtime(true)) . "." . end($temp);            
                 $params['image_name'] = $target_file;  
-                move_uploaded_file($params["image_path"]["tmp_name"], $target_dir . $target_file);
+                move_uploaded_file($params["image_path"]["tmp_name"],
+                        $target_dir . $target_file);
                 ImageDB::insert($params);
+                $product_name = ProductDB::get(["product_id" => $product_id])['product_name'];
+                UsersController::addLog($_SESSION['user']['user_id'],
+                        "added image $target_file for product: $product_name [ID $product_id]");
                 $_SESSION['alerts'][0] = ["type" => "success", "value" => "Slika uspešno dodana."];
                 ViewHelper::redirect(BASE_URL . "products/dashboard");
             } catch (PDOException $e) {
