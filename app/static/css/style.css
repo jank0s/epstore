@@ -1,11 +1,32 @@
-/*********************************************
-					INDEX
-*********************************************/
+html {
+	position: relative;
+	min-height: 100%;
+}
 
 body {
     padding-top: 70px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+	margin-bottom: 60px;
 }
 
+.footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	/* Set the fixed height of the footer here */
+	height: 60px;
+	background-color: #f5f5f5;
+	text-align: center;
+}
+
+.footer .container {
+	width: auto;
+	max-width: 100%;
+	padding: 15px 15px;
+}
+
+/*********************************************
+					INDEX
+*********************************************/
 .slider{
  height:300px;
  display:block;
@@ -50,11 +71,6 @@ body {
     padding: 9px;
     color: #333;
 }
-
-footer {
-    margin: 50px 0;
-}
-
 
 .container.product-details-image img {
 	height: 300px;

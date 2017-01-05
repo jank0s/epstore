@@ -1,16 +1,12 @@
 <!-- /.container -->
-<div class="container">
+
     <hr>
     <!-- Footer -->
-    <footer>
-        <div class="row">
-            <div class="col-lg-12">
-                <p>Copyright &copy; EPStore 2016</p>
-            </div>
+    <footer class="footer">
+        <div class="container">
+            <p class="text-muted">Copyright &copy; Jan Kos, Miha Babič, Marina Rajič - EPStore 2017</p>
         </div>
     </footer>
-</div>
-<!-- /.container -->
 
 <!-- jQuery -->
 <script src="<?= JS_URL . "jquery.js" ?>"></script>
