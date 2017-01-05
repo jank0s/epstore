@@ -1,3 +1,7 @@
+/*********************************************
+					INDEX
+*********************************************/
+
 body {
     padding-top: 70px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
 }
@@ -52,6 +56,13 @@ footer {
 }
 
 
+.container.product-details-image img {
+	height: 300px;
+	width: auto;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
 
 /*********************************************
         		Theme Elements za product detail
@@ -239,10 +250,6 @@ form .error {
 	color: #a94442;
 }
 
-.container.product-details-image img {
-	height: 300px;
-	width: auto;
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
+.reqnote {
+	color: white;
 }
