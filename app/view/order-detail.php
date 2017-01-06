@@ -33,7 +33,7 @@
                             <td><?= $product["item_quantity"] ?></td>
                             <td><?= $product['product_id'] ?></td>
                             <td><?= $product['product_name'] ?></td>
-                            <td><?= $product['product_price'] ?></td>        
+                            <td><?= $product['item_price'] ?></td>        
                         </tr>                
                 <?php endforeach; ?>
             </tbody>

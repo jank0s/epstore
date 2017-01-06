@@ -70,7 +70,7 @@ class OrderController {
         $order = OrderDB::getOrderDetails(["order_id" => $id]);
         $sum = 0;
         foreach ($order as $product){
-            $sum += ($product['product_price'] * $product["item_quantity"]);
+            $sum += ($product['item_price'] * $product["item_quantity"]);
         }
         echo ViewHelper::render("view/order-detail.php", ["order" => $order, "sum" => $sum
                 ]);
@@ -89,7 +89,7 @@ class OrderController {
         $order = OrderDB::getOrderDetails(["order_id" => $id]);
         $sum = 0;
         foreach ($order as $product){
-            $sum += ($product['product_price'] * $product["item_quantity"]);
+            $sum += ($product['item_price'] * $product["item_quantity"]);
         }
         echo ViewHelper::render("view/order-detail.php", ["order" => $order, "sum" => $sum
                 ]);
