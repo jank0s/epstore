@@ -3,7 +3,7 @@
 require_once("model/UserDB.php");
 require_once("ViewHelper.php");
 require_once("forms/SessionsForm.php");
-
+require_once("UsersController.php");
 
 class SessionsController {
 
@@ -55,7 +55,10 @@ class SessionsController {
                 $_SESSION['user']['email'] = $user['email'];
                 #creating cart
                 $_SESSION['cart'] = array();
-
+                
+                if($user['role_id'] < 3){ 
+                    UsersController::addLog("logged in.");
+                }
                 $_SESSION['alerts'][] = ["type" => "success", 'value' => "Prijava uspešna. Dobrodošli!"];
                 echo ViewHelper::redirect(BASE_URL);
                 exit();

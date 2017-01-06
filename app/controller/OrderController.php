@@ -104,7 +104,7 @@ class OrderController {
             try{
             $order_updated_at = date("Y-m-d H:i:s");
                 OrderDB::activate(["order_updated_at" => $order_updated_at, "order_id" =>$id]);
-                UsersController::addLog($_SESSION['user']['user_id'], "confirmed order ID " . $id);
+                UsersController::addLog("confirmed order ID " . $id);
                 $_SESSION['alerts'][0] = ["type" => "info", "value" => "Naročilo $id uspešno potrjeno."];
                 ViewHelper::redirect(BASE_URL . "orders");
             } catch (Exception $ex) {
@@ -121,7 +121,7 @@ class OrderController {
             try{
             $order_updated_at = date("Y-m-d H:i:s");
                 OrderDB::deactivate(["order_updated_at" => $order_updated_at, "order_id" =>$id]);
-                UsersController::addLog($_SESSION['user']['user_id'], "canceled order ID " . $id);
+                UsersController::addLog("canceled order ID " . $id);
                 $_SESSION['alerts'][0] = ["type" => "info", "value" => "Naročilo $id uspešno stornirano."];
                 ViewHelper::redirect(BASE_URL . "orders");
             } catch (Exception $ex) {
