@@ -251,8 +251,10 @@ class ProductsController {
         $id = htmlspecialchars($id);
         $id = trim($id);
         try{
+            $filename = ImageDB::getByImageID(["image_id" => $id])['image_name'];
             ImageDB::delete(["image_id" => $id]);
-             $_SESSION['alerts'][0] = ["type" => "info", "value" => "Slika je bila izbrisana."];
+            unlink("static/images/" . $filename);
+            $_SESSION['alerts'][0] = ["type" => "info", "value" => "Slika $filename je bila izbrisana."];
             ViewHelper::redirect(BASE_URL . "products/dashboard");
         } catch (Exception $ex) {
             var_dump($ex->getMessage());

@@ -18,8 +18,8 @@ class ImageDB extends AbstractDB {
         
     }
 
-    public static function getByImageID(array $product_id) {
-        $image= parent::query("SELECT * FROM Image WHERE product_id = :product_id", $product_id);
+    public static function getByImageID(array $image_id) {
+        $image= parent::query("SELECT * FROM Image WHERE image_id = :image_id", $image_id);
         if (count($image) == 1) {
             return $image[0];
         } else {
