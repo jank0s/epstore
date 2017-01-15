@@ -65,7 +65,6 @@ class OrderDB extends AbstractDB {
         $db = self::getConnection();
 
         $id_placeholders = implode(",", array_fill(0, count($ids), "?"));
-      #  echo($id_placeholders);
         $statement = $db->prepare("SELECT *
             FROM Product 
             WHERE product_id IN (" . $id_placeholders . ")");
@@ -75,8 +74,7 @@ class OrderDB extends AbstractDB {
     }
     
     public static function getAllUnconfirmed() {
-        return parent::query("SELECT *"
-                . " FROM `Order` WHERE status_id < 3");
+        return parent::query("SELECT * FROM `Order`");
     }
     
     public static function getAll() {
