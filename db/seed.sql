@@ -7,8 +7,7 @@ INSERT INTO `epstore`.`Payment_option` (`payment_option_id`, `payment_option_nam
 
 INSERT INTO `epstore`.`Order_status` (`status_id`, `status_name`) VALUES ('1', 'Oddano');
 INSERT INTO `epstore`.`Order_status` (`status_id`, `status_name`) VALUES ('2', 'Potrjeno');
-INSERT INTO `epstore`.`Order_status` (`status_id`, `status_name`) VALUES ('3', 'Preklicano');
-INSERT INTO `epstore`.`Order_status` (`status_id`, `status_name`) VALUES ('4', 'Stornirano');
+INSERT INTO `epstore`.`Order_status` (`status_id`, `status_name`) VALUES ('3', 'Stornirano');
 
 INSERT INTO `epstore`.`User` (`user_id`, `email`, `name`, `surname`, `password_digest`, `role_id`, `user_active`, `user_activation_token`, `user_activation_token_created_at`, `user_created_at`) VALUES ('1', 'admin@epstore.tk', 'Administrator', 'EP', '$2y$10$CGN3fErsAyNVeLdV8qCGF.I.Xh.WClVWbHhQio7RqHfnuPNRT1Crm', '1', '1', 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', '2016-01-01 00:00', '2016-01-01 00:00');
 INSERT INTO `epstore`.`User` (`user_id`, `email`, `name`, `surname`, `password_digest`, `role_id`, `user_active`, `user_activation_token`, `user_activation_token_created_at`, `user_created_at`) VALUES ('2', 'prodajalec@epstore.tk', 'Prodajalec', 'Ena', '$2y$10$do/jHwmUjlY87EikzsSV8uwKi1xHHoAdPC7XXiBB3ZyDgXVAmr89O', '2', '1', 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', '2016-01-01 00:00', '2016-01-01 00:00');
