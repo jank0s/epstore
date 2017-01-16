@@ -7,9 +7,9 @@ class OrderDB extends AbstractDB {
     public static function insert(array $params) {
         return parent::modify("INSERT INTO `Order` (user_id, status_id,"
                 . " order_created_at, order_updated_at, delivery_address, delivery_post,"
-                . " delivery_city, delivery_country, payment_option_id) VALUE (:user_id, :status_id,"
+                . " delivery_city, delivery_country) VALUE (:user_id, :status_id,"
                 . " :order_created_at, :order_updated_at, :delivery_address, :delivery_post,"
-                . " :delivery_city, :delivery_country, :payment_option_id)", $params);
+                . " :delivery_city, :delivery_country)", $params);
     }
     
     public static function insertOrderProduct(array $params) {
