@@ -67,15 +67,16 @@ class UsersController {
 
         if ($form->validate()) {
             $params = $form->getValue();
-            if($params['role_id']==1 && $_SESSION['user']['role_id']!=1){
-                ViewHelper::redirect(BASE_URL);
-            }
 
             $params['user_active'] = 1;
             $params['user_activation_token'] = 0;
             $params['user_activation_token_created_at'] = "1000-01-01 00:00:00";
             $params['user_created_at'] = date("Y-m-d H:i:s");
 
+
+            if(!isset($params['phone'])){
+                $params['phone'] = "";
+            }
             if(!isset($params['user_address'])){
                 $params['user_address'] = "";
             }
@@ -204,23 +205,38 @@ class UsersController {
             if(!isset($params['role_id'])){
                 $params['role_id']=$currentParams['role_id'];
             }
-            if($params['role_id']==1 && $_SESSION['user']['role_id']!=1){
-                ViewHelper::redirect(BASE_URL);
+
+            if(isset($params['old_password'])){
+                if(!(password_verify($params['old_password'], $currentParams['password_digest']))){
+                    $_SESSION['alerts'][] = ["type" => "danger", 'value' => "Geslo je napačno!"];
+                    echo ViewHelper::render("view/user-edit.php", [
+                        "form" => $form
+                    ]);
+                    exit();
+                }
             }
 
-
-            if($params['role_id']!=3){
-                $params['user_address'] = "";
-                $params['user_post'] = 0;
-                $params['user_city'] = "";
-                $params['user_country'] = "";
+            if(!isset($params['phone'])){
                 $params['phone'] = "";
+            }
+            if(!isset($params['user_address'])){
+                $params['user_address'] = "";
+            }
+            if(!isset($params['user_post']) || !is_int($params['user_post'])){
+                $params['user_post'] = 0;
+            }
+            if(!isset($params['user_city'])){
+                $params['user_city'] = "";
+            }
+            if(!isset($params['user_country'])){
+                $params['user_country'] = "";
             }
 
             $params['user_id'] = $user_id;
             try {
                 $params['user_id'] = UserDB::update($params);
                 self::updateCurrentUser($params['user_id']);
+                $_SESSION['alerts'][] = ["type" => "success", 'value' => "Atributi uspešno posodobljeni!"];
                 ViewHelper::redirect(BASE_URL . "users/" . $user_id . "/edit");
             } catch (PDOException $e) {
                 if ($e->errorInfo[1] == 1062) {

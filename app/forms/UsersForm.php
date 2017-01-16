@@ -209,6 +209,7 @@ class AddUserForm extends UsersAbstractForm {
         $this->addElement($this->user_city);
         $this->addElement($this->user_country);
 
+
         $this->role_id = new HTML_QuickForm2_Element_Select('role_id');
         $this->role_id->setLabel("Vloga:");
         $this->role_id->setAttribute('class', 'form-control');
@@ -219,6 +220,7 @@ class AddUserForm extends UsersAbstractForm {
         }
         $this->role_id->loadOptions($roles);
         $this->addElement($this->role_id);
+
 
         $this->button = new HTML_QuickForm2_Element_InputSubmit('create');
         $this->button->setValue('Ustvari');
