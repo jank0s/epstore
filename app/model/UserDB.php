@@ -27,10 +27,10 @@ class UserDB extends AbstractDB {
     }
 
     public static function setActive($user_id) {
-        return parent::modify("UPDATE User SET user_active = 1 WHERE user_id = :user_id", ["user_id" => $user_id]);
+        return parent::modify("UPDATE User SET user_active = 1, user_activation_token_created_at = :min WHERE user_id = :user_id", ["user_id" => $user_id, "min" => "1000-01-01 00:00:00"]);
     }
     public static function setInactive($user_id) {
-        return parent::modify("UPDATE User SET user_active = 0 WHERE user_id = :user_id", ["user_id" => $user_id]);
+        return parent::modify("UPDATE User SET user_active = 0, user_activation_token_created_at = :min WHERE user_id = :user_id", ["user_id" => $user_id, "min" => "1000-01-01 00:00:00"]);
     }
     public static function get(array $user_id) {
         $users = parent::query("SELECT * FROM User WHERE user_id = :user_id", $user_id);
