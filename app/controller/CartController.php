@@ -9,6 +9,21 @@ require_once("lib/sendgrid-php/sendgrid-php.php");
 require_once("forms/ProductsForm.php");
 require_once("model/Cart.php");
 
+define("VALID_RULES", [
+        'id' => [
+            'filter' => FILTER_VALIDATE_INT,
+            'options' => ['min_range' => 0]
+        ],
+        'product_id' => [
+            'filter' => FILTER_VALIDATE_INT,
+            'options' => ['min_range' => 0]
+        ],
+        'quantity' => [
+            'filter' => FILTER_VALIDATE_INT,
+            'options' => ['min_range' => 0]
+        ]
+    ]);
+
 #TODO:add filter_sanitize
 class CartController {
    
@@ -26,10 +41,12 @@ class CartController {
    
     public static function remove(){
         SessionsController::authorizeCustomer();
-        $id = isset($_POST["id"]) ? intval($_POST["id"]) : null;
+        $data = filter_input_array(INPUT_POST, VALID_RULES);
+        $id = $data['id'];
         $id = htmlspecialchars($id);
         $id = trim($id);
-        if ($id !== null) {
+
+        if ($id > 0) {
             try{
                 Cart::remove($id);
             } catch (Exception $ex) {
@@ -41,27 +58,34 @@ class CartController {
    
     public static function updateCart() {
         SessionsController::authorizeCustomer();
-        $id = (isset($_POST["id"])) ? intval($_POST["id"]) : null;
+        
+        $data = filter_input_array(INPUT_POST, VALID_RULES);
+        $id = $data['id'];
         $id = htmlspecialchars($id);
         $id = trim($id);
-        $quantity = (isset($_POST["quantity"])) ? intval($_POST["quantity"]) : null;
-        if(filter_var($id, FILTER_VALIDATE_INT) == false||filter_var($quantity, FILTER_VALIDATE_INT) == false) {
+        $quantity = $data['quantity'];
+        $quantity = htmlspecialchars($quantity);
+        $quantity = trim($quantity);
+        
+        if($quantity > 0 && $id > 0){
+            Cart::update($id, $quantity);
+        } else {
             $_SESSION['alerts'][0] = ["type" => "warning", "value" => "Količina ni celo število!"];
             ViewHelper::redirect(BASE_URL . "cart");
         }
-        
-        if ($id !== null && $quantity !== null) {
-            Cart::update($id, $quantity);
-        }
 
         ViewHelper::redirect(BASE_URL . "cart");
-    }
+          }
+         
    
     public static function addToCart() {
         SessionsController::authorizeCustomer();
-        $id = isset($_POST["product_id"]) ? intval($_POST["product_id"]) : null;
+        
+        $data = filter_input_array(INPUT_POST, VALID_RULES);
+        $id = $data['product_id'];
         $id = htmlspecialchars($id);
         $id = trim($id);
+        
         if ($id !== null) {
             Cart::add($id);
             $_SESSION['alerts'][0] = ["type" => "success", "value" => "Izdelek dodan v košarico!"];
