@@ -60,7 +60,7 @@ class UsersController {
         $form = null;
 
         if(SessionsController::adminAuthorized()){
-            $form = new AddUserForm("add_user_form");
+            $form = new AddUserForm("add_user_form", false, true);
         }else{
             $form = new AddUserFormMerchant("add_user_form");
         }
@@ -188,14 +188,14 @@ class UsersController {
             }else{
                 $form = new EditAdminUserForm("add_user_form", false);
             }
-        }else if(SessionsController::merchantAuthorized() && $_SESSION['user']['user_id'] == $user_id){
-            $form = new EditMerchantUserForm("edit_user_form", true);
-        }else{
+        }else if(SessionsController::merchantAuthorized()){
             if($_SESSION['user']['user_id'] == $user_id){
-                $form = new EditUserForm("edit_user_form", true);
+                $form = new EditMerchantUserForm("edit_user_form");
             }else{
                 $form = new EditUserForm("edit_user_form", false);
             }
+        }else{
+            $form = new EditUserForm("edit_user_form", true);
         }
 
         if ($form->validate()) {

@@ -19,7 +19,6 @@ abstract class UsersAbstractForm extends HTML_QuickForm2 {
     public $email;
     public $name;
     public $surname;
-    public $old_password;
     public $password;
     public $repeat_password;
     public $phone;
@@ -32,7 +31,7 @@ abstract class UsersAbstractForm extends HTML_QuickForm2 {
 
     public $button;
 
-    public function __construct($id, $oldPass, $requirePass) {
+    public function __construct($id) {
         parent::__construct($id);
 
         $this->setAttribute('action', "#");
@@ -65,17 +64,10 @@ abstract class UsersAbstractForm extends HTML_QuickForm2 {
         $this->surname->addRule('maxlength', 'Priimek naj bo krajši od 255 znakov.', 255);
         $this->addElement($this->surname);
 
-        if($oldPass) {
-            $this->old_password = new HTML_QuickForm2_Element_InputPassword('old_password');
-            $this->old_password->setLabel('Staro geslo:');
-            $this->old_password->addRule('required', 'Manjka geslo');
-            $this->old_password->setAttribute('class', 'form-control');
-            $this->addElement($this->old_password);
-        }
-
         $this->password = new HTML_QuickForm2_Element_InputPassword('password');
         $this->password->setLabel('Geslo:');
         $this->password->setAttribute('class', 'form-control');
+
         $this->addElement($this->password);
 
         $this->repeat_password = new HTML_QuickForm2_Element_InputPassword('repeat_password');
@@ -83,20 +75,6 @@ abstract class UsersAbstractForm extends HTML_QuickForm2 {
         $this->repeat_password->addRule('eq', 'Gesli se ne ujamata.', $this->password);
         $this->repeat_password->setAttribute('class', 'form-control');
         $this->addElement($this->repeat_password);
-
-        if($oldPass) {
-            $this->password->setLabel('Novo geslo:');
-            $this->repeat_password->setLabel('Ponovitev novega gesla:');
-        }
-
-        if($requirePass){
-            $this->password->addRule('required', 'Vnesite geslo.');
-            $this->password->addRule('minlength', 'Geslo naj vsebuje vsaj 6 znakov.', 6);
-            $this->password->addRule('regex', 'V geslu uporabite vsaj 1 številko.', '/[0-9]+/');
-            $this->repeat_password->addRule('required', 'Ponovno vnesite izbrano geslo.');
-        }else{
-            $this->password->addRule('empty')->or_($this->password->addRule('minlength', 'Geslo naj vsebuje vsaj 6 znakov.', 6)->and_($this->password->addRule('regex', 'V geslu uporabite vsaj 1 številko.', '/[0-9]+/')));
-        }
 
         $this->phone = new HTML_QuickForm2_Element_InputText('phone');
         $this->phone->setLabel('Telefon:');
@@ -133,9 +111,16 @@ abstract class UsersAbstractForm extends HTML_QuickForm2 {
 
 class EditUserForm extends UsersAbstractForm {
 
-    public function __construct($id, $oldPass)
+    public function __construct($id, $requirePass)
     {
-        parent::__construct($id, $oldPass, false);
+        parent::__construct($id);
+
+        if($requirePass){
+            $this->password->addRule('required', 'Vnesite geslo.');
+            $this->password->addRule('minlength', 'Geslo naj vsebuje vsaj 6 znakov.', 6);
+            $this->password->addRule('regex', 'V geslu uporabite vsaj 1 številko.', '/[0-9]+/');
+            $this->repeat_password->addRule('required', 'Ponovno vnesite izbrano geslo.');
+        }
 
         $this->addElement($this->phone);
         $this->addElement($this->user_address);
@@ -161,9 +146,14 @@ class RegisterUserForm extends UsersAbstractForm {
 
     public function __construct($id)
     {
-        parent::__construct($id, false, true);
+        parent::__construct($id);
 
         $this->setAttribute('action', "/register");
+
+        $this->password->addRule('required', 'Vnesite geslo.');
+        $this->password->addRule('minlength', 'Geslo naj vsebuje vsaj 6 znakov.', 6);
+        $this->password->addRule('regex', 'V geslu uporabite vsaj 1 številko.', '/[0-9]+/');
+        $this->repeat_password->addRule('required', 'Ponovno vnesite izbrano geslo.');
 
         $this->addElement($this->phone);
         $this->addElement($this->user_address);
@@ -199,9 +189,14 @@ class RegisterUserForm extends UsersAbstractForm {
 
 class AddUserForm extends UsersAbstractForm {
 
-    public function __construct($id, $oldPass, $requirePass)
+    public function __construct($id)
     {
-        parent::__construct($id, $oldPass, $requirePass);
+        parent::__construct($id);
+
+        $this->password->addRule('required', 'Vnesite geslo.');
+        $this->password->addRule('minlength', 'Geslo naj vsebuje vsaj 6 znakov.', 6);
+        $this->password->addRule('regex', 'V geslu uporabite vsaj 1 številko.', '/[0-9]+/');
+        $this->repeat_password->addRule('required', 'Ponovno vnesite izbrano geslo.');
 
         $this->addElement($this->phone);
         $this->addElement($this->user_address);
@@ -230,7 +225,7 @@ class AddUserForm extends UsersAbstractForm {
 
 class AddUserFormMerchant extends AddUserForm {
     public function __construct($id) {
-        parent::__construct($id, false, true);
+        parent::__construct($id);
 
         $this->phone->addRule('required', 'Vnesite telefon.');
         $this->user_address->addRule('required', 'Vnesite ulico in hišna št.');
@@ -241,9 +236,16 @@ class AddUserFormMerchant extends AddUserForm {
 }
 
 class EditMerchantUserForm extends UsersAbstractForm {
-    public function __construct($id)
+    public function __construct($id, $requirePass)
     {
-        parent::__construct($id, true, false);
+        parent::__construct($id);
+
+        if($requirePass){
+            $this->password->addRule('required', 'Vnesite geslo.');
+            $this->password->addRule('minlength', 'Geslo naj vsebuje vsaj 6 znakov.', 6);
+            $this->password->addRule('regex', 'V geslu uporabite vsaj 1 številko.', '/[0-9]+/');
+            $this->repeat_password->addRule('required', 'Ponovno vnesite izbrano geslo.');
+        }
 
         $this->password = new HTML_QuickForm2_Element_InputPassword('password');
         $this->password->setLabel('Geslo:');
@@ -265,9 +267,16 @@ class EditMerchantUserForm extends UsersAbstractForm {
 
 class EditAdminUserForm extends AddUserForm {
 
-    public function __construct($id, $oldPass)
+    public function __construct($id, $requirePass)
     {
-        parent::__construct($id, $oldPass, false);
+        parent::__construct($id);
+
+        if($requirePass){
+            $this->password->addRule('required', 'Vnesite geslo.');
+            $this->password->addRule('minlength', 'Geslo naj vsebuje vsaj 6 znakov.', 6);
+            $this->password->addRule('regex', 'V geslu uporabite vsaj 1 številko.', '/[0-9]+/');
+            $this->repeat_password->addRule('required', 'Ponovno vnesite izbrano geslo.');
+        }
 
         $this->button->setAttribute('value', 'Posodobi');
     }
