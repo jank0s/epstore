@@ -97,12 +97,15 @@ class OrderController {
     
     public static function activate(){
         SessionsController::authorizeMerchant();
-        $id = isset($_POST["order_id"]) ? intval($_POST["order_id"]) : null;
+        
+        $data = filter_input_array(INPUT_POST, VALID_RULES);
+        $id = $data['order_id'];
         $id = htmlspecialchars($id);
         $id = trim($id);
-        if ($id !== null) {
+        
+        if ($id > 0) {
             try{
-            $order_updated_at = date("Y-m-d H:i:s");
+                $order_updated_at = date("Y-m-d H:i:s");
                 OrderDB::activate(["order_updated_at" => $order_updated_at, "order_id" =>$id]);
                 UsersController::addLog("confirmed order ID " . $id);
                 $_SESSION['alerts'][0] = ["type" => "info", "value" => "Naročilo $id uspešno potrjeno."];
@@ -114,12 +117,14 @@ class OrderController {
    }
    public static function deactivate(){
         SessionsController::authorizeMerchant();
-        $id = isset($_POST["order_id"]) ? intval($_POST["order_id"]) : null;
+
+        $data = filter_input_array(INPUT_POST, VALID_RULES);
+        $id = $data['order_id'];
         $id = htmlspecialchars($id);
         $id = trim($id);
         if ($id !== null) {
             try{
-            $order_updated_at = date("Y-m-d H:i:s");
+                $order_updated_at = date("Y-m-d H:i:s");
                 OrderDB::deactivate(["order_updated_at" => $order_updated_at, "order_id" =>$id]);
                 UsersController::addLog("canceled order ID " . $id);
                 $_SESSION['alerts'][0] = ["type" => "info", "value" => "Naročilo $id uspešno stornirano."];

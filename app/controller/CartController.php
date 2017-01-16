@@ -9,21 +9,6 @@ require_once("lib/sendgrid-php/sendgrid-php.php");
 require_once("forms/ProductsForm.php");
 require_once("model/Cart.php");
 
-define("VALID_RULES", [
-        'id' => [
-            'filter' => FILTER_VALIDATE_INT,
-            'options' => ['min_range' => 0]
-        ],
-        'product_id' => [
-            'filter' => FILTER_VALIDATE_INT,
-            'options' => ['min_range' => 0]
-        ],
-        'quantity' => [
-            'filter' => FILTER_VALIDATE_INT,
-            'options' => ['min_range' => 0]
-        ]
-    ]);
-
 #TODO:add filter_sanitize
 class CartController {
    

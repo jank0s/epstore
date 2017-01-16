@@ -20,6 +20,26 @@ define("CSS_URL", rtrim($_SERVER["SCRIPT_NAME"], "index.php") . "static/css/");
 define("JS_URL", rtrim($_SERVER["SCRIPT_NAME"], "index.php") . "static/js/");
 define("FONT_URL", rtrim($_SERVER["SCRIPT_NAME"], "index.php") . "static/fonts/");
 
+define("VALID_RULES", [
+        'id' => [
+            'filter' => FILTER_VALIDATE_INT,
+            'options' => ['min_range' => 0]
+        ],
+        'product_id' => [
+            'filter' => FILTER_VALIDATE_INT,
+            'options' => ['min_range' => 0]
+        ],
+        'order_id' => [
+            'filter' => FILTER_VALIDATE_INT,
+            'options' => ['min_range' => 0]
+        ],
+        'quantity' => [
+            'filter' => FILTER_VALIDATE_INT,
+            'options' => ['min_range' => 0]
+        ]
+    ]);
+
+
 $path = isset($_SERVER["PATH_INFO"]) ? trim($_SERVER["PATH_INFO"], "/") : "";
 
 // ROUTER: defines mapping between URLS and controllers
