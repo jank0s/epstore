@@ -25,7 +25,16 @@ define("VALID_RULES", [
             'filter' => FILTER_VALIDATE_INT,
             'options' => ['min_range' => 0]
         ],
+        'user_id' => [
+            'filter' => FILTER_VALIDATE_INT,
+            'options' => ['min_range' => 0]
+        ],
+    
         'product_id' => [
+            'filter' => FILTER_VALIDATE_INT,
+            'options' => ['min_range' => 0]
+        ],
+        'image_id' => [
             'filter' => FILTER_VALIDATE_INT,
             'options' => ['min_range' => 0]
         ],

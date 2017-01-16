@@ -140,10 +140,12 @@ class UsersController {
     
     public static function reactivate($user_id) {
         SessionsController::authorizeAdminOrMerchant();
-        $user_id = isset($_POST["user_id"]) ? intval($_POST["user_id"]) : null;
+        $data = filter_input_array(INPUT_POST, VALID_RULES);
+        $user_id = $data['user_id'];
         $user_id = htmlspecialchars($user_id);
         $user_id = trim($user_id);
-        if ($user_id !== null) {
+        
+        if ($user_id > 0) {
             try{
                 UserDB::setActive($user_id);
                 $user = UserDB::get(["user_id" => $user_id]);
@@ -160,10 +162,13 @@ class UsersController {
     }
     public static function deactivate() {
         SessionsController::authorizeAdminOrMerchant();
-        $user_id = isset($_POST["user_id"]) ? intval($_POST["user_id"]) : null;
+         
+        $data = filter_input_array(INPUT_POST, VALID_RULES);
+        $user_id = $data['user_id'];
         $user_id = htmlspecialchars($user_id);
         $user_id = trim($user_id);
-        if ($user_id !== null) {
+        
+        if ($user_id > 0) {
             try{
                 UserDB::setInactive($user_id);     
                 $user = UserDB::get(["user_id" => $user_id]);

@@ -28,8 +28,7 @@ class OrderController {
                 $order['delivery_post'] = intval($user['user_post']);
                 $order['delivery_city'] = $user['user_city'];
                 $order['delivery_country'] = $user['user_country'];
-                #todo
-                $order['payment_option_id'] = 1;
+               # $order['payment_option_id'] = 1;
                 try{
                     $order_id =  OrderDB::insert($order);            
                 } catch (Exception $ex) {
@@ -113,7 +112,9 @@ class OrderController {
             } catch (Exception $ex) {
                 echo("napaka pri potrjevanju izdelka" . $ex->getMessage());
             }
-        } 
+        } else {
+            echo ("nepravilen ID.");
+        }
    }
    public static function deactivate(){
         SessionsController::authorizeMerchant();

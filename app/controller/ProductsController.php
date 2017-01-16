@@ -118,10 +118,12 @@ class ProductsController {
     
     public static function deactivate(){
         SessionsController::authorizeMerchant();
-        $id = isset($_POST["product_id"]) ? intval($_POST["product_id"]) : null;  
+        $data = filter_input_array(INPUT_POST, VALID_RULES);
+        $id = $data['product_id'];
         $id = htmlspecialchars($id);
-        $id = trim($id);
-        if ($id !== null) {
+        $id = trim($id);  
+        
+        if ($id > 0) {
             try{
                 ProductDB::setInactive($id);
                 $product_name = ProductDB::get(["product_id" => $id])['product_name'];
@@ -140,10 +142,12 @@ class ProductsController {
        
     public static function activate($id){
         SessionsController::authorizeMerchant();
-        $id = isset($_POST["product_id"]) ? intval($_POST["product_id"]) : null;
+        $data = filter_input_array(INPUT_POST, VALID_RULES);
+        $id = $data['product_id'];
         $id = htmlspecialchars($id);
-        $id = trim($id);
-        if ($id !== null) {
+        $id = trim($id);  
+        
+        if ($id > 0) {
             try{
                 ProductDB::setActive($id);
                 $product_name = ProductDB::get(["product_id" => $id])['product_name'];
@@ -247,9 +251,11 @@ class ProductsController {
     
     public static function deleteImage(){
         SessionsController::authorizeMerchant();
-        $id = isset($_POST["image_id"]) ? intval($_POST["image_id"]) : null;
+        $data = filter_input_array(INPUT_POST, VALID_RULES);
+        $id = $data['image_id'];
         $id = htmlspecialchars($id);
-        $id = trim($id);
+        $id = trim($id);  
+        
         try{
             $filename = ImageDB::getByImageID(["image_id" => $id])['image_name'];
             ImageDB::delete(["image_id" => $id]);
