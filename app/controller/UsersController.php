@@ -80,7 +80,7 @@ class UsersController {
             if(!isset($params['user_address'])){
                 $params['user_address'] = "";
             }
-            if(!isset($params['user_post']) || !is_int($params['user_post'])){
+            if(!isset($params['user_post']) || !ctype_digit($params['user_post'])){
                 $params['user_post'] = 0;
             }
             if(!isset($params['user_city'])){
@@ -222,7 +222,7 @@ class UsersController {
             if(!isset($params['user_address'])){
                 $params['user_address'] = "";
             }
-            if(!isset($params['user_post']) || !is_int($params['user_post'])){
+            if(!isset($params['user_post']) || !ctype_digit($params['user_post'])){
                 $params['user_post'] = 0;
             }
             if(!isset($params['user_city'])){
