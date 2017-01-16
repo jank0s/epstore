@@ -203,12 +203,6 @@ class AddUserForm extends UsersAbstractForm {
         $this->addElement($this->user_post);
         $this->addElement($this->user_city);
         $this->addElement($this->user_country);
-        
-        $this->phone->addRule('required', 'Vnesite telefon.');
-        $this->user_address->addRule('required', 'Vnesite ulico in hišna št.');
-        $this->user_post->addRule('required', 'Vnesite poštno št.');
-        $this->user_city->addRule('required', 'Vnesite kraj');
-        $this->user_country->addRule('required', 'Vnesite državo');
 
         $this->role_id = new HTML_QuickForm2_Element_Select('role_id');
         $this->role_id->setLabel("Vloga:");
@@ -226,6 +220,18 @@ class AddUserForm extends UsersAbstractForm {
         $this->button->setAttribute('class', 'btn btn-primary pull-right');
         $this->button->setAttribute('value', 'Ustvari');
         $this->addElement($this->button);
+    }
+}
+
+class AddUserFormMerchant extends AddUserForm {
+    public function __construct($id) {
+        parent::__construct($id);
+
+        $this->phone->addRule('required', 'Vnesite telefon.');
+        $this->user_address->addRule('required', 'Vnesite ulico in hišna št.');
+        $this->user_post->addRule('required', 'Vnesite poštno št.');
+        $this->user_city->addRule('required', 'Vnesite kraj');
+        $this->user_country->addRule('required', 'Vnesite državo');
     }
 }
 

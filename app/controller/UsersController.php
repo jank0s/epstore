@@ -57,7 +57,13 @@ class UsersController {
     public static function add(){
         SessionsController::authorizeAdminOrMerchant();
 
-        $form = new AddUserForm("add_user_form");
+        $form = null;
+
+        if(SessionsController::adminAuthorized()){
+            $form = new AddUserForm("add_user_form");
+        }else{
+            $form = new AddUserFormMerchant("add_user_form");
+        }
 
         if ($form->validate()) {
             $params = $form->getValue();
@@ -67,13 +73,19 @@ class UsersController {
 
             $params['user_active'] = 1;
             $params['user_activation_token'] = 0;
-            $params['user_activation_token_created_at'] = date("Y-m-d H:i:s");
+            $params['user_activation_token_created_at'] = "1000-01-01 00:00:00";
             $params['user_created_at'] = date("Y-m-d H:i:s");
 
-            if($params['role_id']!=3){
+            if(!isset($params['user_address'])){
                 $params['user_address'] = "";
+            }
+            if(!isset($params['user_post']) || !is_int($params['user_post'])){
                 $params['user_post'] = 0;
+            }
+            if(!isset($params['user_city'])){
                 $params['user_city'] = "";
+            }
+            if(!isset($params['user_country'])){
                 $params['user_country'] = "";
             }
 
@@ -83,7 +95,8 @@ class UsersController {
                 $name = $user["name"] . " " . $user["surname"];
            
                 UsersController::addLog("added new user: $name [ID $params[user_id]]");
-                echo ViewHelper::render("view/user-register-success.php");
+                $_SESSION['alerts'][] = ["type" => "success", 'value' => "Uporabnik uspešno dodan!"];
+                echo ViewHelper::redirect(BASE_URL . "users");
             } catch (PDOException $e) {
                 if ($e->errorInfo[1] == 1062) {
                     $form->email->setError('Email že obstaja!');
