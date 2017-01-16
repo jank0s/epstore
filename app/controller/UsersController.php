@@ -109,11 +109,17 @@ class UsersController {
             $_SESSION['alerts'][] = ["type" => "danger", 'value' => "Uporabnik ne obstaja!"];
         }else if( !($user['user_activation_token'] == $token) ){
             $_SESSION['alerts'][] = ["type" => "danger", 'value' => "Neveljaven žeton!"];
-        }else if( !true ){
-            $_SESSION['alerts'][] = ["type" => "danger", 'value' => "Žeton je potekel!"];
         }else{
-            UserDB::setActive($user_id);
-            $_SESSION['alerts'][] = ["type" => "success", "value" => "Uporabniški račun uspešno aktiviran. Sedaj se lahko prijavite."];
+            $now = new DateTime;
+            $before = new DateTime($user['user_activation_token_created_at']);
+            $diff = $now->getTimestamp() - $before->getTimestamp();
+
+            if( $diff > 1800 ){
+                $_SESSION['alerts'][] = ["type" => "danger", 'value' => "Žeton je potekel!"];
+            }else{
+                UserDB::setActive($user_id);
+                $_SESSION['alerts'][] = ["type" => "success", "value" => "Uporabniški račun uspešno aktiviran. Sedaj se lahko prijavite."];
+            }
         }
         ViewHelper::redirect(BASE_URL . "login");
     }
