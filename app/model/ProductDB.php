@@ -86,6 +86,7 @@ class ProductDB extends AbstractDB {
         return parent::query("SELECT product_id as id, product_name as name, product_description as description, product_price as price, product_rating as rating, "
             . "          CONCAT(:prefix, product_id) as uri "
             . "FROM Product "
+            . "WHERE product_valid = 1 "
             . "ORDER BY product_id ASC", $prefix);
     }
 
