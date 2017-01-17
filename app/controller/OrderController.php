@@ -14,7 +14,7 @@ require_once("model/OrderDB.php");
 class OrderController {
     public static function createInvoice(){
         SessionsController::authorizeCustomer();
-        if(isset($_SESSION['cart'])){
+        if(!empty($_SESSION['cart'])){
             try{
                 $params = Cart::getAll();
                 $user = UserDB::get(["user_id" => $_SESSION['user']['user_id']]);
