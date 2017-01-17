@@ -306,6 +306,10 @@ class UsersController {
         $sg = new \SendGrid($apiKey);
 
         $response = $sg->client->mail()->send()->post($mail);
+
+        $log = fopen('/var/log/epstore/epstore-mailer.log', "a+");
+        fputs($log, date("Y-m-d H:i:s") . " - mailTO: " . $params['email'] . " " . $response->statusCode() . " " . $response->body() . "\n");
+        fclose($log);
     }
 
     public static function updateCurrentUser(){
