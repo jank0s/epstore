@@ -32,6 +32,7 @@ class UsersController {
             try {
                 $params['user_id'] = UserDB::insert($params);
                 self::sendActivationEMail($params);
+                unset($_SESSION['_qf2_captcha_-captcha_recaptcha-register_form-data']);
 
                 $_SESSION['alerts'][] = ["type" => "success", 'value' => "Registracija uspešna! V nekaj minutah boste prejeli elektronsko sporočilo z navodili za potrditev vašega računa."];
                 echo ViewHelper::redirect(BASE_URL);
