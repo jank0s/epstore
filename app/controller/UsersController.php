@@ -301,7 +301,7 @@ class UsersController {
         $content = new SendGrid\Content("text/html", "<p>Račun lahko aktivirate na naslovu: <a href='" . $activation_url . "'></a>" . $activation_url ."</p>");
         $mail = new SendGrid\Mail($from, $subject, $to, $content);
 
-        $apiKey = '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';
+        $apiKey = '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';
         $sg = new \SendGrid($apiKey);
 
         $response = $sg->client->mail()->send()->post($mail);
