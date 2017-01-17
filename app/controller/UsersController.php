@@ -243,6 +243,9 @@ class UsersController {
                 $params['user_id'] = UserDB::update($params);
                 self::updateCurrentUser($params['user_id']);
                 $_SESSION['alerts'][] = ["type" => "success", 'value' => "Atributi uspešno posodobljeni!"];
+		if($_SESSION['user']['role_id'] < 3){
+                    UsersController::addLog("edited user:  $params[name] $params[surname] [ID $user_id]");
+                }
                 ViewHelper::redirect(BASE_URL . "users/" . $user_id . "/edit");
             } catch (PDOException $e) {
                 if ($e->errorInfo[1] == 1062) {
