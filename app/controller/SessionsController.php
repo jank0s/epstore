@@ -48,14 +48,19 @@ class SessionsController {
             }else if( !(password_verify($login_values['password'], $user['password_digest'])) ){
                 $_SESSION['alerts'][] = ["type" => "danger", 'value' => "Geslo je napačno!"];
             }else{
+                #login
                 $_SESSION['user']['user_id'] = $user['user_id'];
                 $_SESSION['user']['role_id'] = $user['role_id'];
                 $_SESSION['user']['name'] = $user['name'];
                 $_SESSION['user']['surname'] = $user['surname'];
                 $_SESSION['user']['email'] = $user['email'];
+
                 #creating cart
-                $_SESSION['cart'] = array();
-                
+                if($user['role_id'] == 3){
+                    $_SESSION['cart'] = array();
+                }
+
+                #write to log
                 if($user['role_id'] < 3){ 
                     UsersController::addLog("logged in.");
                 }
