@@ -1,6 +1,9 @@
 # epstore
+Open-source php ecommerce implementation 
 
-demo: http://epstore.tk
+##Automatic deploy
+It is possible to deploy application with included deploy.sh script. 
+SendGrid API is used for activation emails. You have to insert your own API key to app/controller/UsersController.php.
 
 ##Default users
 * admin@epstore.tk/admin
